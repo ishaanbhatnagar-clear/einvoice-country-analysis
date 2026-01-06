@@ -161,19 +161,19 @@
         <div id="overview" class="main-section active">
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number">30+</div>
+                    <div class="stat-number">41</div>
                     <div class="stat-label">Countries Tracked</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">$85T+</div>
+                    <div class="stat-number">$105T+</div>
                     <div class="stat-label">Total GDP Covered</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">~500M</div>
+                    <div class="stat-number">~340M</div>
                     <div class="stat-label">Est. Enterprises</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">~50B+</div>
+                    <div class="stat-number">~85B+</div>
                     <div class="stat-label">Est. Annual Invoices</div>
                 </div>
             </div>
@@ -348,10 +348,22 @@
                     <div class="legend-item"><strong style="min-width:70px;">ViDA</strong><span class="desc">EU VAT in Digital Age - Jul 2030 mandate</span></div>
                 </div>
                 <div class="legend-box">
+                    <h4>&#127970; Enterprises</h4>
+                    <div class="legend-item"><span class="desc"><strong>Definition:</strong> Registered businesses/firms in the country that would be subject to e-invoicing requirements (SMEs + Large enterprises).</span></div>
+                    <div class="legend-item"><span class="desc"><strong>Source:</strong> World Bank Enterprise Surveys, national business registries, IMF country data.</span></div>
+                    <div class="legend-item"><span class="desc"><strong>Note:</strong> Includes formal sector businesses. Informal sector not counted.</span></div>
+                </div>
+                <div class="legend-box">
+                    <h4>&#128200; Est. Invoices/Year</h4>
+                    <div class="legend-item"><span class="desc"><strong>Calculation:</strong> Enterprises x Avg B2B invoices per enterprise (varies by economy size, 50-400/yr).</span></div>
+                    <div class="legend-item"><span class="desc"><strong>Factors:</strong> GDP per enterprise, sector mix (manufacturing vs services), B2B transaction density.</span></div>
+                    <div class="legend-item"><span class="desc"><strong>Source:</strong> World Bank B2B trade data, national statistics bureaus, industry reports.</span></div>
+                </div>
+                <div class="legend-box">
                     <h4>&#128176; TAM Calculation</h4>
-                    <div class="legend-item"><span class="desc"><strong>TAM</strong> = Enterprises x Est. Invoices/Enterprise x $0.10-0.50/invoice</span></div>
-                    <div class="legend-item"><span class="desc">Invoice estimates based on: GDP/enterprise avg, sector mix, B2B transaction volumes from World Bank and local statistics.</span></div>
-                    <div class="legend-item"><span class="desc">Pricing assumes blended rate across compliance, transmission, archival.</span></div>
+                    <div class="legend-item"><span class="desc"><strong>Formula:</strong> TAM ($M) = Est. Invoices/Year x $0.15-0.25 per invoice</span></div>
+                    <div class="legend-item"><span class="desc"><strong>Pricing basis:</strong> Blended rate covering: compliance/validation ($0.05), transmission ($0.05), archival ($0.03), value-adds ($0.02-0.12).</span></div>
+                    <div class="legend-item"><span class="desc"><strong>Note:</strong> Represents total addressable market for e-invoice service providers, not current market size.</span></div>
                 </div>
                 <div class="legend-box">
                     <h4>&#128205; Coverage Types</h4>
@@ -362,8 +374,12 @@
                 <div class="legend-box">
                     <h4>&#128221; Accreditation Notes</h4>
                     <div class="legend-item"><span class="desc"><strong>Accreditation Required:</strong> Whether formal certification/registration with tax authority is needed to operate as an e-invoice provider.</span></div>
-                    <div class="legend-item"><span class="desc"><strong>Timeline:</strong> Typical time from application to approval. Assumes Clear is already a Peppol-certified AP, which expedites some processes.</span></div>
-                    <div class="legend-item"><span class="desc">Timelines are estimates; actual may vary based on completeness of application and authority workload.</span></div>
+                    <div class="legend-item"><span class="desc"><strong>Timeline Calculation:</strong></span></div>
+                    <div class="legend-item"><span class="desc">&#8226; <strong>1-2 mo:</strong> Peppol markets (already Peppol AP certified) - just local registration</span></div>
+                    <div class="legend-item"><span class="desc">&#8226; <strong>3-6 mo:</strong> Standard clearance markets - technical integration + certification tests</span></div>
+                    <div class="legend-item"><span class="desc">&#8226; <strong>6-12 mo:</strong> Complex markets (Brazil, France PDP) - extensive audits, local entity requirements</span></div>
+                    <div class="legend-item"><span class="desc">&#8226; <strong>12+ mo:</strong> Restricted markets (China) - local partnerships, government approvals</span></div>
+                    <div class="legend-item"><span class="desc"><strong>Assumption:</strong> Clear is already a Peppol-certified Access Point, expediting Peppol-based markets.</span></div>
                 </div>
                 <div class="legend-box">
                     <h4>&#128200; Market Share %</h4>
@@ -407,6 +423,21 @@
             { id: 24, country: 'Romania', flag: '&#127479;&#127476;', gdp: 350, gdpStr: '$350B', potential: 'High', potentialScore: 4, mandate: 'Jan 2024', coverage: ['B2B','B2G'], model: 'RTIR', status: 'Active', enterprises: 900000, invoices: 280000000, tam: 84, taxAuth: 'ANAF', taxUrl: 'https://www.anaf.ro', accred: 'No', accredTime: 'N/A', accredMonths: 0, providers: 'ANAF (Gov), Postis 18%' },
             { id: 25, country: 'Hungary', flag: '&#127469;&#127482;', gdp: 210, gdpStr: '$210B', potential: 'Mature', potentialScore: 3, mandate: '2018', coverage: ['B2B','B2G'], model: 'RTIR (NAV)', status: 'Active', enterprises: 750000, invoices: 180000000, tam: 54, taxAuth: 'NAV', taxUrl: 'https://nav.gov.hu', accred: 'No', accredTime: 'N/A', accredMonths: 0, providers: 'NAV (Gov), Ecosio 15%' },
             { id: 26, country: 'Chile', flag: '&#127464;&#127473;', gdp: 340, gdpStr: '$340B', potential: 'Mature', potentialScore: 3, mandate: '2014', coverage: ['B2B','B2G'], model: 'Clearance', status: 'Active', enterprises: 1200000, invoices: 250000000, tam: 75, taxAuth: 'SII', taxUrl: 'https://www.sii.cl', accred: 'No', accredTime: 'N/A', accredMonths: 0, providers: 'SII (Gov), Sovos 20%' },
+            { id: 27, country: 'Philippines', flag: '&#127477;&#127469;', gdp: 440, gdpStr: '$440B', potential: 'High', potentialScore: 4, mandate: 'Dec 2026', coverage: ['B2B','B2G'], model: 'CTC (EIS)', status: 'Pending', enterprises: 1100000, invoices: 380000000, tam: 114, taxAuth: 'BIR', taxUrl: 'https://www.bir.gov.ph', accred: 'Yes', accredTime: '3-6 mo', accredMonths: 4, providers: 'BIR (Gov), Oracle 15%' },
+            { id: 28, country: 'Thailand', flag: '&#127481;&#127469;', gdp: 510, gdpStr: '$510B', potential: 'High', potentialScore: 4, mandate: '2027-2028', coverage: ['B2B','B2G'], model: 'TBD', status: 'Planned', enterprises: 3200000, invoices: 520000000, tam: 156, taxAuth: 'RD', taxUrl: 'https://www.rd.go.th', accred: 'TBD', accredTime: 'TBD', accredMonths: 6, providers: 'TBD' },
+            { id: 29, country: 'Netherlands', flag: '&#127475;&#127473;', gdp: 1090, gdpStr: '$1,090B', potential: 'High', potentialScore: 4, mandate: 'Jul 2030', coverage: ['B2B'], model: 'Peppol (ViDA)', status: 'Planned', enterprises: 2100000, invoices: 850000000, tam: 255, taxAuth: 'Belastingdienst', taxUrl: 'https://www.belastingdienst.nl', accred: 'Yes (Peppol AP)', accredTime: '1-2 mo', accredMonths: 1, providers: 'Basware 18%, Tradeshift 15%' },
+            { id: 30, country: 'Sweden', flag: '&#127480;&#127466;', gdp: 590, gdpStr: '$590B', potential: 'High', potentialScore: 4, mandate: 'Jul 2030', coverage: ['B2B','B2G'], model: 'Peppol (ViDA)', status: 'Planned', enterprises: 1200000, invoices: 480000000, tam: 144, taxAuth: 'Skatteverket', taxUrl: 'https://www.skatteverket.se', accred: 'Yes (Peppol AP)', accredTime: '1-2 mo', accredMonths: 1, providers: 'Pagero 25%, Basware 18%' },
+            { id: 31, country: 'Norway', flag: '&#127475;&#127476;', gdp: 485, gdpStr: '$485B', potential: 'High', potentialScore: 4, mandate: 'Jul 2030', coverage: ['B2B','B2G'], model: 'Peppol (ViDA)', status: 'Planned', enterprises: 600000, invoices: 320000000, tam: 96, taxAuth: 'Skatteetaten', taxUrl: 'https://www.skatteetaten.no', accred: 'Yes (Peppol AP)', accredTime: '1-2 mo', accredMonths: 1, providers: 'Pagero 20%, Visma 18%' },
+            { id: 32, country: 'Ireland', flag: '&#127470;&#127466;', gdp: 530, gdpStr: '$530B', potential: 'High', potentialScore: 4, mandate: 'Nov 2028', coverage: ['B2B'], model: 'Peppol', status: 'Planned', enterprises: 280000, invoices: 180000000, tam: 54, taxAuth: 'Revenue', taxUrl: 'https://www.revenue.ie', accred: 'Yes (Peppol AP)', accredTime: '1-2 mo', accredMonths: 1, providers: 'Tungsten 15%, Basware 12%' },
+            { id: 33, country: 'Argentina', flag: '&#127462;&#127479;', gdp: 640, gdpStr: '$640B', potential: 'High', potentialScore: 4, mandate: '2019', coverage: ['B2B','B2G'], model: 'AFIP (Clearance)', status: 'Active', enterprises: 850000, invoices: 420000000, tam: 126, taxAuth: 'AFIP', taxUrl: 'https://www.afip.gob.ar', accred: 'Yes', accredTime: '3-6 mo', accredMonths: 4, providers: 'AFIP (Gov), Sovos 18%' },
+            { id: 34, country: 'Colombia', flag: '&#127464;&#127476;', gdp: 340, gdpStr: '$340B', potential: 'High', potentialScore: 4, mandate: '2018', coverage: ['B2B','B2G'], model: 'Clearance', status: 'Active', enterprises: 1600000, invoices: 380000000, tam: 114, taxAuth: 'DIAN', taxUrl: 'https://www.dian.gov.co', accred: 'Yes', accredTime: '3-6 mo', accredMonths: 4, providers: 'DIAN (Gov), Carvajal 20%' },
+            { id: 35, country: 'Peru', flag: '&#127477;&#127466;', gdp: 270, gdpStr: '$270B', potential: 'Medium', potentialScore: 2, mandate: '2014', coverage: ['B2B','B2G'], model: 'Clearance', status: 'Active', enterprises: 2400000, invoices: 280000000, tam: 84, taxAuth: 'SUNAT', taxUrl: 'https://www.sunat.gob.pe', accred: 'Yes (OSE)', accredTime: '3-6 mo', accredMonths: 4, providers: 'SUNAT (Gov), Sovos 15%' },
+            { id: 36, country: 'Egypt', flag: '&#127466;&#127468;', gdp: 400, gdpStr: '$400B', potential: 'High', potentialScore: 4, mandate: '2020-2025', coverage: ['B2B','B2G'], model: 'ETA (Clearance)', status: 'Active', enterprises: 3800000, invoices: 650000000, tam: 195, taxAuth: 'ETA', taxUrl: 'https://www.eta.gov.eg', accred: 'Yes', accredTime: '3-6 mo', accredMonths: 4, providers: 'ETA (Gov), Microsoft 12%' },
+            { id: 37, country: 'Israel', flag: '&#127470;&#127473;', gdp: 520, gdpStr: '$520B', potential: 'High', potentialScore: 4, mandate: '2025-2026', coverage: ['B2B','B2G'], model: 'SHAAM (Clearance)', status: 'Active', enterprises: 650000, invoices: 380000000, tam: 114, taxAuth: 'ITA', taxUrl: 'https://taxes.gov.il', accred: 'Yes', accredTime: '3-6 mo', accredMonths: 4, providers: 'ITA (Gov), Priority 15%' },
+            { id: 38, country: 'Jordan', flag: '&#127471;&#127476;', gdp: 50, gdpStr: '$50B', potential: 'Low', potentialScore: 1, mandate: 'Apr 2025', coverage: ['B2B','B2G'], model: 'JoFotara (Clearance)', status: 'Active', enterprises: 180000, invoices: 45000000, tam: 14, taxAuth: 'ISTD', taxUrl: 'https://www.istd.gov.jo', accred: 'Yes', accredTime: '3-6 mo', accredMonths: 4, providers: 'ISTD (Gov)' },
+            { id: 39, country: 'Nigeria', flag: '&#127475;&#127468;', gdp: 475, gdpStr: '$475B', potential: 'High', potentialScore: 4, mandate: 'Nov 2025', coverage: ['B2B','B2G'], model: 'Clearance', status: 'Pending', enterprises: 42000000, invoices: 850000000, tam: 255, taxAuth: 'FIRS', taxUrl: 'https://www.firs.gov.ng', accred: 'Yes', accredTime: '6-9 mo', accredMonths: 7, providers: 'TBD' },
+            { id: 40, country: 'South Africa', flag: '&#127487;&#127462;', gdp: 400, gdpStr: '$400B', potential: 'High', potentialScore: 4, mandate: 'TBD', coverage: ['B2B','B2G'], model: 'TBD', status: 'Planned', enterprises: 2300000, invoices: 520000000, tam: 156, taxAuth: 'SARS', taxUrl: 'https://www.sars.gov.za', accred: 'TBD', accredTime: 'TBD', accredMonths: 6, providers: 'TBD' },
+            { id: 41, country: 'Kenya', flag: '&#127472;&#127466;', gdp: 110, gdpStr: '$110B', potential: 'Medium', potentialScore: 2, mandate: '2020', coverage: ['B2B','B2G'], model: 'eTIMS', status: 'Active', enterprises: 450000, invoices: 85000000, tam: 26, taxAuth: 'KRA', taxUrl: 'https://www.kra.go.ke', accred: 'Yes', accredTime: '3-6 mo', accredMonths: 4, providers: 'KRA (Gov), Tally 15%' },
         ];
 
         let currentSort = { field: null, desc: true };
@@ -444,6 +475,16 @@
                 'accredTime': 'accredMonths'
             };
             const sortField = fieldMap[field] || field;
+            const clickedBtn = event.target;
+
+            // If clicking same button that's active, toggle off (show original order)
+            if (clickedBtn.classList.contains('active') && currentSort.field === sortField) {
+                currentSort.field = null;
+                currentSort.desc = true;
+                renderTable(countries); // Reset to original order
+                clickedBtn.classList.remove('active');
+                return;
+            }
 
             if (currentSort.field === sortField) {
                 currentSort.desc = !currentSort.desc;
@@ -465,7 +506,7 @@
 
             // Update button styles
             document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            clickedBtn.classList.add('active');
         }
 
         function filterTable() {
