@@ -66,6 +66,9 @@
 
         /* Toolbar */
         .toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; background: white; padding: 16px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
+        .toolbar-left { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+        .region-filter { padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9em; background: #f8fafc; cursor: pointer; color: #334155; font-weight: 500; }
+        .region-filter:focus { outline: none; border-color: #3b82f6; background: white; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
 
         /* Sort Controls */
         .sort-controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
@@ -158,7 +161,6 @@
         <div class="main-nav">
             <button class="nav-btn active" onclick="showMainSection('overview')"><span class="icon">&#128202;</span> Master Table</button>
             <button class="nav-btn" onclick="showMainSection('timeline')"><span class="icon">&#128197;</span> Timeline</button>
-            <button class="nav-btn" onclick="showMainSection('regions')"><span class="icon">&#127757;</span> By Region</button>
             <button class="nav-btn" onclick="showMainSection('legend')"><span class="icon">&#128218;</span> Legend & Methodology</button>
         </div>
 
@@ -184,15 +186,26 @@
             </div>
 
             <div class="toolbar">
-                <input type="text" class="search-box" id="searchBox" placeholder="Search countries..." onkeyup="filterTable()">
+                <div class="toolbar-left">
+                    <input type="text" class="search-box" id="searchBox" placeholder="Search countries..." onkeyup="filterTable()">
+                    <select class="region-filter" id="regionFilter" onchange="filterTable()">
+                        <option value="all">All Regions</option>
+                        <option value="europe">Europe</option>
+                        <option value="apac">Asia-Pacific</option>
+                        <option value="mena">Middle East & North Africa</option>
+                        <option value="latam">Latin America</option>
+                        <option value="africa">Africa</option>
+                        <option value="northam">North America</option>
+                    </select>
+                </div>
                 <div class="sort-controls">
                     <span style="font-size:0.8em; color:#64748b; font-weight:500;">Sort by:</span>
+                    <button class="sort-btn active" onclick="sortTable('mandate')">Mandate Date</button>
                     <button class="sort-btn" onclick="sortTable('country')">Country</button>
                     <button class="sort-btn" onclick="sortTable('gdp')">GDP</button>
                     <button class="sort-btn" onclick="sortTable('potential')">Potential</button>
                     <button class="sort-btn" onclick="sortTable('tam')">TAM</button>
                     <button class="sort-btn" onclick="sortTable('enterprises')">Enterprises</button>
-                    <button class="sort-btn" onclick="sortTable('accredTime')">Accred. Time</button>
                 </div>
             </div>
 
@@ -260,25 +273,6 @@
                 </tbody>
             </table>
             </div>
-        </div>
-
-        <!-- Section: By Region -->
-        <div id="regions" class="main-section">
-            <h2>Regional Breakdown</h2>
-            <div class="tabs">
-                <button class="tab active" onclick="showRegion('europe')">Europe</button>
-                <button class="tab" onclick="showRegion('apac')">Asia-Pacific</button>
-                <button class="tab" onclick="showRegion('mena')">Middle East & North Africa</button>
-                <button class="tab" onclick="showRegion('latam')">Latin America</button>
-                <button class="tab" onclick="showRegion('africa')">Africa</button>
-                <button class="tab" onclick="showRegion('northam')">North America</button>
-            </div>
-            <div id="europe" class="tab-content active"><div class="table-container"><table id="europeTable"></table></div></div>
-            <div id="apac" class="tab-content"><div class="table-container"><table id="apacTable"></table></div></div>
-            <div id="mena" class="tab-content"><div class="table-container"><table id="menaTable"></table></div></div>
-            <div id="latam" class="tab-content"><div class="table-container"><table id="latamTable"></table></div></div>
-            <div id="africa" class="tab-content"><div class="table-container"><table id="africaTable"></table></div></div>
-            <div id="northam" class="tab-content"><div class="table-container"><table id="northamTable"></table></div></div>
         </div>
 
         <!-- Section: Legend & Methodology -->
@@ -438,7 +432,119 @@
             { id: 78, country: 'Canada', flag: '&#127464;&#127462;', region: 'northam', gdp: 2140, gdpStr: '$2,140B', potential: 'Very High', potentialScore: 5, mandate: 'Voluntary', coverage: ['B2G'], model: 'Peppol', status: 'Voluntary', enterprises: 3800000, invoices: 1800000000, tam: 540, taxAuth: 'CRA', taxUrl: 'https://www.canada.ca/en/revenue-agency', accred: 'Yes (Peppol AP)', accredTime: '1-2 mo', accredMonths: 1, providers: 'SAP 20%, Coupa 18%' },
         ];
 
-        let currentSort = { field: null, desc: true };
+        let currentSort = { field: 'mandateDate', desc: false };
+        let currentRegion = 'all';
+
+        // Parse mandate date string to sortable timestamp (closest future date first)
+        function parseMandateDate(mandate) {
+            if (!mandate) return { date: Infinity, unknown: true };
+            const m = mandate.toLowerCase().trim();
+
+            // Known "no timeline" values
+            if (m === 'tbd' || m === 'voluntary' || m.includes('voluntary')) {
+                return { date: Infinity, unknown: true };
+            }
+
+            const now = new Date();
+            const currentYear = now.getFullYear();
+
+            // Already active/past (just year like 2008, 2010, 2019, etc.)
+            const justYear = m.match(/^(\d{4})$/);
+            if (justYear) {
+                const year = parseInt(justYear[1]);
+                if (year <= currentYear) return { date: new Date(year, 0, 1).getTime(), unknown: false, past: true };
+                return { date: new Date(year, 6, 1).getTime(), unknown: false };
+            }
+
+            // Month Year format (Jan 2026, Sep 2026, Jul 2025)
+            const monthYear = m.match(/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\w*\s*(\d{4})$/i);
+            if (monthYear) {
+                const months = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+                const month = months[monthYear[1].toLowerCase().substring(0, 3)];
+                const year = parseInt(monthYear[2]);
+                return { date: new Date(year, month, 1).getTime(), unknown: false };
+            }
+
+            // Year range (2021-2026, 2025-2028)
+            const yearRange = m.match(/(\d{4})\s*[-–]\s*(\d{4})/);
+            if (yearRange) {
+                const endYear = parseInt(yearRange[2]);
+                return { date: new Date(endYear, 6, 1).getTime(), unknown: false };
+            }
+
+            // H1/H2 Year format (H1 2027)
+            const halfYear = m.match(/(h[12])\s*(\d{4})/i);
+            if (halfYear) {
+                const month = halfYear[1].toLowerCase() === 'h1' ? 3 : 9;
+                const year = parseInt(halfYear[2]);
+                return { date: new Date(year, month, 1).getTime(), unknown: false };
+            }
+
+            // Late/Early Year (Late 2025)
+            const lateEarly = m.match(/(late|early)\s*(\d{4})/i);
+            if (lateEarly) {
+                const month = lateEarly[1].toLowerCase() === 'late' ? 10 : 2;
+                const year = parseInt(lateEarly[2]);
+                return { date: new Date(year, month, 1).getTime(), unknown: false };
+            }
+
+            // QIS or special formats with year
+            const anyYear = m.match(/(\d{4})/);
+            if (anyYear) {
+                const year = parseInt(anyYear[1]);
+                if (year <= currentYear) return { date: new Date(year, 0, 1).getTime(), unknown: false, past: true };
+                return { date: new Date(year, 6, 1).getTime(), unknown: false };
+            }
+
+            return { date: Infinity, unknown: true };
+        }
+
+        function getFilteredSortedData() {
+            let data = [...countries];
+
+            // Apply region filter
+            if (currentRegion !== 'all') {
+                data = data.filter(c => c.region === currentRegion);
+            }
+
+            // Apply search filter
+            const searchFilter = document.getElementById('searchBox').value.toLowerCase();
+            if (searchFilter) {
+                data = data.filter(c =>
+                    c.country.toLowerCase().includes(searchFilter) ||
+                    c.model.toLowerCase().includes(searchFilter) ||
+                    c.taxAuth.toLowerCase().includes(searchFilter) ||
+                    c.mandate.toLowerCase().includes(searchFilter)
+                );
+            }
+
+            // Apply sort
+            if (currentSort.field) {
+                if (currentSort.field === 'mandateDate') {
+                    data.sort((a, b) => {
+                        const aDate = parseMandateDate(a.mandate);
+                        const bDate = parseMandateDate(b.mandate);
+                        // Active/past mandates at the end, then by date
+                        if (aDate.past && !bDate.past) return 1;
+                        if (!aDate.past && bDate.past) return -1;
+                        if (aDate.unknown && !bDate.unknown) return 1;
+                        if (!aDate.unknown && bDate.unknown) return -1;
+                        return currentSort.desc ? bDate.date - aDate.date : aDate.date - bDate.date;
+                    });
+                } else {
+                    data.sort((a, b) => {
+                        const aVal = a[currentSort.field];
+                        const bVal = b[currentSort.field];
+                        if (typeof aVal === 'string') {
+                            return currentSort.desc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal);
+                        }
+                        return currentSort.desc ? bVal - aVal : aVal - bVal;
+                    });
+                }
+            }
+
+            return data;
+        }
 
         function renderTable(data) {
             const tbody = document.getElementById('tableBody');
@@ -465,6 +571,7 @@
 
         function sortTable(field) {
             const fieldMap = {
+                'mandate': 'mandateDate',
                 'country': 'country',
                 'gdp': 'gdp',
                 'potential': 'potentialScore',
@@ -475,12 +582,13 @@
             const sortField = fieldMap[field] || field;
             const clickedBtn = event.target;
 
-            // If clicking same button that's active, toggle off (show original order)
+            // If clicking same button that's active, toggle off (show default mandate sort)
             if (clickedBtn.classList.contains('active') && currentSort.field === sortField) {
-                currentSort.field = null;
-                currentSort.desc = true;
-                renderTable(countries); // Reset to original order
-                clickedBtn.classList.remove('active');
+                currentSort.field = 'mandateDate';
+                currentSort.desc = false;
+                renderTable(getFilteredSortedData());
+                document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelector('.sort-btn').classList.add('active'); // First button is Mandate Date
                 return;
             }
 
@@ -488,19 +596,10 @@
                 currentSort.desc = !currentSort.desc;
             } else {
                 currentSort.field = sortField;
-                currentSort.desc = true;
+                currentSort.desc = sortField === 'mandateDate' ? false : true; // Mandate sorts ascending by default
             }
 
-            const sorted = [...countries].sort((a, b) => {
-                let valA = a[sortField];
-                let valB = b[sortField];
-                if (typeof valA === 'string') {
-                    return currentSort.desc ? valB.localeCompare(valA) : valA.localeCompare(valB);
-                }
-                return currentSort.desc ? valB - valA : valA - valB;
-            });
-
-            renderTable(sorted);
+            renderTable(getFilteredSortedData());
 
             // Update button styles
             document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
@@ -508,13 +607,8 @@
         }
 
         function filterTable() {
-            const filter = document.getElementById('searchBox').value.toLowerCase();
-            const filtered = countries.filter(c =>
-                c.country.toLowerCase().includes(filter) ||
-                c.model.toLowerCase().includes(filter) ||
-                c.taxAuth.toLowerCase().includes(filter)
-            );
-            renderTable(filtered);
+            currentRegion = document.getElementById('regionFilter').value;
+            renderTable(getFilteredSortedData());
         }
 
         function showMainSection(id) {
@@ -524,66 +618,90 @@
             event.target.classList.add('active');
         }
 
-        function showRegion(region) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById(region).classList.add('active');
-        }
-
         function renderTimelineGraph() {
             const container = document.getElementById('timelineVisual');
-            // Generate timeline events from country data for upcoming mandates
-            const events = [
-                // 2025
-                { year: 2025, month: 'Jan', flag: '&#127465;&#127466;', country: 'Germany', type: 'active', desc: 'RECEIVE mandate - must accept EN 16931' },
-                { year: 2025, month: 'Jan', flag: '&#127470;&#127473;', country: 'Israel', type: 'active', desc: 'SHAAM clearance system rollout' },
-                { year: 2025, month: 'Apr', flag: '&#127471;&#127476;', country: 'Jordan', type: 'active', desc: 'JoFotara full mandate' },
-                { year: 2025, month: 'Jul', flag: '&#127474;&#127486;', country: 'Malaysia', type: 'active', desc: 'MyInvois Phase 1 (>RM100M)' },
-                { year: 2025, month: 'Nov', flag: '&#127480;&#127468;', country: 'Singapore', type: 'active', desc: 'InvoiceNow B2G mandate' },
-                { year: 2025, month: 'Nov', flag: '&#127475;&#127468;', country: 'Nigeria', type: 'pending', desc: 'FIRS e-invoicing pilot' },
-                { year: 2025, month: 'Dec', flag: '&#127464;&#127475;', country: 'China', type: 'active', desc: 'Nationwide Digital Fapiao' },
-                { year: 2025, month: 'Dec', flag: '&#127470;&#127465;', country: 'Indonesia', type: 'active', desc: 'Coretax large taxpayers' },
-                // 2026
-                { year: 2026, month: 'Jan', flag: '&#127463;&#127466;', country: 'Belgium', type: 'pending', desc: 'Full B2B Peppol mandate' },
-                { year: 2026, month: 'Jan', flag: '&#127474;&#127486;', country: 'Malaysia', type: 'pending', desc: 'MyInvois all businesses' },
-                { year: 2026, month: 'Feb', flag: '&#127477;&#127473;', country: 'Poland', type: 'pending', desc: 'KSeF large taxpayers' },
-                { year: 2026, month: 'Apr', flag: '&#127477;&#127473;', country: 'Poland', type: 'pending', desc: 'KSeF all taxpayers' },
-                { year: 2026, month: 'Jun', flag: '&#127480;&#127462;', country: 'Saudi Arabia', type: 'pending', desc: 'FATOORA final phase' },
-                { year: 2026, month: 'Jul', flag: '&#127462;&#127466;', country: 'UAE', type: 'pending', desc: 'E-invoicing pilot' },
-                { year: 2026, month: 'Aug', flag: '&#127476;&#127474;', country: 'Oman', type: 'pending', desc: 'Peppol pilot (Top 100)' },
-                { year: 2026, month: 'Sep', flag: '&#127467;&#127479;', country: 'France', type: 'pending', desc: 'Large & Mid companies' },
-                { year: 2026, month: 'Dec', flag: '&#127477;&#127469;', country: 'Philippines', type: 'pending', desc: 'EIS full mandate' },
-                // 2027
-                { year: 2027, month: 'Jan', flag: '&#127465;&#127466;', country: 'Germany', type: 'pending', desc: 'SEND mandate (>€800k)' },
-                { year: 2027, month: 'Jan', flag: '&#127462;&#127466;', country: 'UAE', type: 'pending', desc: 'Large companies mandate' },
-                { year: 2027, month: 'Feb', flag: '&#127476;&#127474;', country: 'Oman', type: 'pending', desc: 'Full mandate' },
-                { year: 2027, month: 'H1', flag: '&#127466;&#127480;', country: 'Spain', type: 'pending', desc: 'Verifactu large business' },
-                { year: 2027, month: 'H1', flag: '&#127481;&#127469;', country: 'Thailand', type: 'planned', desc: 'E-invoicing pilot expected' },
-                { year: 2027, month: 'Sep', flag: '&#127467;&#127479;', country: 'France', type: 'planned', desc: 'SMEs covered' },
-                // 2028
-                { year: 2028, month: 'Jan', flag: '&#127465;&#127466;', country: 'Germany', type: 'planned', desc: 'SEND mandate ALL' },
-                { year: 2028, month: 'H2', flag: '&#127466;&#127480;', country: 'Spain', type: 'planned', desc: 'SMEs all businesses' },
-                { year: 2028, month: 'Nov', flag: '&#127470;&#127466;', country: 'Ireland', type: 'planned', desc: 'B2B Peppol mandate' },
-                // 2030
-                { year: 2030, month: 'Jul', flag: '&#127466;&#127482;', country: 'EU ViDA', type: 'planned', desc: 'Intra-EU B2B mandate' },
-                { year: 2030, month: 'Jul', flag: '&#127475;&#127473;', country: 'Netherlands', type: 'planned', desc: 'B2B Peppol (ViDA)' },
-                { year: 2030, month: 'Jul', flag: '&#127480;&#127466;', country: 'Sweden', type: 'planned', desc: 'B2B Peppol (ViDA)' },
-                { year: 2030, month: 'Jul', flag: '&#127475;&#127476;', country: 'Norway', type: 'planned', desc: 'B2B Peppol (ViDA)' },
-                { year: 2030, month: 'Jul', flag: '&#127467;&#127470;', country: 'Finland', type: 'planned', desc: 'B2B Peppol (ViDA)' },
-                { year: 2030, month: 'Jul', flag: '&#127465;&#127472;', country: 'Denmark', type: 'planned', desc: 'B2B Peppol (ViDA)' },
-                { year: 2030, month: 'Jul', flag: '&#127462;&#127481;', country: 'Austria', type: 'planned', desc: 'B2B Peppol (ViDA)' },
-            ];
+            const months = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+            const currentYear = new Date().getFullYear();
 
-            // Group events by year
+            // Generate events from all countries
+            const knownEvents = [];
+            const unknownTimeline = [];
+
+            countries.forEach(c => {
+                const parsed = parseMandateDate(c.mandate);
+                const mandate = c.mandate.toLowerCase().trim();
+
+                if (parsed.unknown) {
+                    unknownTimeline.push(c);
+                    return;
+                }
+
+                // Determine display date and type
+                let year, month, type;
+                const statusLower = c.status.toLowerCase();
+
+                if (statusLower === 'active') type = 'active';
+                else if (statusLower === 'pending' || statusLower === 'phased') type = 'pending';
+                else type = 'planned';
+
+                // Parse specific month/year
+                const monthYearMatch = mandate.match(/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\w*\s*(\d{4})$/i);
+                if (monthYearMatch) {
+                    month = monthYearMatch[1].substring(0, 3).charAt(0).toUpperCase() + monthYearMatch[1].substring(0, 3).slice(1);
+                    year = parseInt(monthYearMatch[2]);
+                } else {
+                    // Extract year from mandate
+                    const yearMatch = mandate.match(/(\d{4})/);
+                    if (yearMatch) {
+                        year = parseInt(yearMatch[1]);
+                        // Check for year ranges - use end year
+                        const rangeMatch = mandate.match(/(\d{4})\s*[-–]\s*(\d{4})/);
+                        if (rangeMatch) year = parseInt(rangeMatch[2]);
+                        month = '';
+                    }
+                }
+
+                // H1/H2 format
+                const halfMatch = mandate.match(/(h[12])\s*(\d{4})/i);
+                if (halfMatch) {
+                    month = halfMatch[1].toUpperCase();
+                    year = parseInt(halfMatch[2]);
+                }
+
+                // Late/Early
+                const lateEarlyMatch = mandate.match(/(late|early)\s*(\d{4})/i);
+                if (lateEarlyMatch) {
+                    month = lateEarlyMatch[1].charAt(0).toUpperCase() + lateEarlyMatch[1].slice(1);
+                    year = parseInt(lateEarlyMatch[2]);
+                }
+
+                if (year) {
+                    knownEvents.push({
+                        year,
+                        month: month || '',
+                        flag: c.flag,
+                        country: c.country,
+                        type,
+                        desc: c.model,
+                        sortDate: parsed.date
+                    });
+                }
+            });
+
+            // Sort events by date
+            knownEvents.sort((a, b) => a.sortDate - b.sortDate);
+
+            // Group by year
             const grouped = {};
-            events.forEach(evt => {
+            knownEvents.forEach(evt => {
                 if (!grouped[evt.year]) grouped[evt.year] = [];
                 grouped[evt.year].push(evt);
             });
 
             let html = '';
-            Object.keys(grouped).sort().forEach(year => {
+
+            // Render known timeline years
+            Object.keys(grouped).sort((a, b) => parseInt(a) - parseInt(b)).forEach(year => {
                 const yearEvents = grouped[year];
                 html += `<div class="timeline-year-group">`;
                 html += `<div class="timeline-year-label">${year}</div>`;
@@ -596,7 +714,7 @@
                             <span class="timeline-event-flag">${evt.flag}</span>
                             <div class="timeline-event-info">
                                 <span class="timeline-event-country">${evt.country}</span>
-                                <span class="timeline-event-date">${evt.month} ${year}</span>
+                                <span class="timeline-event-date">${evt.month ? evt.month + ' ' : ''}${evt.year}</span>
                                 <span class="timeline-event-desc">${evt.desc}</span>
                             </div>
                         </div>
@@ -605,58 +723,33 @@
                 html += `</div></div>`;
             });
 
+            // Render unknown timeline section
+            if (unknownTimeline.length > 0) {
+                html += `<div class="timeline-year-group timeline-unknown">`;
+                html += `<div class="timeline-year-label">TBD</div>`;
+                html += `<div class="timeline-year-line" style="background: #94a3b8;"></div>`;
+                html += `<div class="timeline-events">`;
+                unknownTimeline.sort((a, b) => b.gdp - a.gdp).forEach(c => {
+                    html += `
+                        <div class="timeline-event status-voluntary">
+                            <span class="timeline-event-flag">${c.flag}</span>
+                            <div class="timeline-event-info">
+                                <span class="timeline-event-country">${c.country}</span>
+                                <span class="timeline-event-date">${c.mandate}</span>
+                                <span class="timeline-event-desc">${c.model || 'Timeline not announced'}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div></div>`;
+            }
+
             container.innerHTML = html;
         }
 
-        function renderRegionTable(tableId, regionCode) {
-            const regionCountries = countries.filter(c => c.region === regionCode).sort((a, b) => b.gdp - a.gdp);
-            const table = document.getElementById(tableId);
-            table.innerHTML = `
-                <thead>
-                    <tr>
-                        <th>#</th><th>Country</th><th>GDP</th><th>Potential</th><th>Mandate</th>
-                        <th>Coverage</th><th>Model</th><th>Status</th><th>Enterprises</th>
-                        <th>Est. Invoices/Yr</th><th>TAM ($M)</th><th>Tax Authority</th>
-                        <th>Accred?</th><th>Accred Time</th><th>Top Providers</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${regionCountries.map((c, i) => `
-                        <tr>
-                            <td>${i + 1}</td>
-                            <td><strong>${c.flag} ${c.country}</strong></td>
-                            <td>${c.gdpStr}</td>
-                            <td><span class="potential potential-${c.potential.toLowerCase().replace(' ','-')}">${c.potential}</span></td>
-                            <td class="wrap">${c.mandate}</td>
-                            <td>${c.coverage.map(cov => `<span class="coverage coverage-${cov.toLowerCase()}">${cov}</span>`).join(' ')}</td>
-                            <td class="small-text">${c.model}</td>
-                            <td><span class="status status-${c.status.toLowerCase().split(' ')[0]}">${c.status}</span></td>
-                            <td>${(c.enterprises/1000000).toFixed(1)}M</td>
-                            <td>${(c.invoices/1000000000).toFixed(1)}B</td>
-                            <td>$${c.tam}</td>
-                            <td><a href="${c.taxUrl}" target="_blank">${c.taxAuth}</a></td>
-                            <td class="${c.accred.includes('Yes') ? 'accred-yes' : 'accred-no'}">${c.accred}</td>
-                            <td>${c.accredTime}</td>
-                            <td class="players small-text">${c.providers}</td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            `;
-        }
-
-        function renderAllRegionTables() {
-            renderRegionTable('europeTable', 'europe');
-            renderRegionTable('apacTable', 'apac');
-            renderRegionTable('menaTable', 'mena');
-            renderRegionTable('latamTable', 'latam');
-            renderRegionTable('africaTable', 'africa');
-            renderRegionTable('northamTable', 'northam');
-        }
-
-        // Initialize
-        renderTable(countries);
+        // Initialize with default sort by mandate date
+        renderTable(getFilteredSortedData());
         renderTimelineGraph();
-        renderAllRegionTables();
     </script>
 </body>
 </html>
