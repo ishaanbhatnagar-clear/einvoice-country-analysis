@@ -49,6 +49,16 @@
         .potential-high { background: #feebc8; color: #c05621; }
         .potential-medium { background: #bee3f8; color: #2b6cb0; }
         .potential-low { background: #e2e8f0; color: #4a5568; }
+        .potential-saturated { background: #c6f6d5; color: #276749; }
+
+        /* Legend Box */
+        .legend-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .legend-box { background: white; border-radius: 10px; padding: 15px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .legend-box h4 { color: #2d3748; font-size: 0.95em; margin-bottom: 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; }
+        .legend-item { display: flex; align-items: flex-start; margin-bottom: 6px; font-size: 0.82em; }
+        .legend-item:last-child { margin-bottom: 0; }
+        .legend-item .badge { min-width: 80px; margin-right: 10px; }
+        .legend-item .desc { color: #4a5568; }
 
         /* Region Tabs */
         .tabs { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 20px; }
@@ -185,12 +195,36 @@
                     <div class="stat-label">Total GDP Covered</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">15</div>
+                    <div class="stat-number">8</div>
                     <div class="stat-label">Very High Potential Markets</div>
                 </div>
             </div>
 
             <input type="text" class="search-box" id="searchBox" placeholder="Search countries..." onkeyup="filterTable()">
+
+            <!-- Legend Boxes -->
+            <div class="legend-container">
+                <div class="legend-box">
+                    <h4>📊 Potential Rating Criteria</h4>
+                    <div class="legend-item"><span class="badge"><span class="potential potential-very-high">Very High</span></span><span class="desc">GDP &gt;$1T + New/upcoming mandate (high growth opportunity)</span></div>
+                    <div class="legend-item"><span class="badge"><span class="potential potential-high">High</span></span><span class="desc">GDP $300B-$1T OR established mandate with growth room</span></div>
+                    <div class="legend-item"><span class="badge"><span class="potential potential-medium">Medium</span></span><span class="desc">GDP $100B-$300B OR niche market opportunity</span></div>
+                    <div class="legend-item"><span class="badge"><span class="potential potential-saturated">Saturated</span></span><span class="desc">Mandate active 5+ years; market largely captured by incumbents</span></div>
+                    <div class="legend-item"><span class="badge"><span class="potential potential-low">Low</span></span><span class="desc">GDP &lt;$100B with limited e-invoice adoption</span></div>
+                </div>
+                <div class="legend-box">
+                    <h4>🏢 Model Types Glossary</h4>
+                    <div class="legend-item"><strong style="min-width:80px;">Clearance</strong><span class="desc">Invoice must be approved by tax authority BEFORE being sent to buyer</span></div>
+                    <div class="legend-item"><strong style="min-width:80px;">RTIR</strong><span class="desc">Real-Time Invoice Reporting - reported to authority in real-time/near real-time</span></div>
+                    <div class="legend-item"><strong style="min-width:80px;">CTC</strong><span class="desc">Continuous Transaction Controls - ongoing digital reporting to authorities</span></div>
+                    <div class="legend-item"><strong style="min-width:80px;">Peppol</strong><span class="desc">Open network standard for B2B/B2G document exchange (4-corner model)</span></div>
+                    <div class="legend-item"><strong style="min-width:80px;">Hybrid</strong><span class="desc">Combination of models (e.g., France PPF+PDP = Gov platform + private platforms)</span></div>
+                </div>
+                <div class="legend-box">
+                    <h4>📈 Top Players % = Estimated Captured Market Share</h4>
+                    <div class="legend-item"><span class="desc">Percentages represent the <strong>estimated share of e-invoicing transactions</strong> processed by each provider in that country. These are industry estimates based on public data, analyst reports, and market research. "(Gov)" indicates government-operated platforms.</span></div>
+                </div>
+            </div>
 
             <h2>Master Table (Sorted by Mandate Date)</h2>
             <table id="masterTable">
@@ -198,14 +232,14 @@
                     <tr><th>#</th><th>Country</th><th>GDP</th><th>Potential</th><th>Mandate</th><th>Status</th><th>Top Players (Est. Market Share)</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>1</td><td><strong>Brazil</strong></td><td>$2,170B</td><td><span class="potential potential-very-high">Very High</span></td><td>2008</td><td><span class="status status-active">Active</span></td><td class="players"><strong>Sovos</strong> 25%, <strong>EDICOM</strong> 18%, <strong>Sefaz</strong> (Gov)</td></tr>
-                    <tr><td>2</td><td><strong>Mexico</strong></td><td>$1,470B</td><td><span class="potential potential-very-high">Very High</span></td><td>2010</td><td><span class="status status-active">Active</span></td><td class="players"><strong>Edicom</strong> 20%, <strong>Sovos</strong> 15%, <strong>SAT PACs</strong> (Gov)</td></tr>
-                    <tr><td>3</td><td><strong>South Korea</strong></td><td>$1,710B</td><td><span class="potential potential-high">High</span></td><td>2011</td><td><span class="status status-active">Active</span></td><td class="players"><strong>NTS</strong> (Gov) 80%, <strong>Biztax</strong> 10%</td></tr>
-                    <tr><td>4</td><td><strong>Chile</strong></td><td>$340B</td><td><span class="potential potential-medium">Medium</span></td><td>2014</td><td><span class="status status-active">Active</span></td><td class="players"><strong>SII</strong> (Gov), <strong>Sovos</strong> 20%, <strong>Acepta</strong> 15%</td></tr>
-                    <tr><td>5</td><td><strong>Turkey</strong></td><td>$1,110B</td><td><span class="potential potential-very-high">Very High</span></td><td>2014</td><td><span class="status status-active">Active</span></td><td class="players"><strong>Foriba</strong> 30%, <strong>Logo</strong> 20%, <strong>EDICOM</strong> 12%</td></tr>
-                    <tr><td>6</td><td><strong>Hungary</strong></td><td>$210B</td><td><span class="potential potential-medium">Medium</span></td><td>2018</td><td><span class="status status-active">Active</span></td><td class="players"><strong>NAV</strong> (Gov), <strong>Ecosio</strong> 15%, <strong>Comarch</strong> 12%</td></tr>
-                    <tr><td>7</td><td><strong>Italy</strong></td><td>$2,250B</td><td><span class="potential potential-very-high">Very High</span></td><td>2019</td><td><span class="status status-active">Active</span></td><td class="players"><strong>Aruba PEC</strong> 25%, <strong>TeamSystem</strong> 20%, <strong>Wolters Kluwer</strong> 12%</td></tr>
-                    <tr><td>8</td><td><strong>India</strong></td><td>$3,730B</td><td><span class="potential potential-very-high">Very High</span></td><td>2020</td><td><span class="status status-active">Active</span></td><td class="players"><strong>ClearTax</strong> 35%, <strong>Avalara</strong> 15%, <strong>Zoho</strong> 12%</td></tr>
+                    <tr><td>1</td><td><strong>Brazil</strong></td><td>$2,170B</td><td><span class="potential potential-saturated">Saturated</span></td><td>2008</td><td><span class="status status-active">Active</span></td><td class="players"><strong>Sovos</strong> 25%, <strong>EDICOM</strong> 18%, <strong>Sefaz</strong> (Gov)</td></tr>
+                    <tr><td>2</td><td><strong>Mexico</strong></td><td>$1,470B</td><td><span class="potential potential-saturated">Saturated</span></td><td>2010</td><td><span class="status status-active">Active</span></td><td class="players"><strong>Edicom</strong> 20%, <strong>Sovos</strong> 15%, <strong>SAT PACs</strong> (Gov)</td></tr>
+                    <tr><td>3</td><td><strong>South Korea</strong></td><td>$1,710B</td><td><span class="potential potential-saturated">Saturated</span></td><td>2011</td><td><span class="status status-active">Active</span></td><td class="players"><strong>NTS</strong> (Gov) 80%, <strong>Biztax</strong> 10%</td></tr>
+                    <tr><td>4</td><td><strong>Chile</strong></td><td>$340B</td><td><span class="potential potential-saturated">Saturated</span></td><td>2014</td><td><span class="status status-active">Active</span></td><td class="players"><strong>SII</strong> (Gov), <strong>Sovos</strong> 20%, <strong>Acepta</strong> 15%</td></tr>
+                    <tr><td>5</td><td><strong>Turkey</strong></td><td>$1,110B</td><td><span class="potential potential-saturated">Saturated</span></td><td>2014</td><td><span class="status status-active">Active</span></td><td class="players"><strong>Foriba</strong> 30%, <strong>Logo</strong> 20%, <strong>EDICOM</strong> 12%</td></tr>
+                    <tr><td>6</td><td><strong>Hungary</strong></td><td>$210B</td><td><span class="potential potential-saturated">Saturated</span></td><td>2018</td><td><span class="status status-active">Active</span></td><td class="players"><strong>NAV</strong> (Gov), <strong>Ecosio</strong> 15%, <strong>Comarch</strong> 12%</td></tr>
+                    <tr><td>7</td><td><strong>Italy</strong></td><td>$2,250B</td><td><span class="potential potential-high">High</span></td><td>2019</td><td><span class="status status-active">Active</span></td><td class="players"><strong>Aruba PEC</strong> 25%, <strong>TeamSystem</strong> 20%, <strong>Wolters Kluwer</strong> 12%</td></tr>
+                    <tr><td>8</td><td><strong>India</strong></td><td>$3,730B</td><td><span class="potential potential-very-high">Very High</span></td><td>2020</td><td><span class="status status-active">Active</span></td><td class="players"><strong>ClearTax</strong> 35%, <strong>EY</strong> 12%, <strong>Tally</strong> 10%</td></tr>
                     <tr><td>9</td><td><strong>Saudi Arabia</strong></td><td>$1,070B</td><td><span class="potential potential-very-high">Very High</span></td><td>2021</td><td><span class="status status-active">Active</span></td><td class="players"><strong>Sovos</strong> 22%, <strong>EDICOM</strong> 18%, <strong>Comarch</strong> 10%</td></tr>
                     <tr><td>10</td><td><strong>Vietnam</strong></td><td>$450B</td><td><span class="potential potential-high">High</span></td><td>2022</td><td><span class="status status-active">Active</span></td><td class="players"><strong>MISA</strong> 30%, <strong>Viettel</strong> 25%, <strong>FPT</strong> 15%</td></tr>
                     <tr><td>11</td><td><strong>Romania</strong></td><td>$350B</td><td><span class="potential potential-high">High</span></td><td>Jan 2024</td><td><span class="status status-active">Active</span></td><td class="players"><strong>ANAF</strong> (Gov), <strong>Postis</strong> 18%, <strong>SoftOne</strong> 12%</td></tr>
@@ -217,7 +251,7 @@
                     <tr><td>17</td><td><strong>Belgium</strong></td><td>$630B</td><td><span class="potential potential-high">High</span></td><td>Jan 2026</td><td><span class="status status-pending">Pending</span></td><td class="players"><strong>Peppol APs</strong>, <strong>Basware</strong> 15%, <strong>Pagero</strong> 12%</td></tr>
                     <tr><td>18</td><td><strong>Poland</strong></td><td>$750B</td><td><span class="potential potential-high">High</span></td><td>Feb 2026</td><td><span class="status status-pending">Pending</span></td><td class="players"><strong>KSeF</strong> (Gov), <strong>Comarch</strong> 25%, <strong>Asseco</strong> 15%</td></tr>
                     <tr><td>19</td><td><strong>UAE</strong></td><td>$500B</td><td><span class="potential potential-high">High</span></td><td>Jul 2026</td><td><span class="status status-pending">Pending</span></td><td class="players"><strong>Sovos</strong> 20%, <strong>EDICOM</strong> 15%, <strong>Pagero</strong> 10%</td></tr>
-                    <tr><td>20</td><td><strong>Oman</strong></td><td>$115B</td><td><span class="potential potential-medium">Medium</span></td><td>Aug 2026</td><td><span class="status status-pending">Pending</span></td><td class="players"><strong>Peppol APs</strong>, <strong>Storecove</strong> 10%, <strong>TBD</strong></td></tr>
+                    <tr><td>20</td><td><strong>Oman</strong></td><td>$115B</td><td><span class="potential potential-medium">Medium</span></td><td>Aug 2026 (Top 100), Feb 2027 (All)</td><td><span class="status status-pending">Pending</span></td><td class="players"><strong>Peppol APs</strong>, <strong>Storecove</strong> 10%, <strong>TBD</strong></td></tr>
                     <tr><td>21</td><td><strong>France</strong></td><td>$3,030B</td><td><span class="potential potential-very-high">Very High</span></td><td>Sep 2026</td><td><span class="status status-pending">Pending</span></td><td class="players"><strong>Chorus Pro</strong> (Gov), <strong>Generix</strong> 15%, <strong>Cegedim</strong> 12%</td></tr>
                     <tr><td>22</td><td><strong>Philippines</strong></td><td>$440B</td><td><span class="potential potential-high">High</span></td><td>Dec 2026</td><td><span class="status status-pending">Pending</span></td><td class="players"><strong>BIR</strong> (Gov), <strong>Oracle NetSuite</strong> 12%, <strong>Local ERPs</strong></td></tr>
                     <tr><td>23</td><td><strong>Spain</strong></td><td>$1,580B</td><td><span class="potential potential-very-high">Very High</span></td><td>2027</td><td><span class="status status-pending">Pending</span></td><td class="players"><strong>EDICOM</strong> 25%, <strong>Seres</strong> 18%, <strong>B2Brouter</strong> 10%</td></tr>
@@ -231,7 +265,7 @@
                 </tbody>
             </table>
 
-            <h2>Top 15 Markets by E-Invoice Potential</h2>
+            <h2>Top Growth Opportunity Markets (by Potential)</h2>
             <table>
                 <thead><tr><th>Rank</th><th>Country</th><th>GDP (USD Bn)</th><th>Status</th><th>Potential</th></tr></thead>
                 <tbody>
@@ -240,11 +274,11 @@
                     <tr><td>3</td><td><strong>Japan</strong></td><td>$4,230</td><td><span class="status status-voluntary">Voluntary</span></td><td><span class="potential potential-very-high">Very High</span></td></tr>
                     <tr><td>4</td><td><strong>India</strong></td><td>$3,730</td><td><span class="status status-active">Active</span></td><td><span class="potential potential-very-high">Very High</span></td></tr>
                     <tr><td>5</td><td><strong>France</strong></td><td>$3,030</td><td><span class="status status-pending">Pending</span></td><td><span class="potential potential-very-high">Very High</span></td></tr>
-                    <tr><td>6</td><td><strong>Italy</strong></td><td>$2,250</td><td><span class="status status-active">Active</span></td><td><span class="potential potential-very-high">Very High</span></td></tr>
-                    <tr><td>7</td><td><strong>Brazil</strong></td><td>$2,170</td><td><span class="status status-active">Active</span></td><td><span class="potential potential-very-high">Very High</span></td></tr>
-                    <tr><td>8</td><td><strong>Australia</strong></td><td>$1,720</td><td><span class="status status-voluntary">Voluntary</span></td><td><span class="potential potential-high">High</span></td></tr>
-                    <tr><td>9</td><td><strong>South Korea</strong></td><td>$1,710</td><td><span class="status status-active">Active</span></td><td><span class="potential potential-high">High</span></td></tr>
-                    <tr><td>10</td><td><strong>Spain</strong></td><td>$1,580</td><td><span class="status status-pending">Pending</span></td><td><span class="potential potential-very-high">Very High</span></td></tr>
+                    <tr><td>6</td><td><strong>Spain</strong></td><td>$1,580</td><td><span class="status status-pending">Pending</span></td><td><span class="potential potential-very-high">Very High</span></td></tr>
+                    <tr><td>7</td><td><strong>Indonesia</strong></td><td>$1,390</td><td><span class="status status-active">Active</span></td><td><span class="potential potential-very-high">Very High</span></td></tr>
+                    <tr><td>8</td><td><strong>Saudi Arabia</strong></td><td>$1,070</td><td><span class="status status-active">Active</span></td><td><span class="potential potential-very-high">Very High</span></td></tr>
+                    <tr><td>9</td><td><strong>Italy</strong></td><td>$2,250</td><td><span class="status status-active">Active</span></td><td><span class="potential potential-high">High</span></td></tr>
+                    <tr><td>10</td><td><strong>Australia</strong></td><td>$1,720</td><td><span class="status status-voluntary">Voluntary</span></td><td><span class="potential potential-high">High</span></td></tr>
                 </tbody>
             </table>
         </div>
@@ -304,14 +338,13 @@
                 <div class="timeline-item"><div class="timeline-date">Apr 2026</div><div class="timeline-country">Poland</div><div class="timeline-desc">All taxpayers</div></div>
                 <div class="timeline-item"><div class="timeline-date">Jun 2026</div><div class="timeline-country">Saudi Arabia</div><div class="timeline-desc">Final FATOORA phase</div></div>
                 <div class="timeline-item"><div class="timeline-date">Jul 2026</div><div class="timeline-country">UAE</div><div class="timeline-desc">Pilot begins</div></div>
-                <div class="timeline-item"><div class="timeline-date">Aug 2026</div><div class="timeline-country">Oman</div><div class="timeline-desc">Pilot (Peppol 5-corner)</div></div>
+                <div class="timeline-item"><div class="timeline-date">Aug 2026</div><div class="timeline-country">Oman</div><div class="timeline-desc">Pilot for Top 100 (Peppol); Full mandate Feb 2027</div></div>
                 <div class="timeline-item"><div class="timeline-date">Sep 2026</div><div class="timeline-country">France</div><div class="timeline-desc">Large/mid-size companies</div></div>
                 <div class="timeline-item"><div class="timeline-date">Dec 2026</div><div class="timeline-country">Philippines</div><div class="timeline-desc">Full mandate</div></div>
 
                 <div class="timeline-year">2027</div>
                 <div class="timeline-item"><div class="timeline-date">Jan 2027</div><div class="timeline-country">Germany</div><div class="timeline-desc">Send mandate (large)</div></div>
                 <div class="timeline-item"><div class="timeline-date">Jan 2027</div><div class="timeline-country">UAE</div><div class="timeline-desc">Large companies</div></div>
-                <div class="timeline-item"><div class="timeline-date">Feb 2027</div><div class="timeline-country">Oman</div><div class="timeline-desc">Full mandate</div></div>
                 <div class="timeline-item"><div class="timeline-date">Sep 2027</div><div class="timeline-country">France</div><div class="timeline-desc">SMEs</div></div>
                 <div class="timeline-item"><div class="timeline-date">2027</div><div class="timeline-country">Spain</div><div class="timeline-desc">Large businesses (Verifactu)</div></div>
             </div>
@@ -368,7 +401,7 @@
                         <tr><td>Turkey</td><td>$1,110B</td><td>2014</td><td>GIB</td></tr>
                         <tr><td>UAE</td><td>$500B</td><td>Jul 2026</td><td>Clearance</td></tr>
                         <tr><td>Israel</td><td>$520B</td><td>2025-2026</td><td>SHAAM</td></tr>
-                        <tr><td>Oman</td><td>$115B</td><td>Aug 2026</td><td>Peppol 5-corner</td></tr>
+                        <tr><td>Oman</td><td>$115B</td><td>Aug 2026 (Top 100), Feb 2027 (All)</td><td>Peppol 5-corner</td></tr>
                         <tr><td>Jordan</td><td>$50B</td><td>Apr 2025</td><td>JoFotara</td></tr>
                         <tr><td>Egypt</td><td>$400B</td><td>2020-2025</td><td>ETA Clearance</td></tr>
                     </tbody>
@@ -410,11 +443,11 @@
 
     <script>
         const countryData = {
-            'BR': { name: 'Brazil', flag: '🇧🇷', gdp: '$2,170B', potential: 'Very High', mandate: '2008', status: 'Active', model: 'Clearance (NF-e)', region: 'LATAM' },
-            'MX': { name: 'Mexico', flag: '🇲🇽', gdp: '$1,470B', potential: 'Very High', mandate: '2010', status: 'Active', model: 'Clearance (CFDI)', region: 'LATAM' },
-            'KR': { name: 'South Korea', flag: '🇰🇷', gdp: '$1,710B', potential: 'High', mandate: '2011', status: 'Active', model: 'RTIR', region: 'APAC' },
-            'TR': { name: 'Turkey', flag: '🇹🇷', gdp: '$1,110B', potential: 'Very High', mandate: '2014', status: 'Active', model: 'Clearance (GIB)', region: 'MENA' },
-            'IT': { name: 'Italy', flag: '🇮🇹', gdp: '$2,250B', potential: 'Very High', mandate: '2019', status: 'Active', model: 'Clearance (SdI)', region: 'EU' },
+            'BR': { name: 'Brazil', flag: '🇧🇷', gdp: '$2,170B', potential: 'Saturated', mandate: '2008', status: 'Active', model: 'Clearance (NF-e)', region: 'LATAM' },
+            'MX': { name: 'Mexico', flag: '🇲🇽', gdp: '$1,470B', potential: 'Saturated', mandate: '2010', status: 'Active', model: 'Clearance (CFDI)', region: 'LATAM' },
+            'KR': { name: 'South Korea', flag: '🇰🇷', gdp: '$1,710B', potential: 'Saturated', mandate: '2011', status: 'Active', model: 'RTIR', region: 'APAC' },
+            'TR': { name: 'Turkey', flag: '🇹🇷', gdp: '$1,110B', potential: 'Saturated', mandate: '2014', status: 'Active', model: 'Clearance (GIB)', region: 'MENA' },
+            'IT': { name: 'Italy', flag: '🇮🇹', gdp: '$2,250B', potential: 'High', mandate: '2019', status: 'Active', model: 'Clearance (SdI)', region: 'EU' },
             'IN': { name: 'India', flag: '🇮🇳', gdp: '$3,730B', potential: 'Very High', mandate: '2020', status: 'Active', model: 'Clearance (GST)', region: 'APAC' },
             'SA': { name: 'Saudi Arabia', flag: '🇸🇦', gdp: '$1,070B', potential: 'Very High', mandate: '2021-2026', status: 'Active', model: 'FATOORA', region: 'MENA' },
             'VN': { name: 'Vietnam', flag: '🇻🇳', gdp: '$450B', potential: 'High', mandate: '2022', status: 'Active', model: 'Clearance', region: 'APAC' },
@@ -502,7 +535,7 @@
             container.innerHTML = selected.map(code => {
                 const c = countryData[code];
                 const statusClass = c.status.includes('Active') ? 'status-active' : c.status.includes('Pending') ? 'status-pending' : c.status.includes('Voluntary') ? 'status-voluntary' : 'status-planned';
-                const potClass = c.potential === 'Very High' ? 'potential-very-high' : c.potential === 'High' ? 'potential-high' : c.potential === 'Medium' ? 'potential-medium' : 'potential-low';
+                const potClass = c.potential === 'Very High' ? 'potential-very-high' : c.potential === 'High' ? 'potential-high' : c.potential === 'Saturated' ? 'potential-saturated' : c.potential === 'Medium' ? 'potential-medium' : 'potential-low';
                 return `
                 <div class="compare-card">
                     <div class="compare-card-header">
@@ -538,6 +571,9 @@
 
             const veryHigh = data.filter(c => c.potential === 'Very High');
             if (veryHigh.length) insights.push({ icon: '🔥', title: 'Very High Potential', text: `${veryHigh.map(c=>c.name).join(', ')} are top-tier markets.` });
+
+            const saturated = data.filter(c => c.potential === 'Saturated');
+            if (saturated.length) insights.push({ icon: '📊', title: 'Saturated Markets', text: `${saturated.map(c=>c.name).join(', ')} have mature markets with established players.` });
 
             const peppol = data.filter(c => c.model.includes('Peppol'));
             if (peppol.length) insights.push({ icon: '🌐', title: 'Peppol Adopters', text: `${peppol.map(c=>c.name).join(', ')} use Peppol.` });
