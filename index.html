@@ -46,23 +46,23 @@
         a { color: #3b82f6; text-decoration: none; font-weight: 500; }
         a:hover { text-decoration: underline; color: #2563eb; }
 
-        /* Status & Potential Badges - Modern Style */
-        .status, .potential, .coverage { padding: 4px 8px; border-radius: 6px; font-size: 0.7em; font-weight: 500; display: inline-block; border: 1px solid transparent; }
-        .status-active { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
-        .status-pending { background: #fef9c3; color: #854d0e; border-color: #fde047; }
-        .status-planned { background: #f3e8ff; color: #6b21a8; border-color: #d8b4fe; }
-        .status-voluntary { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
-        .status-phased { background: #ffedd5; color: #c2410c; border-color: #fdba74; }
-        .potential-very-high { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
-        .potential-high { background: #ffedd5; color: #c2410c; border-color: #fdba74; }
-        .potential-medium { background: #e0f2fe; color: #0369a1; border-color: #bae6fd; }
-        .potential-low { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
-        .potential-mature { background: #f3e8ff; color: #6b21a8; border-color: #d8b4fe; }
-        .coverage-b2b { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
-        .coverage-b2g { background: #e0f2fe; color: #0369a1; border-color: #bae6fd; }
-        .coverage-b2c { background: #ffedd5; color: #c2410c; border-color: #fdba74; }
-        .accred-yes { color: #b91c1c; font-weight: 600; }
-        .accred-no { color: #166534; }
+        /* Status & Potential Badges - Soft Pastel Pills */
+        .status, .potential, .coverage { padding: 3px 10px; border-radius: 50px; font-size: 0.68em; font-weight: 500; display: inline-block; letter-spacing: 0.01em; }
+        .status-active { background: rgba(134, 239, 172, 0.35); color: #15803d; }
+        .status-pending { background: rgba(253, 224, 71, 0.35); color: #a16207; }
+        .status-planned { background: rgba(196, 181, 253, 0.35); color: #7c3aed; }
+        .status-voluntary { background: rgba(203, 213, 225, 0.4); color: #475569; }
+        .status-phased { background: rgba(253, 186, 116, 0.35); color: #c2410c; }
+        .potential-very-high { background: rgba(252, 165, 165, 0.35); color: #dc2626; }
+        .potential-high { background: rgba(253, 186, 116, 0.35); color: #ea580c; }
+        .potential-medium { background: rgba(147, 197, 253, 0.35); color: #2563eb; }
+        .potential-low { background: rgba(203, 213, 225, 0.4); color: #64748b; }
+        .potential-mature { background: rgba(196, 181, 253, 0.35); color: #7c3aed; }
+        .coverage-b2b { background: rgba(134, 239, 172, 0.3); color: #16a34a; }
+        .coverage-b2g { background: rgba(147, 197, 253, 0.3); color: #2563eb; }
+        .coverage-b2c { background: rgba(253, 186, 116, 0.3); color: #ea580c; }
+        .accred-yes { color: #dc2626; font-weight: 600; }
+        .accred-no { color: #16a34a; }
 
         /* Toolbar */
         .toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; background: white; padding: 16px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
@@ -435,25 +435,111 @@
         let currentSort = { field: 'mandateDate', desc: false };
         let currentRegion = 'all';
 
+        // Provider website URLs mapping
+        const providerUrls = {
+            'sovos': 'https://sovos.com',
+            'edicom': 'https://edicomgroup.com',
+            'basware': 'https://www.basware.com',
+            'pagero': 'https://www.pagero.com',
+            'sap': 'https://www.sap.com',
+            'coupa': 'https://www.coupa.com',
+            'tradeshift': 'https://tradeshift.com',
+            'tungsten': 'https://www.tungsten-network.com',
+            'aruba': 'https://www.aruba.it',
+            'teamsystem': 'https://www.teamsystem.com',
+            'cleartax': 'https://cleartax.in',
+            'vayana': 'https://vayana.com',
+            'foriba': 'https://www.foriba.com',
+            'logo': 'https://www.logo.com.tr',
+            'comarch': 'https://www.comarch.com',
+            'generix': 'https://www.generixgroup.com',
+            'storecove': 'https://www.storecove.com',
+            'oracle': 'https://www.oracle.com',
+            'microsoft': 'https://www.microsoft.com',
+            'sage': 'https://www.sage.com',
+            'xero': 'https://www.xero.com',
+            'myob': 'https://www.myob.com',
+            'tally': 'https://tallysolutions.com',
+            'zoho': 'https://www.zoho.com',
+            'visma': 'https://www.visma.com',
+            'link4': 'https://www.link4.com.au',
+            'messagexchange': 'https://www.messagexchange.com',
+            'ecosio': 'https://ecosio.com',
+            'carvajal': 'https://www.carvajal.com',
+            'gosocket': 'https://www.gosocket.net',
+            'softone': 'https://www.softone.gr',
+            'epsilon net': 'https://www.epsilonnet.gr',
+            'primavera': 'https://pt.primaverabss.com',
+            'baiwang': 'https://www.baiwang.com',
+            'aisino': 'https://www.aisino.com',
+            'misa': 'https://www.misa.vn',
+            'viettel': 'https://viettel.com.vn',
+            'onlinepajak': 'https://www.online-pajak.com',
+            'chunghwa': 'https://www.cht.com.tw',
+            'fareastone': 'https://www.fetnet.net',
+            'priority': 'https://www.priority-software.com',
+            'seres': 'https://www.seres.es',
+            'hubtel': 'https://hubtel.com',
+            'synesis': 'https://synesis-it.com',
+            'systems ltd': 'https://www.systemsltd.com',
+            'hsenid': 'https://www.hsenidmobile.com',
+            'datil': 'https://datil.com',
+            'uruware': 'https://uruware.com',
+            'freee': 'https://www.freee.co.jp',
+            'tkc': 'https://www.tkc.jp',
+            'sap ariba': 'https://www.ariba.com',
+            'helios': 'https://www.helios.eu',
+            'pohoda': 'https://www.stormware.cz',
+            'birokrat': 'https://www.birokrat.si',
+            'microinvest': 'https://www.microinvest.net',
+            'tildes': 'https://www.tilde.lv',
+            'rivile': 'https://www.rivile.lt',
+            'omniva': 'https://www.omniva.ee',
+            'rik': 'https://www.rik.ee',
+            'postis': 'https://postis.ro'
+        };
+
+        function formatProviders(providersStr) {
+            if (!providersStr || providersStr === 'TBD') return providersStr;
+
+            // Split by comma and process each provider
+            return providersStr.split(',').map(p => {
+                const trimmed = p.trim();
+                // Extract provider name (before percentage or parentheses)
+                const match = trimmed.match(/^([A-Za-z\s]+)/);
+                if (match) {
+                    const name = match[1].trim().toLowerCase();
+                    const url = providerUrls[name];
+                    if (url) {
+                        return `<a href="${url}" target="_blank">${trimmed}</a>`;
+                    }
+                }
+                return trimmed;
+            }).join(', ');
+        }
+
         // Parse mandate date string to sortable timestamp (closest future date first)
         function parseMandateDate(mandate) {
             if (!mandate) return { date: Infinity, unknown: true };
             const m = mandate.toLowerCase().trim();
 
             // Known "no timeline" values
-            if (m === 'tbd' || m === 'voluntary' || m.includes('voluntary')) {
+            if (m === 'tbd' || m === 'voluntary' || m.includes('voluntary') || m.includes('b2g active')) {
                 return { date: Infinity, unknown: true };
             }
 
             const now = new Date();
-            const currentYear = now.getFullYear();
+            const nowTime = now.getTime();
+
+            // Helper to check if date is past
+            const isPast = (date) => date.getTime() < nowTime;
 
             // Already active/past (just year like 2008, 2010, 2019, etc.)
             const justYear = m.match(/^(\d{4})$/);
             if (justYear) {
                 const year = parseInt(justYear[1]);
-                if (year <= currentYear) return { date: new Date(year, 0, 1).getTime(), unknown: false, past: true };
-                return { date: new Date(year, 6, 1).getTime(), unknown: false };
+                const date = new Date(year, 6, 1); // Mid-year
+                return { date: date.getTime(), unknown: false, past: isPast(date) };
             }
 
             // Month Year format (Jan 2026, Sep 2026, Jul 2025)
@@ -462,14 +548,16 @@
                 const months = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
                 const month = months[monthYear[1].toLowerCase().substring(0, 3)];
                 const year = parseInt(monthYear[2]);
-                return { date: new Date(year, month, 1).getTime(), unknown: false };
+                const date = new Date(year, month, 1);
+                return { date: date.getTime(), unknown: false, past: isPast(date) };
             }
 
-            // Year range (2021-2026, 2025-2028)
+            // Year range (2021-2026, 2025-2028) - use start year for sorting
             const yearRange = m.match(/(\d{4})\s*[-–]\s*(\d{4})/);
             if (yearRange) {
-                const endYear = parseInt(yearRange[2]);
-                return { date: new Date(endYear, 6, 1).getTime(), unknown: false };
+                const startYear = parseInt(yearRange[1]);
+                const date = new Date(startYear, 6, 1);
+                return { date: date.getTime(), unknown: false, past: isPast(date) };
             }
 
             // H1/H2 Year format (H1 2027)
@@ -477,7 +565,8 @@
             if (halfYear) {
                 const month = halfYear[1].toLowerCase() === 'h1' ? 3 : 9;
                 const year = parseInt(halfYear[2]);
-                return { date: new Date(year, month, 1).getTime(), unknown: false };
+                const date = new Date(year, month, 1);
+                return { date: date.getTime(), unknown: false, past: isPast(date) };
             }
 
             // Late/Early Year (Late 2025)
@@ -485,15 +574,16 @@
             if (lateEarly) {
                 const month = lateEarly[1].toLowerCase() === 'late' ? 10 : 2;
                 const year = parseInt(lateEarly[2]);
-                return { date: new Date(year, month, 1).getTime(), unknown: false };
+                const date = new Date(year, month, 1);
+                return { date: date.getTime(), unknown: false, past: isPast(date) };
             }
 
-            // QIS or special formats with year
+            // QIS or special formats with year (e.g., "QIS 2023", "Oct 2022")
             const anyYear = m.match(/(\d{4})/);
             if (anyYear) {
                 const year = parseInt(anyYear[1]);
-                if (year <= currentYear) return { date: new Date(year, 0, 1).getTime(), unknown: false, past: true };
-                return { date: new Date(year, 6, 1).getTime(), unknown: false };
+                const date = new Date(year, 6, 1);
+                return { date: date.getTime(), unknown: false, past: isPast(date) };
             }
 
             return { date: Infinity, unknown: true };
@@ -564,7 +654,7 @@
                     <td><a href="${c.taxUrl}" target="_blank">${c.taxAuth}</a></td>
                     <td class="${c.accred.includes('Yes') ? 'accred-yes' : 'accred-no'}">${c.accred}</td>
                     <td>${c.accredTime}</td>
-                    <td class="players small-text">${c.providers}</td>
+                    <td class="players small-text">${formatProviders(c.providers)}</td>
                 </tr>
             `).join('');
         }
