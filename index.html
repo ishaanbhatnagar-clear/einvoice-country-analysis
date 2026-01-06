@@ -126,6 +126,17 @@
         /* Footer */
         .footer { margin-top: 40px; padding: 20px; text-align: center; color: #718096; font-size: 0.85em; }
 
+        /* Ticker */
+        .ticker-wrap { width: 100%; overflow: hidden; background: linear-gradient(90deg, #2d3748, #4a5568); padding: 10px 0; margin-bottom: 20px; border-radius: 8px; }
+        .ticker { display: inline-block; white-space: nowrap; animation: ticker 20s linear infinite; }
+        .ticker-item { display: inline-block; padding: 0 50px; color: #fbd38d; font-weight: 600; font-size: 0.9em; }
+        .ticker-item span { color: #fff; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* Players badge */
+        .players { font-size: 0.8em; color: #4a5568; }
+        .players strong { color: #2b6cb0; }
+
         @media (max-width: 768px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             table { font-size: 0.8em; }
@@ -138,8 +149,17 @@
 </head>
 <body>
     <div class="container">
+        <!-- Running Ticker Disclaimer -->
+        <div class="ticker-wrap">
+            <div class="ticker">
+                <div class="ticker-item">⚠️ <span>DISCLAIMER:</span> This knowledge base is created as of 6 Jan 2025. Data may have changed since then.</div>
+                <div class="ticker-item">📊 <span>Sources:</span> IMF, VATupdate, KPMG, Basware, Storecove, EDICOM, Fonoa</div>
+                <div class="ticker-item">⚠️ <span>DISCLAIMER:</span> This knowledge base is created as of 6 Jan 2025. Data may have changed since then.</div>
+            </div>
+        </div>
+
         <h1>Global E-Invoicing Country Analysis</h1>
-        <p class="subtitle">GDP, E-Invoice Potential & Mandate Dates | Last Updated: January 2026</p>
+        <p class="subtitle">GDP, E-Invoice Potential & Mandate Dates | Top Players & Market Penetration</p>
 
         <!-- Main Navigation -->
         <div class="main-nav">
@@ -175,39 +195,39 @@
             <h2>Master Table (Sorted by Mandate Date)</h2>
             <table id="masterTable">
                 <thead>
-                    <tr><th>#</th><th>Country</th><th>GDP (USD Bn)</th><th>Potential</th><th>Mandate Date</th><th>Status</th><th>Model</th></tr>
+                    <tr><th>#</th><th>Country</th><th>GDP</th><th>Potential</th><th>Mandate</th><th>Status</th><th>Top Players (Est. Market Share)</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>1</td><td><strong>Brazil</strong></td><td>$2,170</td><td><span class="potential potential-very-high">Very High</span></td><td>2008</td><td><span class="status status-active">Active</span></td><td>Clearance (NF-e)</td></tr>
-                    <tr><td>2</td><td><strong>Mexico</strong></td><td>$1,470</td><td><span class="potential potential-very-high">Very High</span></td><td>2010</td><td><span class="status status-active">Active</span></td><td>Clearance (CFDI)</td></tr>
-                    <tr><td>3</td><td><strong>South Korea</strong></td><td>$1,710</td><td><span class="potential potential-high">High</span></td><td>2011</td><td><span class="status status-active">Active</span></td><td>RTIR</td></tr>
-                    <tr><td>4</td><td><strong>Chile</strong></td><td>$340</td><td><span class="potential potential-medium">Medium</span></td><td>2014</td><td><span class="status status-active">Active</span></td><td>Clearance</td></tr>
-                    <tr><td>5</td><td><strong>Turkey</strong></td><td>$1,110</td><td><span class="potential potential-very-high">Very High</span></td><td>2014</td><td><span class="status status-active">Active</span></td><td>Clearance (GIB)</td></tr>
-                    <tr><td>6</td><td><strong>Hungary</strong></td><td>$210</td><td><span class="potential potential-medium">Medium</span></td><td>2018</td><td><span class="status status-active">Active</span></td><td>RTIR (NAV)</td></tr>
-                    <tr><td>7</td><td><strong>Italy</strong></td><td>$2,250</td><td><span class="potential potential-very-high">Very High</span></td><td>2019</td><td><span class="status status-active">Active</span></td><td>Clearance (SdI)</td></tr>
-                    <tr><td>8</td><td><strong>India</strong></td><td>$3,730</td><td><span class="potential potential-very-high">Very High</span></td><td>2020</td><td><span class="status status-active">Active</span></td><td>Clearance (GST)</td></tr>
-                    <tr><td>9</td><td><strong>Saudi Arabia</strong></td><td>$1,070</td><td><span class="potential potential-very-high">Very High</span></td><td>2021</td><td><span class="status status-active">Active</span></td><td>Clearance (FATOORA)</td></tr>
-                    <tr><td>10</td><td><strong>Vietnam</strong></td><td>$450</td><td><span class="potential potential-high">High</span></td><td>2022</td><td><span class="status status-active">Active</span></td><td>Clearance</td></tr>
-                    <tr><td>11</td><td><strong>Romania</strong></td><td>$350</td><td><span class="potential potential-high">High</span></td><td>Jan 2024</td><td><span class="status status-active">Active</span></td><td>RTIR</td></tr>
-                    <tr><td>12</td><td><strong>Germany</strong></td><td>$4,520</td><td><span class="potential potential-very-high">Very High</span></td><td>Jan 2025</td><td><span class="status status-active">Active</span></td><td>Flexible (EN 16931)</td></tr>
-                    <tr><td>13</td><td><strong>Malaysia</strong></td><td>$430</td><td><span class="potential potential-high">High</span></td><td>Jul 2025</td><td><span class="status status-active">Active</span></td><td>Hybrid (MyInvois)</td></tr>
-                    <tr><td>14</td><td><strong>Singapore</strong></td><td>$500</td><td><span class="potential potential-high">High</span></td><td>Nov 2025</td><td><span class="status status-active">Active</span></td><td>Peppol 5-corner</td></tr>
-                    <tr><td>15</td><td><strong>China</strong></td><td>$17,960</td><td><span class="potential potential-very-high">Very High</span></td><td>Late 2025</td><td><span class="status status-active">Active</span></td><td>Golden Tax</td></tr>
-                    <tr><td>16</td><td><strong>Indonesia</strong></td><td>$1,390</td><td><span class="potential potential-very-high">Very High</span></td><td>2025-2026</td><td><span class="status status-active">Active</span></td><td>Clearance (Coretax)</td></tr>
-                    <tr><td>17</td><td><strong>Belgium</strong></td><td>$630</td><td><span class="potential potential-high">High</span></td><td>Jan 2026</td><td><span class="status status-pending">Pending</span></td><td>Peppol</td></tr>
-                    <tr><td>18</td><td><strong>Poland</strong></td><td>$750</td><td><span class="potential potential-high">High</span></td><td>Feb 2026</td><td><span class="status status-pending">Pending</span></td><td>Clearance (KSeF)</td></tr>
-                    <tr><td>19</td><td><strong>UAE</strong></td><td>$500</td><td><span class="potential potential-high">High</span></td><td>Jul 2026</td><td><span class="status status-pending">Pending</span></td><td>Clearance</td></tr>
-                    <tr><td>20</td><td><strong>Oman</strong></td><td>$115</td><td><span class="potential potential-medium">Medium</span></td><td>Aug 2026</td><td><span class="status status-pending">Pending</span></td><td>Peppol 5-corner</td></tr>
-                    <tr><td>21</td><td><strong>France</strong></td><td>$3,030</td><td><span class="potential potential-very-high">Very High</span></td><td>Sep 2026</td><td><span class="status status-pending">Pending</span></td><td>Hybrid (PPF+PDP)</td></tr>
-                    <tr><td>22</td><td><strong>Philippines</strong></td><td>$440</td><td><span class="potential potential-high">High</span></td><td>Dec 2026</td><td><span class="status status-pending">Pending</span></td><td>CTC (EIS)</td></tr>
-                    <tr><td>23</td><td><strong>Spain</strong></td><td>$1,580</td><td><span class="potential potential-very-high">Very High</span></td><td>2027</td><td><span class="status status-pending">Pending</span></td><td>Clearance (Verifactu)</td></tr>
-                    <tr><td>24</td><td><strong>Thailand</strong></td><td>$510</td><td><span class="potential potential-high">High</span></td><td>2027-2028</td><td><span class="status status-planned">Planned</span></td><td>TBD</td></tr>
-                    <tr><td>25</td><td><strong>Ireland</strong></td><td>$530</td><td><span class="potential potential-high">High</span></td><td>Nov 2028</td><td><span class="status status-planned">Planned</span></td><td>TBD</td></tr>
-                    <tr><td>26</td><td><strong>Netherlands</strong></td><td>$1,090</td><td><span class="potential potential-high">High</span></td><td>Jul 2030</td><td><span class="status status-planned">Planned (ViDA)</span></td><td>Peppol</td></tr>
-                    <tr><td>27</td><td><strong>Sweden</strong></td><td>$590</td><td><span class="potential potential-high">High</span></td><td>Jul 2030</td><td><span class="status status-planned">Planned (ViDA)</span></td><td>Peppol</td></tr>
-                    <tr><td>28</td><td><strong>Norway</strong></td><td>$485</td><td><span class="potential potential-high">High</span></td><td>Jul 2030</td><td><span class="status status-planned">Planned (ViDA)</span></td><td>Peppol</td></tr>
-                    <tr><td>29</td><td><strong>Japan</strong></td><td>$4,230</td><td><span class="potential potential-very-high">Very High</span></td><td>No mandate</td><td><span class="status status-voluntary">Voluntary</span></td><td>Peppol</td></tr>
-                    <tr><td>30</td><td><strong>Australia</strong></td><td>$1,720</td><td><span class="potential potential-high">High</span></td><td>No mandate</td><td><span class="status status-voluntary">Voluntary</span></td><td>Peppol</td></tr>
+                    <tr><td>1</td><td><strong>Brazil</strong></td><td>$2,170B</td><td><span class="potential potential-very-high">Very High</span></td><td>2008</td><td><span class="status status-active">Active</span></td><td class="players"><strong>Sovos</strong> 25%, <strong>EDICOM</strong> 18%, <strong>Sefaz</strong> (Gov)</td></tr>
+                    <tr><td>2</td><td><strong>Mexico</strong></td><td>$1,470B</td><td><span class="potential potential-very-high">Very High</span></td><td>2010</td><td><span class="status status-active">Active</span></td><td class="players"><strong>Edicom</strong> 20%, <strong>Sovos</strong> 15%, <strong>SAT PACs</strong> (Gov)</td></tr>
+                    <tr><td>3</td><td><strong>South Korea</strong></td><td>$1,710B</td><td><span class="potential potential-high">High</span></td><td>2011</td><td><span class="status status-active">Active</span></td><td class="players"><strong>NTS</strong> (Gov) 80%, <strong>Biztax</strong> 10%</td></tr>
+                    <tr><td>4</td><td><strong>Chile</strong></td><td>$340B</td><td><span class="potential potential-medium">Medium</span></td><td>2014</td><td><span class="status status-active">Active</span></td><td class="players"><strong>SII</strong> (Gov), <strong>Sovos</strong> 20%, <strong>Acepta</strong> 15%</td></tr>
+                    <tr><td>5</td><td><strong>Turkey</strong></td><td>$1,110B</td><td><span class="potential potential-very-high">Very High</span></td><td>2014</td><td><span class="status status-active">Active</span></td><td class="players"><strong>Foriba</strong> 30%, <strong>Logo</strong> 20%, <strong>EDICOM</strong> 12%</td></tr>
+                    <tr><td>6</td><td><strong>Hungary</strong></td><td>$210B</td><td><span class="potential potential-medium">Medium</span></td><td>2018</td><td><span class="status status-active">Active</span></td><td class="players"><strong>NAV</strong> (Gov), <strong>Ecosio</strong> 15%, <strong>Comarch</strong> 12%</td></tr>
+                    <tr><td>7</td><td><strong>Italy</strong></td><td>$2,250B</td><td><span class="potential potential-very-high">Very High</span></td><td>2019</td><td><span class="status status-active">Active</span></td><td class="players"><strong>Aruba PEC</strong> 25%, <strong>TeamSystem</strong> 20%, <strong>Wolters Kluwer</strong> 12%</td></tr>
+                    <tr><td>8</td><td><strong>India</strong></td><td>$3,730B</td><td><span class="potential potential-very-high">Very High</span></td><td>2020</td><td><span class="status status-active">Active</span></td><td class="players"><strong>ClearTax</strong> 35%, <strong>Avalara</strong> 15%, <strong>Zoho</strong> 12%</td></tr>
+                    <tr><td>9</td><td><strong>Saudi Arabia</strong></td><td>$1,070B</td><td><span class="potential potential-very-high">Very High</span></td><td>2021</td><td><span class="status status-active">Active</span></td><td class="players"><strong>Sovos</strong> 22%, <strong>EDICOM</strong> 18%, <strong>Comarch</strong> 10%</td></tr>
+                    <tr><td>10</td><td><strong>Vietnam</strong></td><td>$450B</td><td><span class="potential potential-high">High</span></td><td>2022</td><td><span class="status status-active">Active</span></td><td class="players"><strong>MISA</strong> 30%, <strong>Viettel</strong> 25%, <strong>FPT</strong> 15%</td></tr>
+                    <tr><td>11</td><td><strong>Romania</strong></td><td>$350B</td><td><span class="potential potential-high">High</span></td><td>Jan 2024</td><td><span class="status status-active">Active</span></td><td class="players"><strong>ANAF</strong> (Gov), <strong>Postis</strong> 18%, <strong>SoftOne</strong> 12%</td></tr>
+                    <tr><td>12</td><td><strong>Germany</strong></td><td>$4,520B</td><td><span class="potential potential-very-high">Very High</span></td><td>Jan 2025</td><td><span class="status status-active">Active</span></td><td class="players"><strong>SAP</strong> 30%, <strong>Pagero</strong> 15%, <strong>Basware</strong> 12%</td></tr>
+                    <tr><td>13</td><td><strong>Malaysia</strong></td><td>$430B</td><td><span class="potential potential-high">High</span></td><td>Jul 2025</td><td><span class="status status-active">Active</span></td><td class="players"><strong>LHDN</strong> (Gov), <strong>Storecove</strong> 12%, <strong>TradeCentric</strong> 8%</td></tr>
+                    <tr><td>14</td><td><strong>Singapore</strong></td><td>$500B</td><td><span class="potential potential-high">High</span></td><td>Nov 2025</td><td><span class="status status-active">Active</span></td><td class="players"><strong>InvoiceNow</strong> (Gov), <strong>Storecove</strong> 15%, <strong>Pagero</strong> 12%</td></tr>
+                    <tr><td>15</td><td><strong>China</strong></td><td>$17,960B</td><td><span class="potential potential-very-high">Very High</span></td><td>Late 2025</td><td><span class="status status-active">Active</span></td><td class="players"><strong>Baiwang</strong> 35%, <strong>Aisino</strong> 30%, <strong>Nuonuo</strong> 20%</td></tr>
+                    <tr><td>16</td><td><strong>Indonesia</strong></td><td>$1,390B</td><td><span class="potential potential-very-high">Very High</span></td><td>2025-2026</td><td><span class="status status-active">Active</span></td><td class="players"><strong>DJP</strong> (Gov), <strong>OnlinePajak</strong> 20%, <strong>Klikpajak</strong> 15%</td></tr>
+                    <tr><td>17</td><td><strong>Belgium</strong></td><td>$630B</td><td><span class="potential potential-high">High</span></td><td>Jan 2026</td><td><span class="status status-pending">Pending</span></td><td class="players"><strong>Peppol APs</strong>, <strong>Basware</strong> 15%, <strong>Pagero</strong> 12%</td></tr>
+                    <tr><td>18</td><td><strong>Poland</strong></td><td>$750B</td><td><span class="potential potential-high">High</span></td><td>Feb 2026</td><td><span class="status status-pending">Pending</span></td><td class="players"><strong>KSeF</strong> (Gov), <strong>Comarch</strong> 25%, <strong>Asseco</strong> 15%</td></tr>
+                    <tr><td>19</td><td><strong>UAE</strong></td><td>$500B</td><td><span class="potential potential-high">High</span></td><td>Jul 2026</td><td><span class="status status-pending">Pending</span></td><td class="players"><strong>Sovos</strong> 20%, <strong>EDICOM</strong> 15%, <strong>Pagero</strong> 10%</td></tr>
+                    <tr><td>20</td><td><strong>Oman</strong></td><td>$115B</td><td><span class="potential potential-medium">Medium</span></td><td>Aug 2026</td><td><span class="status status-pending">Pending</span></td><td class="players"><strong>Peppol APs</strong>, <strong>Storecove</strong> 10%, <strong>TBD</strong></td></tr>
+                    <tr><td>21</td><td><strong>France</strong></td><td>$3,030B</td><td><span class="potential potential-very-high">Very High</span></td><td>Sep 2026</td><td><span class="status status-pending">Pending</span></td><td class="players"><strong>Chorus Pro</strong> (Gov), <strong>Generix</strong> 15%, <strong>Cegedim</strong> 12%</td></tr>
+                    <tr><td>22</td><td><strong>Philippines</strong></td><td>$440B</td><td><span class="potential potential-high">High</span></td><td>Dec 2026</td><td><span class="status status-pending">Pending</span></td><td class="players"><strong>BIR</strong> (Gov), <strong>Oracle NetSuite</strong> 12%, <strong>Local ERPs</strong></td></tr>
+                    <tr><td>23</td><td><strong>Spain</strong></td><td>$1,580B</td><td><span class="potential potential-very-high">Very High</span></td><td>2027</td><td><span class="status status-pending">Pending</span></td><td class="players"><strong>EDICOM</strong> 25%, <strong>Seres</strong> 18%, <strong>B2Brouter</strong> 10%</td></tr>
+                    <tr><td>24</td><td><strong>Thailand</strong></td><td>$510B</td><td><span class="potential potential-high">High</span></td><td>2027-2028</td><td><span class="status status-planned">Planned</span></td><td class="players"><strong>RD</strong> (Gov), <strong>Ricoh</strong> 10%, <strong>TBD</strong></td></tr>
+                    <tr><td>25</td><td><strong>Ireland</strong></td><td>$530B</td><td><span class="potential potential-high">High</span></td><td>Nov 2028</td><td><span class="status status-planned">Planned</span></td><td class="players"><strong>Peppol APs</strong>, <strong>Pagero</strong> 12%, <strong>Basware</strong> 10%</td></tr>
+                    <tr><td>26</td><td><strong>Netherlands</strong></td><td>$1,090B</td><td><span class="potential potential-high">High</span></td><td>Jul 2030</td><td><span class="status status-planned">Planned (ViDA)</span></td><td class="players"><strong>Peppol APs</strong>, <strong>Storecove</strong> 18%, <strong>Basware</strong> 15%</td></tr>
+                    <tr><td>27</td><td><strong>Sweden</strong></td><td>$590B</td><td><span class="potential potential-high">High</span></td><td>Jul 2030</td><td><span class="status status-planned">Planned (ViDA)</span></td><td class="players"><strong>Peppol APs</strong>, <strong>Pagero</strong> 25%, <strong>Basware</strong> 15%</td></tr>
+                    <tr><td>28</td><td><strong>Norway</strong></td><td>$485B</td><td><span class="potential potential-high">High</span></td><td>Jul 2030</td><td><span class="status status-planned">Planned (ViDA)</span></td><td class="players"><strong>Peppol APs</strong>, <strong>Pagero</strong> 22%, <strong>Visma</strong> 18%</td></tr>
+                    <tr><td>29</td><td><strong>Japan</strong></td><td>$4,230B</td><td><span class="potential potential-very-high">Very High</span></td><td>No mandate</td><td><span class="status status-voluntary">Voluntary</span></td><td class="players"><strong>TKC</strong> 15%, <strong>Freee</strong> 12%, <strong>SAP</strong> 10%</td></tr>
+                    <tr><td>30</td><td><strong>Australia</strong></td><td>$1,720B</td><td><span class="potential potential-high">High</span></td><td>No mandate</td><td><span class="status status-voluntary">Voluntary</span></td><td class="players"><strong>Peppol APs</strong>, <strong>Link4</strong> 18%, <strong>MessageXchange</strong> 15%</td></tr>
                 </tbody>
             </table>
 
@@ -383,8 +403,8 @@
 
         <div class="footer">
             <p><strong>Sources:</strong> IMF, VATupdate, KPMG, Basware, Storecove, EDICOM, Fonoa</p>
-            <p>GDP figures are 2024/2025 estimates. Mandate dates may change.</p>
-            <p>Last Updated: January 2026</p>
+            <p>GDP figures are 2024/2025 estimates. Mandate dates may change. Market share figures are estimates based on industry research.</p>
+            <p><strong>Knowledge Base Created:</strong> 6 January 2025</p>
         </div>
     </div>
 
