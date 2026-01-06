@@ -210,6 +210,14 @@
                         <option value="africa">Africa</option>
                         <option value="northam">North America</option>
                     </select>
+                    <select class="region-filter" id="statusFilter" onchange="filterTable()">
+                        <option value="all">All Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Active">Active</option>
+                        <option value="Phased">Phased</option>
+                        <option value="Planned">Planned</option>
+                        <option value="Voluntary">Voluntary</option>
+                    </select>
                 </div>
                 <div class="sort-controls">
                     <span style="font-size:0.8em; color:#64748b; font-weight:500;">Sort by:</span>
@@ -217,7 +225,6 @@
                     <button class="sort-btn" onclick="sortTable('country')">Country</button>
                     <button class="sort-btn" onclick="sortTable('gdp')">GDP</button>
                     <button class="sort-btn" onclick="sortTable('potential')">Potential</button>
-                    <button class="sort-btn" onclick="sortTable('status')">Status</button>
                     <button class="sort-btn" onclick="sortTable('tam')">TAM</button>
                     <button class="sort-btn" onclick="sortTable('enterprises')">Enterprises</button>
                 </div>
@@ -426,6 +433,7 @@
 
         let currentSort = { field: 'mandateDate', desc: false };
         let currentRegion = 'all';
+        let currentStatus = 'all';
 
         // Provider website URLs mapping (commercial + government portals)
         const providerUrls = {
@@ -634,6 +642,11 @@
                 data = data.filter(c => c.region === currentRegion);
             }
 
+            // Apply status filter
+            if (currentStatus !== 'all') {
+                data = data.filter(c => c.status === currentStatus);
+            }
+
             // Apply search filter
             const searchFilter = document.getElementById('searchBox').value.toLowerCase();
             if (searchFilter) {
@@ -646,7 +659,6 @@
             }
 
             // Apply sort
-            const statusOrder = { 'Pending': 1, 'Active': 2, 'Phased': 3, 'Planned': 4, 'Voluntary': 5 };
             if (currentSort.field) {
                 if (currentSort.field === 'mandateDate') {
                     data.sort((a, b) => {
@@ -656,12 +668,6 @@
                         if (aDate.unknown && !bDate.unknown) return 1;
                         if (!aDate.unknown && bDate.unknown) return -1;
                         return currentSort.desc ? bDate.date - aDate.date : aDate.date - bDate.date;
-                    });
-                } else if (currentSort.field === 'statusScore') {
-                    data.sort((a, b) => {
-                        const aVal = statusOrder[a.status] || 99;
-                        const bVal = statusOrder[b.status] || 99;
-                        return currentSort.desc ? bVal - aVal : aVal - bVal;
                     });
                 } else {
                     data.sort((a, b) => {
@@ -707,12 +713,10 @@
                 'country': 'country',
                 'gdp': 'gdp',
                 'potential': 'potentialScore',
-                'status': 'statusScore',
                 'tam': 'tam',
                 'enterprises': 'enterprises',
                 'accredTime': 'accredMonths'
             };
-            const statusOrder = { 'Pending': 1, 'Active': 2, 'Phased': 3, 'Planned': 4, 'Voluntary': 5 };
             const sortField = fieldMap[field] || field;
             const clickedBtn = event.target;
 
@@ -742,6 +746,7 @@
 
         function filterTable() {
             currentRegion = document.getElementById('regionFilter').value;
+            currentStatus = document.getElementById('statusFilter').value;
             renderTable(getFilteredSortedData());
         }
 
