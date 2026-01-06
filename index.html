@@ -398,7 +398,7 @@
             { id: 48, country: 'Czech Republic', flag: '&#127464;&#127487;', region: 'europe', gdp: 330, gdpStr: '$330B', potential: 'High', potentialScore: 4, mandate: 'Jul 2030', coverage: ['B2B'], model: 'Peppol (ViDA)', status: 'Planned', enterprises: 1500000, invoices: 380000000, tam: 114, taxAuth: 'MF', taxUrl: 'https://www.mfcr.cz', accred: 'Yes (Peppol AP)', accredTime: '1-2 mo', accredMonths: 1, providers: 'SAP 15%, Helios 20%' },
             { id: 49, country: 'Slovakia', flag: '&#127480;&#127472;', region: 'europe', gdp: 130, gdpStr: '$130B', potential: 'Medium', potentialScore: 2, mandate: 'Jul 2030', coverage: ['B2B'], model: 'Peppol (ViDA)', status: 'Planned', enterprises: 580000, invoices: 145000000, tam: 44, taxAuth: 'FRSR', taxUrl: 'https://www.financnasprava.sk', accred: 'Yes (Peppol AP)', accredTime: '1-2 mo', accredMonths: 1, providers: 'SAP 18%, Pohoda 22%' },
             { id: 50, country: 'Slovenia', flag: '&#127480;&#127470;', region: 'europe', gdp: 65, gdpStr: '$65B', potential: 'Medium', potentialScore: 2, mandate: 'Jul 2030', coverage: ['B2B','B2G'], model: 'Peppol (ViDA)', status: 'Planned', enterprises: 210000, invoices: 65000000, tam: 20, taxAuth: 'FURS', taxUrl: 'https://www.fu.gov.si', accred: 'Yes (Peppol AP)', accredTime: '1-2 mo', accredMonths: 1, providers: 'Birokrat 25%, SAP 15%' },
-            { id: 51, country: 'Croatia', flag: '&#127469;&#127479;', region: 'europe', gdp: 80, gdpStr: '$80B', potential: 'Medium', potentialScore: 2, mandate: '2019', coverage: ['B2B','B2G'], model: 'Fiscalization', status: 'Active', enterprises: 180000, invoices: 85000000, tam: 26, taxAuth: 'Porezna', taxUrl: 'https://www.porezna-uprava.hr', accred: 'Yes', accredTime: '3-6 mo', accredMonths: 4, providers: 'RBA 20%, Fina 30%' },
+            { id: 51, country: 'Croatia', flag: '&#127469;&#127479;', region: 'europe', gdp: 80, gdpStr: '$80B', potential: 'High', potentialScore: 4, mandate: 'Jan 2026', coverage: ['B2B','B2G'], model: 'Fiscalization+eInvoice', status: 'Pending', enterprises: 180000, invoices: 85000000, tam: 26, taxAuth: 'Porezna', taxUrl: 'https://www.porezna-uprava.hr', accred: 'Yes', accredTime: '3-6 mo', accredMonths: 4, providers: 'Fina 30%, RBA 20%' },
             { id: 52, country: 'Bulgaria', flag: '&#127463;&#127468;', region: 'europe', gdp: 95, gdpStr: '$95B', potential: 'Medium', potentialScore: 2, mandate: 'Jul 2030', coverage: ['B2B'], model: 'Peppol (ViDA)', status: 'Planned', enterprises: 420000, invoices: 125000000, tam: 38, taxAuth: 'NRA', taxUrl: 'https://www.nra.bg', accred: 'Yes (Peppol AP)', accredTime: '1-2 mo', accredMonths: 1, providers: 'Microinvest 25%, SAP 12%' },
             { id: 53, country: 'Latvia', flag: '&#127473;&#127483;', region: 'europe', gdp: 45, gdpStr: '$45B', potential: 'Low', potentialScore: 1, mandate: 'Jul 2030', coverage: ['B2B','B2G'], model: 'Peppol (ViDA)', status: 'Planned', enterprises: 180000, invoices: 55000000, tam: 17, taxAuth: 'VID', taxUrl: 'https://www.vid.gov.lv', accred: 'Yes (Peppol AP)', accredTime: '1-2 mo', accredMonths: 1, providers: 'Tildes 30%, SAP 10%' },
             { id: 54, country: 'Lithuania', flag: '&#127473;&#127481;', region: 'europe', gdp: 75, gdpStr: '$75B', potential: 'Medium', potentialScore: 2, mandate: 'Jul 2030', coverage: ['B2B','B2G'], model: 'Peppol (ViDA)', status: 'Planned', enterprises: 250000, invoices: 85000000, tam: 26, taxAuth: 'VMI', taxUrl: 'https://www.vmi.lt', accred: 'Yes (Peppol AP)', accredTime: '1-2 mo', accredMonths: 1, providers: 'Rivilė 28%, SAP 12%' },
@@ -435,8 +435,9 @@
         let currentSort = { field: 'mandateDate', desc: false };
         let currentRegion = 'all';
 
-        // Provider website URLs mapping
+        // Provider website URLs mapping (commercial + government portals)
         const providerUrls = {
+            // Commercial providers
             'sovos': 'https://sovos.com',
             'edicom': 'https://edicomgroup.com',
             'basware': 'https://www.basware.com',
@@ -496,7 +497,51 @@
             'rivile': 'https://www.rivile.lt',
             'omniva': 'https://www.omniva.ee',
             'rik': 'https://www.rik.ee',
-            'postis': 'https://postis.ro'
+            'postis': 'https://postis.ro',
+            'fina': 'https://www.fina.hr',
+            'rba': 'https://www.rba.hr',
+            // Government e-invoicing portals
+            'ksef': 'https://ksef.mf.gov.pl',
+            'fatoora': 'https://zatca.gov.sa/en/E-Invoicing',
+            'myinvois': 'https://www.hasil.gov.my/myinvois',
+            'sdi': 'https://www.fatturapa.gov.it',
+            'chorus pro': 'https://chorus-pro.gouv.fr',
+            'invoicenow': 'https://www.imda.gov.sg/invoicenow',
+            'peppol': 'https://peppol.org',
+            'nts': 'https://www.nts.go.kr',
+            'gib': 'https://ebelge.gib.gov.tr',
+            'anaf': 'https://www.anaf.ro/efactura',
+            'nav': 'https://onlineszamla.nav.gov.hu',
+            'sii': 'https://www.sii.cl/factura_electronica',
+            'dian': 'https://www.dian.gov.co/fizcalizacioncontrol/heraboram/factura-electronica',
+            'sunat': 'https://cpe.sunat.gob.pe',
+            'afip': 'https://www.afip.gob.ar/facturacion',
+            'eta': 'https://www.eta.gov.eg',
+            'lhdn': 'https://www.hasil.gov.my',
+            'djp': 'https://www.pajak.go.id',
+            'firs': 'https://www.firs.gov.ng',
+            'sars': 'https://www.sars.gov.za',
+            'kra': 'https://www.kra.go.ke/etims',
+            'gra': 'https://www.gra.gov.gh',
+            'tra': 'https://www.tra.go.tz',
+            'ura': 'https://www.ura.go.ug/efris',
+            'rra': 'https://www.rra.gov.rw',
+            'nbr': 'https://www.nbr.gov.bd',
+            'fbr': 'https://www.fbr.gov.pk',
+            'ird': 'https://www.ird.govt.nz',
+            'gdt': 'https://www.gdt.gov.vn',
+            'bir': 'https://www.bir.gov.ph',
+            'rd': 'https://www.rd.go.th',
+            'sri': 'https://www.sri.gob.ec',
+            'dgi': 'https://www.dgi.gub.uy',
+            'dgt': 'https://www.hacienda.go.cr',
+            'aade': 'https://www.aade.gr/mydata',
+            'at': 'https://www.portaldasfinancas.gov.pt',
+            'shaam': 'https://taxes.gov.il',
+            'istd': 'https://www.istd.gov.jo/jofotara',
+            'coretax': 'https://coretax.pajak.go.id',
+            'verifactu': 'https://www.agenciatributaria.es',
+            'ttn': 'https://www.finances.gov.tn'
         };
 
         function formatProviders(providersStr) {
@@ -505,8 +550,8 @@
             // Split by comma and process each provider
             return providersStr.split(',').map(p => {
                 const trimmed = p.trim();
-                // Extract provider name (before percentage or parentheses)
-                const match = trimmed.match(/^([A-Za-z\s]+)/);
+                // Extract provider name - handle formats like "KSeF (Gov)", "Sovos 25%", "SAP Ariba"
+                const match = trimmed.match(/^([A-Za-z0-9\s]+?)(?:\s*\(|\s*\d|$)/);
                 if (match) {
                     const name = match[1].trim().toLowerCase();
                     const url = providerUrls[name];
@@ -614,9 +659,7 @@
                     data.sort((a, b) => {
                         const aDate = parseMandateDate(a.mandate);
                         const bDate = parseMandateDate(b.mandate);
-                        // Active/past mandates at the end, then by date
-                        if (aDate.past && !bDate.past) return 1;
-                        if (!aDate.past && bDate.past) return -1;
+                        // Unknown/TBD mandates at the end, otherwise sort by date
                         if (aDate.unknown && !bDate.unknown) return 1;
                         if (!aDate.unknown && bDate.unknown) return -1;
                         return currentSort.desc ? bDate.date - aDate.date : aDate.date - bDate.date;
