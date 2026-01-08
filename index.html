@@ -175,7 +175,7 @@
             <button class="nav-btn active" onclick="showMainSection('overview')"><span class="icon">&#128202;</span> Master Table</button>
             <button class="nav-btn" onclick="showMainSection('timeline')"><span class="icon">&#128197;</span> Timeline</button>
             <button class="nav-btn" onclick="showMainSection('legend')"><span class="icon">&#128218;</span> Legend & Methodology</button>
-            <a href="me-eu-market-analysis.html" class="nav-btn" style="text-decoration:none;"><span class="icon">&#127970;</span> Market Players</a>
+            <button class="nav-btn" onclick="showMainSection('market')"><span class="icon">&#127970;</span> Market Players</button>
         </div>
 
         <!-- Section: Overview -->
@@ -335,6 +335,106 @@
                     <h4>&#128200; Market Share %</h4>
                     <div class="legend-item"><span class="desc">Percentages = <strong>estimated share of e-invoice transactions</strong> by provider. Based on industry research, analyst reports, public filings. "(Gov)" = government platform.</span></div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Section: Market Players -->
+        <div id="market" class="main-section">
+            <style>
+                .market-section { font-size: 14px; }
+                .market-section .section { background: white; border-radius: 16px; padding: 25px; margin-bottom: 25px; border: 1px solid rgba(226,232,240,0.8); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+                .market-section .section-title { font-size: 1.2rem; margin-bottom: 15px; color: #1e293b; font-weight: 600; }
+                .market-section .market-share { display: inline-block; padding: 4px 10px; border-radius: 50px; font-size: 12px; font-weight: 600; background: rgba(59,130,246,0.1); color: #2563eb; }
+                .market-section .market-share.est { background: rgba(234,179,8,0.15); color: #92400e; }
+                .market-section .model-badge { display: inline-block; padding: 5px 12px; border-radius: 50px; font-size: 12px; font-weight: 600; }
+                .market-section .clearance { background: rgba(252,165,165,0.35); color: #dc2626; }
+                .market-section .post-audit { background: rgba(134,239,172,0.35); color: #15803d; }
+                .market-section .hybrid { background: rgba(196,181,253,0.35); color: #7c3aed; }
+                .market-section .pending-model { background: rgba(253,224,71,0.35); color: #a16207; }
+                .market-section .gdp { color: #15803d; font-weight: 600; }
+                .market-section .volume { color: #7c3aed; font-weight: 600; }
+                .market-section .revenue { color: #15803d; font-weight: 600; }
+                .market-section .feature-tag { display: inline-block; padding: 4px 8px; border-radius: 6px; font-size: 11px; margin: 2px; font-weight: 600; }
+                .market-section .f-einvoice { background: rgba(59,130,246,0.15); color: #2563eb; }
+                .market-section .f-ap { background: rgba(34,197,94,0.15); color: #16a34a; }
+                .market-section .f-scf { background: rgba(168,85,247,0.15); color: #9333ea; }
+                .market-section .f-tax { background: rgba(234,179,8,0.15); color: #a16207; }
+                .market-section .f-edi { background: rgba(239,68,68,0.15); color: #dc2626; }
+                .market-section .f-erp { background: rgba(59,130,246,0.15); color: #2563eb; }
+                .market-section .f-archive { background: rgba(100,116,139,0.15); color: #475569; }
+                .market-section .pct-text { font-size: 13px; color: #475569; font-weight: 500; }
+                .market-section .usp-list, .market-section .ai-list { margin: 0; padding-left: 16px; font-size: 13px; color: #334155; line-height: 1.5; }
+                .market-section .usp-list li, .market-section .ai-list li { margin-bottom: 3px; }
+                .market-section .player-link { color: #1e293b; text-decoration: none; font-weight: 600; border-bottom: 1px dashed #94a3b8; }
+                .market-section .player-link:hover { color: #2563eb; border-bottom-color: #2563eb; }
+                .market-section .country-cell { font-weight: 600; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+                .market-section .flag { font-size: 18px; }
+                .market-section .note { background: rgba(234,179,8,0.08); border: 1px solid rgba(234,179,8,0.25); border-radius: 10px; padding: 16px; font-size: 14px; color: #92400e; margin-top: 15px; }
+                .market-section .note strong { display: block; margin-bottom: 6px; color: #78350f; }
+                .market-section tr.highlight { background: rgba(59,130,246,0.04); }
+                .market-section tr.highlight:hover { background: rgba(59,130,246,0.08); }
+                .market-section .legend { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; font-size: 14px; color: #475569; }
+                .market-section .legend-item { display: flex; align-items: center; gap: 6px; }
+                .market-section .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+                .market-section .feature-legend { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; }
+                .market-section .feature-legend > div { display: flex; align-items: center; gap: 8px; color: #475569; }
+                .market-section .player-cell { font-weight: 500; color: #1e293b; }
+            </style>
+            <div class="market-section">
+                <h2>ME + EU Market Analysis</h2>
+                <p style="color:#64748b; margin-bottom:20px;">Top Players, Market Share & Features | 8 Key Markets</p>
+
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-number">8</div><div class="stat-label">Markets Analyzed</div></div>
+                    <div class="stat-card"><div class="stat-number">27</div><div class="stat-label">Players Profiled</div></div>
+                    <div class="stat-card"><div class="stat-number">$18T+</div><div class="stat-label">Combined GDP</div></div>
+                    <div class="stat-card"><div class="stat-number">~24B</div><div class="stat-label">Est. Annual Invoices</div></div>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="note" style="margin-bottom:20px;">
+                    <strong>Data Disclaimer:</strong> Market share data is estimated based on analyst reports, press releases, and industry research. Revenue figures are estimates for e-invoicing/compliance revenue in each specific country, not global revenue.
+                </div>
+
+                <!-- Table 1: Top Players by Country -->
+                <div class="section">
+                    <h3 class="section-title">Top Players by Country</h3>
+                    <div class="legend">
+                        <div class="legend-item"><span class="legend-dot" style="background:#2563eb"></span> Confirmed</div>
+                        <div class="legend-item"><span class="legend-dot" style="background:#eab308"></span> Estimated (est.)</div>
+                    </div>
+                    <div class="table-container" style="max-height:none;">
+                    <table style="min-width:900px;">
+                        <thead><tr><th>Country</th><th>Top Player #1</th><th>Top Player #2</th><th>Top Player #3</th><th>Special</th><th>Model</th><th>GDP</th><th>E-Invoices</th></tr></thead>
+                        <tbody>
+                            <tr><td><div class="country-cell"><span class="flag">&#127462;&#127466;</span> UAE</div></td><td class="player-cell"><a href="https://www.sap.com" target="_blank" class="player-link">SAP</a> <span class="market-share est">~35%</span></td><td class="player-cell"><a href="https://www.oracle.com" target="_blank" class="player-link">Oracle</a> <span class="market-share est">~20%</span></td><td class="player-cell"><a href="https://www.zoho.com" target="_blank" class="player-link">Zoho</a> <span class="market-share est">~15%</span></td><td class="player-cell"><a href="https://cygnettaxtech.com" target="_blank" class="player-link"><strong>Cygnet</strong></a> <span class="market-share est">~5%</span></td><td><span class="model-badge pending-model">Clearance (pending)</span></td><td class="gdp">$481B</td><td class="volume">~350M</td></tr>
+                            <tr><td><div class="country-cell"><span class="flag">&#127480;&#127462;</span> Saudi</div></td><td class="player-cell"><a href="https://cleartax.com" target="_blank" class="player-link">ClearTax</a> <span class="market-share est">~30%</span></td><td class="player-cell"><a href="https://www.sap.com" target="_blank" class="player-link">SAP</a> <span class="market-share est">~20%</span></td><td class="player-cell"><a href="https://tallysolutions.com" target="_blank" class="player-link">Tally</a> <span class="market-share est">~15%</span></td><td class="player-cell"><a href="https://cygnettaxtech.com" target="_blank" class="player-link"><strong>Cygnet</strong></a> <span class="market-share est">~8%</span></td><td><span class="model-badge clearance">FATOORA</span></td><td class="gdp">$1,067B</td><td class="volume">~800M</td></tr>
+                            <tr><td><div class="country-cell"><span class="flag">&#127465;&#127466;</span> Germany</div></td><td class="player-cell"><a href="https://www.sap.com" target="_blank" class="player-link">SAP</a> <span class="market-share est">~40%</span></td><td class="player-cell"><a href="https://www.datev.de" target="_blank" class="player-link">DATEV</a> <span class="market-share est">~25%</span></td><td class="player-cell"><a href="https://www.basware.com" target="_blank" class="player-link">Basware</a> <span class="market-share est">~8%</span></td><td>-</td><td><span class="model-badge post-audit">EN 16931</span></td><td class="gdp">$4,456B</td><td class="volume">~5B</td></tr>
+                            <tr><td><div class="country-cell"><span class="flag">&#127467;&#127479;</span> France</div></td><td class="player-cell"><a href="https://www.pagero.com" target="_blank" class="player-link">Pagero</a> <span class="market-share">1st PA</span></td><td class="player-cell"><a href="https://sovos.com" target="_blank" class="player-link">Sovos</a> <span class="market-share">PA #4</span></td><td class="player-cell"><a href="https://www.esker.com" target="_blank" class="player-link">Esker</a> <span class="market-share">PDP #5</span></td><td>-</td><td><span class="model-badge hybrid">PPF+PDP</span></td><td class="gdp">$3,130B</td><td class="volume">~2.5B</td></tr>
+                            <tr><td><div class="country-cell"><span class="flag">&#127470;&#127481;</span> Italy</div></td><td class="player-cell"><a href="https://www.teamsystem.com" target="_blank" class="player-link">TeamSystem</a> <span class="market-share est">~25%</span></td><td class="player-cell"><a href="https://www.aruba.it" target="_blank" class="player-link">Aruba</a> <span class="market-share est">~20%</span></td><td class="player-cell"><a href="https://edicomgroup.com" target="_blank" class="player-link">EDICOM</a> <span class="market-share est">~10%</span></td><td>-</td><td><span class="model-badge clearance">SdI</span></td><td class="gdp">$2,254B</td><td class="volume">3.4B</td></tr>
+                            <tr><td><div class="country-cell"><span class="flag">&#127477;&#127473;</span> Poland</div></td><td class="player-cell"><a href="https://www.comarch.com" target="_blank" class="player-link">Comarch</a> <span class="market-share est">~35%</span></td><td class="player-cell"><a href="https://www.sap.com" target="_blank" class="player-link">SAP</a> <span class="market-share est">~15%</span></td><td class="player-cell"><a href="https://www.symfonia.pl" target="_blank" class="player-link">Symfonia</a> <span class="market-share est">~12%</span></td><td>-</td><td><span class="model-badge clearance">KSeF</span></td><td class="gdp">$842B</td><td class="volume">~2.5B</td></tr>
+                            <tr><td><div class="country-cell"><span class="flag">&#127466;&#127480;</span> Spain</div></td><td class="player-cell"><a href="https://edicomgroup.com" target="_blank" class="player-link">EDICOM</a> <span class="market-share est">~30%</span></td><td class="player-cell"><a href="https://www.sage.com" target="_blank" class="player-link">Sage</a> <span class="market-share est">~18%</span></td><td class="player-cell"><a href="https://www.holded.com" target="_blank" class="player-link">Holded</a> <span class="market-share est">~10%</span></td><td>-</td><td><span class="model-badge hybrid">Verifactu</span></td><td class="gdp">$1,580B</td><td class="volume">~600M</td></tr>
+                            <tr class="highlight"><td><div class="country-cell"><span class="flag">&#127470;&#127475;</span> India</div></td><td class="player-cell"><a href="https://cleartax.in" target="_blank" class="player-link">ClearTax</a> <span class="market-share est">~35%</span></td><td class="player-cell"><a href="https://tallysolutions.com" target="_blank" class="player-link">Tally</a> <span class="market-share est">~25%</span></td><td class="player-cell"><a href="https://www.zoho.com" target="_blank" class="player-link">Zoho</a> <span class="market-share est">~12%</span></td><td class="player-cell"><a href="https://cygnettaxtech.com" target="_blank" class="player-link"><strong>Cygnet</strong></a> <span class="market-share est">~10%</span></td><td><span class="model-badge clearance">GST IRP</span></td><td class="gdp">$3,730B</td><td class="volume">~8B</td></tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+
+                <!-- Feature Legend -->
+                <div class="section">
+                    <h3 class="section-title">Feature Categories</h3>
+                    <div class="feature-legend">
+                        <div><span class="feature-tag f-einvoice">E-Invoice</span> Core compliance</div>
+                        <div><span class="feature-tag f-ap">AP/AR</span> Automation</div>
+                        <div><span class="feature-tag f-tax">Tax</span> VAT/GST reporting</div>
+                        <div><span class="feature-tag f-edi">EDI</span> Data interchange</div>
+                        <div><span class="feature-tag f-erp">ERP</span> Integration</div>
+                        <div><span class="feature-tag f-archive">Archive</span> Legal archiving</div>
+                    </div>
+                </div>
+
+                <p style="color:#64748b; font-size:13px; text-align:center; margin-top:20px;"><strong>Sources:</strong> Company websites, Ardent Partners, IMF, Italian Revenue Agency | <strong>Research:</strong> January 2026</p>
             </div>
         </div>
 
