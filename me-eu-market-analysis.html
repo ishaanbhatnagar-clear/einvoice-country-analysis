@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Invoicing Market Analysis: ME + EU Top Players</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: #1e293b; background: #f8fafc; padding: 20px; -webkit-font-smoothing: antialiased; font-size: 15px; }
+        .container { max-width: 1600px; margin: 0 auto; }
+        h1 { color: #0f172a; margin-bottom: 10px; font-size: 2.2em; font-weight: 700; letter-spacing: -0.025em; }
+        h2 { color: #1e293b; margin: 30px 0 15px; font-size: 1.5rem; letter-spacing: -0.02em; }
+        .subtitle { color: #64748b; margin-bottom: 30px; font-size: 16px; }
+
+        /* Navigation - Segmented Control */
+        .main-nav { display: inline-flex; gap: 0; margin-bottom: 25px; background: #f1f5f9; padding: 4px; border-radius: 12px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; }
+        .nav-btn { padding: 10px 20px; border: none; border-radius: 8px; background: transparent; cursor: pointer; font-size: 0.9em; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 8px; color: #64748b; text-decoration: none; }
+        .nav-btn:hover:not(.active) { background: rgba(255,255,255,0.5); color: #334155; }
+        .nav-btn.active { background: white; color: #0f172a; box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-weight: 600; }
+        .nav-btn .icon { font-size: 1.1em; }
+
+        /* Ticker */
+        .ticker-wrap { width: 100%; overflow: hidden; background: linear-gradient(90deg, #1e293b, #334155); padding: 10px 0; margin-bottom: 25px; border-radius: 10px; }
+        .ticker { display: inline-block; white-space: nowrap; animation: ticker 25s linear infinite; }
+        .ticker-item { display: inline-block; padding: 0 50px; color: #fbbf24; font-weight: 500; font-size: 0.85em; }
+        .ticker-item span { color: #f8fafc; font-weight: 600; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .stat-card { background: white; padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.04); text-align: center; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .stat-card:hover { transform: translateY(-1px); box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.06); }
+        .stat-number { font-size: 1.6rem; font-weight: 700; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -0.02em; }
+        .stat-label { color: #94a3b8; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+
+        /* Section Cards */
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        /* Tables */
+        .table-container { overflow-x: auto; border-radius: 12px; border: 1px solid rgba(226, 232, 240, 0.8); }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: white;
+            font-size: 14px;
+        }
+        th, td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background: #f8fafc;
+            color: #334155;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        /* Sticky thead for multi-row headers */
+        .table-container thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .table-container thead th {
+            background: #f8fafc;
+            box-shadow: 0 1px 0 #e2e8f0;
+        }
+
+        tr:hover { background-color: #f8fafc; }
+        tr:last-child td { border-bottom: none; }
+
+        .country-cell {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+        .flag { font-size: 18px; }
+        .player-cell { font-weight: 500; color: #1e293b; }
+
+        /* Badges */
+        .market-share {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            background: rgba(59, 130, 246, 0.1);
+            color: #2563eb;
+        }
+        .market-share.est {
+            background: rgba(234, 179, 8, 0.15);
+            color: #92400e;
+        }
+
+        /* Model badges - matching index.html */
+        .model-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .clearance { background: rgba(252, 165, 165, 0.35); color: #dc2626; }
+        .post-audit { background: rgba(134, 239, 172, 0.35); color: #15803d; }
+        .hybrid { background: rgba(196, 181, 253, 0.35); color: #7c3aed; }
+        .peppol { background: rgba(147, 197, 253, 0.35); color: #2563eb; }
+        .pending-model { background: rgba(253, 224, 71, 0.35); color: #a16207; }
+
+        .gdp { color: #15803d; font-weight: 600; font-size: 14px; }
+        .volume { color: #7c3aed; font-weight: 600; font-size: 14px; }
+        .revenue { color: #15803d; font-weight: 600; font-size: 14px; }
+
+        /* Feature Tags */
+        .feature-tag {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            margin: 2px;
+            font-weight: 600;
+        }
+        .f-einvoice { background: rgba(59, 130, 246, 0.15); color: #2563eb; }
+        .f-ap { background: rgba(34, 197, 94, 0.15); color: #16a34a; }
+        .f-scf { background: rgba(168, 85, 247, 0.15); color: #9333ea; }
+        .f-tax { background: rgba(234, 179, 8, 0.15); color: #a16207; }
+        .f-edi { background: rgba(239, 68, 68, 0.15); color: #dc2626; }
+        .f-erp { background: rgba(59, 130, 246, 0.15); color: #2563eb; }
+        .f-archive { background: rgba(100, 116, 139, 0.15); color: #475569; }
+
+        .pct-text {
+            font-size: 13px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        /* Bullet point lists for USP and AI Features */
+        .usp-list, .ai-list {
+            margin: 0;
+            padding-left: 16px;
+            font-size: 13px;
+            color: #334155;
+            line-height: 1.5;
+        }
+        .usp-list li, .ai-list li {
+            margin-bottom: 3px;
+        }
+        .usp-list li:last-child, .ai-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Player links */
+        .player-link {
+            color: #1e293b;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px dashed #94a3b8;
+            transition: all 0.2s;
+        }
+        .player-link:hover {
+            color: #2563eb;
+            border-bottom-color: #2563eb;
+        }
+
+        /* Note box */
+        .note {
+            background: rgba(234, 179, 8, 0.08);
+            border: 1px solid rgba(234, 179, 8, 0.25);
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 14px;
+            color: #92400e;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+        .note strong { display: block; margin-bottom: 6px; color: #78350f; font-size: 15px; }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #475569;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        /* Feature Legend Section */
+        .feature-legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 14px;
+        }
+        .feature-legend > div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #475569;
+        }
+
+        /* Highlight row */
+        tr.highlight { background: rgba(59, 130, 246, 0.04); }
+        tr.highlight:hover { background: rgba(59, 130, 246, 0.08); }
+
+        /* Footer */
+        .footer { margin-top: 40px; padding: 20px; text-align: center; color: #718096; font-size: 0.85em; }
+
+        @media (max-width: 1200px) {
+            table { font-size: 11px; }
+            th, td { padding: 8px 6px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Running Ticker Disclaimer -->
+        <div class="ticker-wrap">
+            <div class="ticker">
+                <div class="ticker-item">&#9888;&#65039; <span>DISCLAIMER:</span> Market share data is estimated based on analyst reports, press releases, and industry research. Not publicly verified.</div>
+                <div class="ticker-item">&#128202; <span>Sources:</span> Company websites, Ardent Partners, IMF GDP data, Industry reports</div>
+                <div class="ticker-item">&#9888;&#65039; <span>DISCLAIMER:</span> Revenue figures are estimates for e-invoicing/compliance revenue in each specific country, not global revenue.</div>
+            </div>
+        </div>
+
+        <h1>E-Invoicing Market Analysis: ME + EU</h1>
+        <p class="subtitle">Top Players, Market Share & Features | 8 Key Markets | Jan 2026</p>
+
+        <!-- Main Navigation -->
+        <div class="main-nav">
+            <a href="index.html" class="nav-btn"><span class="icon">&#128202;</span> Country Analysis</a>
+            <a href="me-eu-market-analysis.html" class="nav-btn active"><span class="icon">&#127970;</span> Market Players</a>
+        </div>
+
+        <!-- Stats Summary -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Markets Analyzed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">27</div>
+                <div class="stat-label">Players Profiled</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$18T+</div>
+                <div class="stat-label">Combined GDP</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">~24B</div>
+                <div class="stat-label">Est. Annual Invoices</div>
+            </div>
+        </div>
+
+        <!-- Table 1: Country + Top Players + Market Data -->
+        <div class="section">
+            <h2 class="section-title">Top Players by Country</h2>
+
+            <div class="legend">
+                <div class="legend-item"><span class="legend-dot" style="background:#2563eb"></span> Confirmed data</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#eab308"></span> Estimated (est.)</div>
+            </div>
+
+            <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Country</th>
+                        <th>Top Player #1</th>
+                        <th>Top Player #2</th>
+                        <th>Top Player #3</th>
+                        <th>Special Player</th>
+                        <th>Model</th>
+                        <th>GDP</th>
+                        <th>Annual E-Invoices</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- UAE -->
+                    <tr>
+                        <td><div class="country-cell"><span class="flag">&#127462;&#127466;</span> UAE</div></td>
+                        <td class="player-cell"><a href="https://www.sap.com" target="_blank" class="player-link">SAP</a> <span class="market-share est">~35%</span></td>
+                        <td class="player-cell"><a href="https://www.oracle.com" target="_blank" class="player-link">Oracle</a> <span class="market-share est">~20%</span></td>
+                        <td class="player-cell"><a href="https://www.zoho.com" target="_blank" class="player-link">Zoho</a> <span class="market-share est">~15%</span></td>
+                        <td class="player-cell"><a href="https://cygnettaxtech.com" target="_blank" class="player-link"><strong>Cygnet</strong></a> <span class="market-share est">~5%</span></td>
+                        <td><span class="model-badge pending-model">Clearance (pending)</span></td>
+                        <td class="gdp">$481B</td>
+                        <td class="volume">~350M (proj.)</td>
+                    </tr>
+                    <!-- Saudi Arabia -->
+                    <tr>
+                        <td><div class="country-cell"><span class="flag">&#127480;&#127462;</span> Saudi</div></td>
+                        <td class="player-cell"><a href="https://cleartax.com" target="_blank" class="player-link">ClearTax</a> <span class="market-share est">~30%</span></td>
+                        <td class="player-cell"><a href="https://www.sap.com" target="_blank" class="player-link">SAP</a> <span class="market-share est">~20%</span></td>
+                        <td class="player-cell"><a href="https://tallysolutions.com" target="_blank" class="player-link">Tally</a> <span class="market-share est">~15%</span></td>
+                        <td class="player-cell"><a href="https://cygnettaxtech.com" target="_blank" class="player-link"><strong>Cygnet</strong></a> <span class="market-share est">~8%</span></td>
+                        <td><span class="model-badge clearance">FATOORA (Clearance)</span></td>
+                        <td class="gdp">$1,067B</td>
+                        <td class="volume">~800M (2024)</td>
+                    </tr>
+                    <!-- Germany -->
+                    <tr>
+                        <td><div class="country-cell"><span class="flag">&#127465;&#127466;</span> Germany</div></td>
+                        <td class="player-cell"><a href="https://www.sap.com" target="_blank" class="player-link">SAP</a> <span class="market-share est">~40%</span></td>
+                        <td class="player-cell"><a href="https://www.datev.de" target="_blank" class="player-link">DATEV</a> <span class="market-share est">~25%</span></td>
+                        <td class="player-cell"><a href="https://www.basware.com" target="_blank" class="player-link">Basware</a> <span class="market-share est">~8%</span></td>
+                        <td class="player-cell">-</td>
+                        <td><span class="model-badge post-audit">EN 16931 (Flexible)</span></td>
+                        <td class="gdp">$4,456B</td>
+                        <td class="volume">~5B (proj.)</td>
+                    </tr>
+                    <!-- France -->
+                    <tr>
+                        <td><div class="country-cell"><span class="flag">&#127467;&#127479;</span> France</div></td>
+                        <td class="player-cell"><a href="https://www.pagero.com" target="_blank" class="player-link">Pagero</a> <span class="market-share">1st PA</span></td>
+                        <td class="player-cell"><a href="https://sovos.com" target="_blank" class="player-link">Sovos</a> <span class="market-share">PA #4</span></td>
+                        <td class="player-cell"><a href="https://www.esker.com" target="_blank" class="player-link">Esker</a> <span class="market-share">PDP #5</span></td>
+                        <td class="player-cell">-</td>
+                        <td><span class="model-badge hybrid">PPF+PDP (Hybrid)</span></td>
+                        <td class="gdp">$3,130B</td>
+                        <td class="volume">~2.5B (proj.)</td>
+                    </tr>
+                    <!-- Italy -->
+                    <tr>
+                        <td><div class="country-cell"><span class="flag">&#127470;&#127481;</span> Italy</div></td>
+                        <td class="player-cell"><a href="https://www.teamsystem.com" target="_blank" class="player-link">TeamSystem</a> <span class="market-share est">~25%</span></td>
+                        <td class="player-cell"><a href="https://www.aruba.it" target="_blank" class="player-link">Aruba</a> <span class="market-share est">~20%</span></td>
+                        <td class="player-cell"><a href="https://edicomgroup.com" target="_blank" class="player-link">EDICOM</a> <span class="market-share est">~10%</span></td>
+                        <td class="player-cell">-</td>
+                        <td><span class="model-badge clearance">SdI (Clearance)</span></td>
+                        <td class="gdp">$2,254B</td>
+                        <td class="volume">3.4B (actual)</td>
+                    </tr>
+                    <!-- Poland -->
+                    <tr>
+                        <td><div class="country-cell"><span class="flag">&#127477;&#127473;</span> Poland</div></td>
+                        <td class="player-cell"><a href="https://www.comarch.com" target="_blank" class="player-link">Comarch</a> <span class="market-share est">~35%</span></td>
+                        <td class="player-cell"><a href="https://www.sap.com" target="_blank" class="player-link">SAP</a> <span class="market-share est">~15%</span></td>
+                        <td class="player-cell"><a href="https://www.symfonia.pl" target="_blank" class="player-link">Symfonia</a> <span class="market-share est">~12%</span></td>
+                        <td class="player-cell">-</td>
+                        <td><span class="model-badge clearance">KSeF (Clearance)</span></td>
+                        <td class="gdp">$842B</td>
+                        <td class="volume">~2.5B (proj.)</td>
+                    </tr>
+                    <!-- Spain -->
+                    <tr>
+                        <td><div class="country-cell"><span class="flag">&#127466;&#127480;</span> Spain</div></td>
+                        <td class="player-cell"><a href="https://edicomgroup.com" target="_blank" class="player-link">EDICOM</a> <span class="market-share est">~30%</span></td>
+                        <td class="player-cell"><a href="https://www.sage.com" target="_blank" class="player-link">Sage</a> <span class="market-share est">~18%</span></td>
+                        <td class="player-cell"><a href="https://www.holded.com" target="_blank" class="player-link">Holded</a> <span class="market-share est">~10%</span></td>
+                        <td class="player-cell">-</td>
+                        <td><span class="model-badge hybrid">Verifactu</span></td>
+                        <td class="gdp">$1,580B</td>
+                        <td class="volume">~600M (proj.)</td>
+                    </tr>
+                    <!-- India -->
+                    <tr class="highlight">
+                        <td><div class="country-cell"><span class="flag">&#127470;&#127475;</span> India</div></td>
+                        <td class="player-cell"><a href="https://cleartax.in" target="_blank" class="player-link">ClearTax</a> <span class="market-share est">~35%</span></td>
+                        <td class="player-cell"><a href="https://tallysolutions.com" target="_blank" class="player-link">Tally</a> <span class="market-share est">~25%</span></td>
+                        <td class="player-cell"><a href="https://www.zoho.com" target="_blank" class="player-link">Zoho</a> <span class="market-share est">~12%</span></td>
+                        <td class="player-cell"><a href="https://cygnettaxtech.com" target="_blank" class="player-link"><strong>Cygnet</strong></a> <span class="market-share est">~10%</span></td>
+                        <td><span class="model-badge clearance">GST IRP (Clearance)</span></td>
+                        <td class="gdp">$3,730B</td>
+                        <td class="volume">~8B (actual)</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="note">
+                <strong>Data Transparency:</strong> Market share percentages marked "est." are estimates based on customer counts, press releases, and analyst mentions. Exact market share data is not publicly disclosed by most providers. Italy's 3.4B invoice volume is from official Italian Revenue Agency data (2023). India's ~8B volume is based on GST e-invoice portal data. Annual revenue figures are estimates for that specific country market, not global revenue.
+            </div>
+        </div>
+
+        <!-- Table 2: Features & Revenue % by Country -->
+        <div class="section">
+            <h2 class="section-title">Player Features & Revenue Breakdown</h2>
+            <p style="color:#64748b; font-size:14px; margin-bottom:15px;">Detailed view of players above. Revenue = estimated e-invoicing/compliance revenue in that country only.</p>
+
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px; padding:8px 12px; background:rgba(59,130,246,0.08); border-radius:8px; font-size:13px; color:#2563eb;">
+                <span style="font-size:16px;">&#8597;</span> Scroll to see all data
+            </div>
+            <div class="table-container" style="max-height: 70vh; overflow-y: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th rowspan="2">Country</th>
+                        <th rowspan="2">Player</th>
+                        <th rowspan="2">Type</th>
+                        <th rowspan="2">Market %</th>
+                        <th rowspan="2">Rev (Est.)</th>
+                        <th rowspan="2">Features</th>
+                        <th colspan="5" style="text-align:center; background:#dbeafe;">Revenue % Breakdown</th>
+                        <th rowspan="2">USP</th>
+                        <th rowspan="2">AI Features</th>
+                    </tr>
+                    <tr>
+                        <th>E-Inv</th>
+                        <th>AP/AR</th>
+                        <th>Tax</th>
+                        <th>EDI</th>
+                        <th>Other</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- UAE - Market size ~$20M (emerging) -->
+                    <tr>
+                        <td rowspan="4"><div class="country-cell"><span class="flag">&#127462;&#127466;</span> UAE</div></td>
+                        <td class="player-cell"><a href="https://www.sap.com" target="_blank" class="player-link">SAP</a></td>
+                        <td>Top 1</td>
+                        <td><span class="market-share est">~35%</span></td>
+                        <td class="revenue">~$7M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-erp">ERP</span><span class="feature-tag f-ap">AP/AR</span><span class="feature-tag f-edi">EDI</span></td>
+                        <td><div class="pct-text">~20%</div></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>Native S/4HANA integration</li><li>80+ country compliance</li></ul></td>
+                        <td><ul class="ai-list"><li>SAP DRC with Business AI</li><li>Real-time regulation updates</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td class="player-cell"><a href="https://www.oracle.com" target="_blank" class="player-link">Oracle</a></td>
+                        <td>Top 2</td>
+                        <td><span class="market-share est">~20%</span></td>
+                        <td class="revenue">~$4M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-erp">Cloud ERP</span><span class="feature-tag f-ap">AP/AR</span></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~35%</div></td>
+                        <td><div class="pct-text">~20%</div></td>
+                        <td><div class="pct-text">~15%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>Full cloud ERP suite</li><li>NetSuite for SMB</li></ul></td>
+                        <td><ul class="ai-list"><li>AI-powered matching</li><li>Anomaly detection</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td class="player-cell"><a href="https://www.zoho.com" target="_blank" class="player-link">Zoho</a></td>
+                        <td>Top 3</td>
+                        <td><span class="market-share est">~15%</span></td>
+                        <td class="revenue">~$3M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-erp">Accounting</span><span class="feature-tag f-tax">VAT Filing</span><span class="feature-tag f-ap">AP/AR</span></td>
+                        <td><div class="pct-text">~40%</div></td>
+                        <td><div class="pct-text">~20%</div></td>
+                        <td><div class="pct-text">~30%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>SMB-friendly pricing</li><li>All-in-one suite (60+ apps)</li></ul></td>
+                        <td><ul class="ai-list"><li>Zia AI assistant</li><li>Auto invoice generation from prompts</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td class="player-cell"><a href="https://cygnettaxtech.com" target="_blank" class="player-link">Cygnet</a></td>
+                        <td>Special</td>
+                        <td><span class="market-share est">~5%</span></td>
+                        <td class="revenue">~$1M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-tax">VAT Filing</span><span class="feature-tag f-erp">ERP Integrations</span></td>
+                        <td><div class="pct-text">~50%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><div class="pct-text">~35%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~0%</div></td>
+                        <td><ul class="usp-list"><li>250+ ERP connectors</li><li>India/ME tax expertise</li></ul></td>
+                        <td><ul class="ai-list"><li>AI-led validation</li><li>Auto notice reply drafts</li></ul></td>
+                    </tr>
+                    <!-- Saudi Arabia - Market size ~$40M -->
+                    <tr class="highlight">
+                        <td rowspan="4"><div class="country-cell"><span class="flag">&#127480;&#127462;</span> Saudi</div></td>
+                        <td class="player-cell"><a href="https://cleartax.com" target="_blank" class="player-link">ClearTax</a></td>
+                        <td>Top 1</td>
+                        <td><span class="market-share est">~30%</span></td>
+                        <td class="revenue">~$12M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-tax">VAT Filing</span><span class="feature-tag f-erp">ERP Integrations</span></td>
+                        <td><div class="pct-text">~45%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><div class="pct-text">~40%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~0%</div></td>
+                        <td><ul class="usp-list"><li>Early ZATCA mover</li><li>50+ country coverage</li></ul></td>
+                        <td><ul class="ai-list"><li>High-volume validation (6K inv/min)</li><li>Smart error detection</li></ul></td>
+                    </tr>
+                    <tr class="highlight">
+                        <td class="player-cell"><a href="https://www.sap.com" target="_blank" class="player-link">SAP</a></td>
+                        <td>Top 2</td>
+                        <td><span class="market-share est">~20%</span></td>
+                        <td class="revenue">~$8M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-erp">ERP</span><span class="feature-tag f-ap">AP/AR</span><span class="feature-tag f-edi">EDI</span></td>
+                        <td><div class="pct-text">~20%</div></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~20%</div></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><ul class="usp-list"><li>Enterprise standard</li><li>Native S/4HANA</li></ul></td>
+                        <td><ul class="ai-list"><li>SAP DRC compliance AI</li><li>Auto format mapping</li></ul></td>
+                    </tr>
+                    <tr class="highlight">
+                        <td class="player-cell"><a href="https://tallysolutions.com" target="_blank" class="player-link">Tally</a></td>
+                        <td>Top 3</td>
+                        <td><span class="market-share est">~15%</span></td>
+                        <td class="revenue">~$6M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-erp">Accounting</span><span class="feature-tag f-tax">VAT Filing</span><span class="feature-tag f-ap">Inventory</span></td>
+                        <td><div class="pct-text">~50%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><div class="pct-text">~35%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~0%</div></td>
+                        <td><ul class="usp-list"><li>SMB leader</li><li>Low-cost perpetual license</li></ul></td>
+                        <td><ul class="ai-list"><li>AI data extraction (scan/WhatsApp)</li><li>Smart coding</li></ul></td>
+                    </tr>
+                    <tr class="highlight">
+                        <td class="player-cell"><a href="https://cygnettaxtech.com" target="_blank" class="player-link">Cygnet</a></td>
+                        <td>Special</td>
+                        <td><span class="market-share est">~8%</span></td>
+                        <td class="revenue">~$3M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-tax">ZATCA Compliance</span><span class="feature-tag f-erp">ERP Integrations</span></td>
+                        <td><div class="pct-text">~55%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~35%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~0%</div></td>
+                        <td><ul class="usp-list"><li>ZATCA accredited</li><li>Multi-IRP fallback</li></ul></td>
+                        <td><ul class="ai-list"><li>AI validation (400+ checks)</li><li>Auto notice drafts</li></ul></td>
+                    </tr>
+                    <!-- Germany - Market size ~$200M -->
+                    <tr>
+                        <td rowspan="3"><div class="country-cell"><span class="flag">&#127465;&#127466;</span> Germany</div></td>
+                        <td class="player-cell"><a href="https://www.sap.com" target="_blank" class="player-link">SAP</a></td>
+                        <td>Top 1</td>
+                        <td><span class="market-share est">~40%</span></td>
+                        <td class="revenue">~$80M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-erp">ERP</span><span class="feature-tag f-ap">AP/AR</span><span class="feature-tag f-edi">EDI</span></td>
+                        <td><div class="pct-text">~15%</div></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~20%</div></td>
+                        <td><div class="pct-text">~30%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><ul class="usp-list"><li>German HQ</li><li>XRechnung/ZUGFeRD native</li></ul></td>
+                        <td><ul class="ai-list"><li>SAP DRC + Business AI</li><li>Peppol auto-connect</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td class="player-cell"><a href="https://www.datev.de" target="_blank" class="player-link">DATEV</a></td>
+                        <td>Top 2</td>
+                        <td><span class="market-share est">~25%</span></td>
+                        <td class="revenue">~$50M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-tax">Tax Advisory</span><span class="feature-tag f-erp">Accounting</span><span class="feature-tag f-archive">Document Mgmt</span></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~15%</div></td>
+                        <td><div class="pct-text">~45%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>Tax advisor ecosystem (40K+ firms)</li><li>German-only focus</li></ul></td>
+                        <td><ul class="ai-list"><li>Smart document classification</li><li>Auto-booking suggestions</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td class="player-cell"><a href="https://www.basware.com" target="_blank" class="player-link">Basware</a></td>
+                        <td>Top 3</td>
+                        <td><span class="market-share est">~8%</span></td>
+                        <td class="revenue">~$16M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-ap">AP Automation</span><span class="feature-tag f-scf">Early Payment</span><span class="feature-tag f-edi">EDI</span></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~55%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>AP-focused leader</li><li>90%+ touchless rate</li></ul></td>
+                        <td><ul class="ai-list"><li>InvoiceAI (2.2B invoice dataset)</li><li>SmartCoding ML</li><li>GenAI assistant</li></ul></td>
+                    </tr>
+                    <!-- France - Market size ~$120M -->
+                    <tr class="highlight">
+                        <td rowspan="3"><div class="country-cell"><span class="flag">&#127467;&#127479;</span> France</div></td>
+                        <td class="player-cell"><a href="https://www.pagero.com" target="_blank" class="player-link">Pagero</a></td>
+                        <td>Top 1</td>
+                        <td><span class="market-share">1st PA</span></td>
+                        <td class="revenue">~$20M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-ap">AP/AR</span><span class="feature-tag f-edi">Network Hub</span></td>
+                        <td><div class="pct-text">~50%</div></td>
+                        <td><div class="pct-text">~30%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>1st French PA certified</li><li>14M+ business network</li></ul></td>
+                        <td><ul class="ai-list"><li>ML predictive analytics</li><li>GenAI for 95% tax automation</li></ul></td>
+                    </tr>
+                    <tr class="highlight">
+                        <td class="player-cell"><a href="https://sovos.com" target="_blank" class="player-link">Sovos</a></td>
+                        <td>Top 2</td>
+                        <td><span class="market-share">PA #4</span></td>
+                        <td class="revenue">~$18M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-tax">Tax Compliance</span><span class="feature-tag f-archive">E-Archive</span></td>
+                        <td><div class="pct-text">~35%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~50%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>Global tax leader (16B+ txns/yr)</li><li>65+ countries</li></ul></td>
+                        <td><ul class="ai-list"><li>Sovi AI: Duplicate detection</li><li>NL queries</li><li>Auto-reconciliation</li></ul></td>
+                    </tr>
+                    <tr class="highlight">
+                        <td class="player-cell"><a href="https://www.esker.com" target="_blank" class="player-link">Esker</a></td>
+                        <td>Top 3</td>
+                        <td><span class="market-share">PDP #5</span></td>
+                        <td class="revenue">~$25M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-ap">AP/AR Automation</span><span class="feature-tag f-archive">PDP</span><span class="feature-tag f-erp">ERP Int.</span></td>
+                        <td><div class="pct-text">~30%</div></td>
+                        <td><div class="pct-text">~55%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>French HQ (Lyon)</li><li>PDP #0005</li><li>Gartner AP Leader</li></ul></td>
+                        <td><ul class="ai-list"><li>Synergy AI: Deep learning extraction</li><li>Anomaly detection</li></ul></td>
+                    </tr>
+                    <!-- Italy - Market size ~$250M -->
+                    <tr>
+                        <td rowspan="3"><div class="country-cell"><span class="flag">&#127470;&#127481;</span> Italy</div></td>
+                        <td class="player-cell"><a href="https://www.teamsystem.com" target="_blank" class="player-link">TeamSystem</a></td>
+                        <td>Top 1</td>
+                        <td><span class="market-share est">~25%</span></td>
+                        <td class="revenue">~$63M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-erp">ERP Suite</span><span class="feature-tag f-tax">Payroll</span><span class="feature-tag f-edi">EDI</span></td>
+                        <td><div class="pct-text">~20%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~35%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><ul class="usp-list"><li>Italian market leader</li><li>Full SMB/accountant suite</li></ul></td>
+                        <td><ul class="ai-list"><li>AI document extraction</li><li>Auto-coding suggestions</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td class="player-cell"><a href="https://www.aruba.it" target="_blank" class="player-link">Aruba</a></td>
+                        <td>Top 2</td>
+                        <td><span class="market-share est">~20%</span></td>
+                        <td class="revenue">~$50M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-archive">Certified Email (PEC)</span><span class="feature-tag f-erp">Cloud Hosting</span></td>
+                        <td><div class="pct-text">~60%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><div class="pct-text">~15%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>PEC market leader</li><li>Bundled hosting + e-invoice</li></ul></td>
+                        <td><ul class="ai-list"><li>Basic automation</li><li>Limited AI features</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td class="player-cell"><a href="https://edicomgroup.com" target="_blank" class="player-link">EDICOM</a></td>
+                        <td>Top 3</td>
+                        <td><span class="market-share est">~10%</span></td>
+                        <td class="revenue">~$25M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-edi">EDI</span><span class="feature-tag f-archive">E-Signature</span><span class="feature-tag f-ap">AP/AR</span></td>
+                        <td><div class="pct-text">~30%</div></td>
+                        <td><div class="pct-text">~15%</div></td>
+                        <td><div class="pct-text">~15%</div></td>
+                        <td><div class="pct-text">~35%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>EDI specialist</li><li>Multi-standard (EDIFACT/X12/Peppol)</li></ul></td>
+                        <td><ul class="ai-list"><li>OCR + NLP invoice extraction</li><li>Fraud detection ML</li></ul></td>
+                    </tr>
+                    <!-- Poland - Market size ~$70M -->
+                    <tr class="highlight">
+                        <td rowspan="3"><div class="country-cell"><span class="flag">&#127477;&#127473;</span> Poland</div></td>
+                        <td class="player-cell"><a href="https://www.comarch.com" target="_blank" class="player-link">Comarch</a></td>
+                        <td>Top 1</td>
+                        <td><span class="market-share est">~35%</span></td>
+                        <td class="revenue">~$25M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-edi">EDI</span><span class="feature-tag f-erp">ERP</span><span class="feature-tag f-ap">B2B Platform</span></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~15%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><div class="pct-text">~40%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><ul class="usp-list"><li>Polish HQ</li><li>Native KSeF integration</li><li>IDC Leader</li></ul></td>
+                        <td><ul class="ai-list"><li>AI invoice analysis</li><li>ML fraud detection</li><li>GenAI chatbots</li></ul></td>
+                    </tr>
+                    <tr class="highlight">
+                        <td class="player-cell"><a href="https://www.sap.com" target="_blank" class="player-link">SAP</a></td>
+                        <td>Top 2</td>
+                        <td><span class="market-share est">~15%</span></td>
+                        <td class="revenue">~$11M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-erp">ERP</span><span class="feature-tag f-ap">AP/AR</span><span class="feature-tag f-edi">EDI</span></td>
+                        <td><div class="pct-text">~20%</div></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~20%</div></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><ul class="usp-list"><li>Enterprise standard</li><li>KSeF via SAP DRC</li></ul></td>
+                        <td><ul class="ai-list"><li>SAP Business AI</li><li>Auto regulation updates</li></ul></td>
+                    </tr>
+                    <tr class="highlight">
+                        <td class="player-cell"><a href="https://www.symfonia.pl" target="_blank" class="player-link">Symfonia</a></td>
+                        <td>Top 3</td>
+                        <td><span class="market-share est">~12%</span></td>
+                        <td class="revenue">~$8M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-tax">Accounting</span><span class="feature-tag f-erp">ERP</span><span class="feature-tag f-ap">Payroll</span></td>
+                        <td><div class="pct-text">~35%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><div class="pct-text">~40%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>Polish SMB focus</li><li>Accountant-friendly UI</li></ul></td>
+                        <td><ul class="ai-list"><li>Basic automation</li><li>Limited AI</li></ul></td>
+                    </tr>
+                    <!-- Spain - Market size ~$90M -->
+                    <tr>
+                        <td rowspan="3"><div class="country-cell"><span class="flag">&#127466;&#127480;</span> Spain</div></td>
+                        <td class="player-cell"><a href="https://edicomgroup.com" target="_blank" class="player-link">EDICOM</a></td>
+                        <td>Top 1</td>
+                        <td><span class="market-share est">~30%</span></td>
+                        <td class="revenue">~$27M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-tax">Tax Reporting</span><span class="feature-tag f-edi">EDI</span><span class="feature-tag f-archive">E-Archive</span></td>
+                        <td><div class="pct-text">~30%</div></td>
+                        <td><div class="pct-text">~15%</div></td>
+                        <td><div class="pct-text">~15%</div></td>
+                        <td><div class="pct-text">~35%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>Spanish HQ</li><li>VeriFactu-ready</li><li>30yr EDI expertise</li></ul></td>
+                        <td><ul class="ai-list"><li>OCR/NLP extraction</li><li>Smart routing ML</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td class="player-cell"><a href="https://www.sage.com" target="_blank" class="player-link">Sage</a></td>
+                        <td>Top 2</td>
+                        <td><span class="market-share est">~18%</span></td>
+                        <td class="revenue">~$16M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-erp">ERP</span><span class="feature-tag f-ap">AP/AR</span><span class="feature-tag f-tax">Accounting</span></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~20%</div></td>
+                        <td><div class="pct-text">~35%</div></td>
+                        <td><div class="pct-text">~15%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>Global SMB brand</li><li>Strong accountant channel</li></ul></td>
+                        <td><ul class="ai-list"><li>Sage Copilot AI</li><li>Auto bank reconciliation</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td class="player-cell"><a href="https://www.holded.com" target="_blank" class="player-link">Holded</a></td>
+                        <td>Top 3</td>
+                        <td><span class="market-share est">~10%</span></td>
+                        <td class="revenue">~$9M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-erp">Cloud ERP</span><span class="feature-tag f-tax">Accounting</span><span class="feature-tag f-ap">Expense Mgmt</span></td>
+                        <td><div class="pct-text">~50%</div></td>
+                        <td><div class="pct-text">~15%</div></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>Spanish startup</li><li>Modern UX</li><li>SMB-focused</li></ul></td>
+                        <td><ul class="ai-list"><li>Smart categorization</li><li>Bank sync automation</li></ul></td>
+                    </tr>
+                    <!-- India - Market size ~$50M (e-invoicing/GST compliance specific) -->
+                    <tr class="highlight">
+                        <td rowspan="4"><div class="country-cell"><span class="flag">&#127470;&#127475;</span> India</div></td>
+                        <td class="player-cell"><a href="https://cleartax.in" target="_blank" class="player-link">ClearTax</a></td>
+                        <td>Top 1</td>
+                        <td><span class="market-share est">~35%</span></td>
+                        <td class="revenue">~$10M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-tax">GST Filing</span><span class="feature-tag f-erp">ERP Integrations</span><span class="feature-tag f-ap">AP/AR</span></td>
+                        <td><div class="pct-text">~35%</div></td>
+                        <td><div class="pct-text">~15%</div></td>
+                        <td><div class="pct-text">~45%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~0%</div></td>
+                        <td><ul class="usp-list"><li>India's #1 tax platform</li><li>5K+ enterprises</li></ul></td>
+                        <td><ul class="ai-list"><li>High-volume validation (6K inv/min)</li><li>4% avg tax savings claim</li></ul></td>
+                    </tr>
+                    <tr class="highlight">
+                        <td class="player-cell"><a href="https://tallysolutions.com" target="_blank" class="player-link">Tally</a></td>
+                        <td>Top 2</td>
+                        <td><span class="market-share est">~25%</span></td>
+                        <td class="revenue">~$8M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-erp">Accounting</span><span class="feature-tag f-tax">GST Filing</span><span class="feature-tag f-ap">Inventory</span></td>
+                        <td><div class="pct-text">~30%</div></td>
+                        <td><div class="pct-text">~20%</div></td>
+                        <td><div class="pct-text">~40%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>2M+ licenses</li><li>Offline-capable</li><li>SMB standard</li></ul></td>
+                        <td><ul class="ai-list"><li>AI data extraction (WhatsApp/scan)</li><li>Smart doc classification</li></ul></td>
+                    </tr>
+                    <tr class="highlight">
+                        <td class="player-cell"><a href="https://www.zoho.com" target="_blank" class="player-link">Zoho</a></td>
+                        <td>Top 3</td>
+                        <td><span class="market-share est">~12%</span></td>
+                        <td class="revenue">~$4M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-erp">Zoho Books</span><span class="feature-tag f-tax">GST Filing</span><span class="feature-tag f-ap">AP/AR</span></td>
+                        <td><div class="pct-text">~35%</div></td>
+                        <td><div class="pct-text">~25%</div></td>
+                        <td><div class="pct-text">~30%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><ul class="usp-list"><li>Indian HQ</li><li>60+ app ecosystem</li><li>Global reach</li></ul></td>
+                        <td><ul class="ai-list"><li>Zia AI assistant</li><li>Prompt-to-invoice</li><li>Predictive analytics</li></ul></td>
+                    </tr>
+                    <tr class="highlight">
+                        <td class="player-cell"><a href="https://cygnettaxtech.com" target="_blank" class="player-link">Cygnet</a></td>
+                        <td>Special</td>
+                        <td><span class="market-share est">~10%</span></td>
+                        <td class="revenue">~$3M</td>
+                        <td><span class="feature-tag f-einvoice">E-Invoicing</span><span class="feature-tag f-tax">GST Filing</span><span class="feature-tag f-tax">ITC Reconciliation</span><span class="feature-tag f-erp">ERP Integrations</span></td>
+                        <td><div class="pct-text">~40%</div></td>
+                        <td><div class="pct-text">~10%</div></td>
+                        <td><div class="pct-text">~45%</div></td>
+                        <td><div class="pct-text">~5%</div></td>
+                        <td><div class="pct-text">~0%</div></td>
+                        <td><ul class="usp-list"><li>25% of India's e-invoice traffic</li><li>250+ ERP connectors</li></ul></td>
+                        <td><ul class="ai-list"><li>AI-led validation</li><li>3-way reconciliation</li><li>Auto notice replies</li></ul></td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="note">
+                <strong>Revenue % Disclaimer:</strong> These percentages are estimates for each player's revenue mix in that specific country, based on product positioning and analyst reports. E-Invoice % tends to be higher for compliance-focused vendors, while ERP/EDI % is higher for platform vendors. Actual segment revenue is not publicly disclosed.
+            </div>
+        </div>
+
+        <!-- Feature Legend -->
+        <div class="section">
+            <h2 class="section-title">Feature Categories</h2>
+            <div class="feature-legend">
+                <div><span class="feature-tag f-einvoice">E-Invoice</span> Core e-invoicing compliance</div>
+                <div><span class="feature-tag f-ap">AP/AR</span> Accounts Payable/Receivable automation</div>
+                <div><span class="feature-tag f-scf">SCF</span> Supply Chain Finance / Early Payment</div>
+                <div><span class="feature-tag f-tax">Tax</span> VAT, GST, TDS compliance & reporting</div>
+                <div><span class="feature-tag f-edi">EDI</span> Electronic Data Interchange</div>
+                <div><span class="feature-tag f-erp">ERP</span> ERP integration / native solution</div>
+                <div><span class="feature-tag f-archive">Archive</span> Legal e-archiving (eIDAS)</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Sources:</strong> Company websites, Ardent Partners, IMF, Italian Revenue Agency</p>
+            <p><strong>Research Date:</strong> January 2026</p>
+        </div>
+    </div>
+</body>
+</html>
