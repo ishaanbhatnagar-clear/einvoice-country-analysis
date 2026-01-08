@@ -177,10 +177,10 @@
 
         <!-- Main Navigation -->
         <div class="main-nav">
-            <button class="nav-btn active" onclick="showMainSection('overview')"><span class="icon">&#128202;</span> Master Table</button>
-            <button class="nav-btn" onclick="showMainSection('timeline')"><span class="icon">&#128197;</span> Timeline</button>
-            <button class="nav-btn" onclick="showMainSection('legend')"><span class="icon">&#128218;</span> Legend & Methodology</button>
-            <button class="nav-btn" onclick="showMainSection('market')"><span class="icon">&#127970;</span> Market Players</button>
+            <button class="nav-btn active" data-tab="overview" onclick="showMainSection('overview')"><span class="icon">&#128202;</span> Master Table</button>
+            <button class="nav-btn" data-tab="timeline" onclick="showMainSection('timeline')"><span class="icon">&#128197;</span> Timeline</button>
+            <button class="nav-btn" data-tab="legend" onclick="showMainSection('legend')"><span class="icon">&#128218;</span> Legend & Methodology</button>
+            <button class="nav-btn" data-tab="market" onclick="showMainSection('market')"><span class="icon">&#127970;</span> Market Players</button>
         </div>
 
         <!-- Section: Overview -->
@@ -1441,12 +1441,38 @@
             renderTable(getFilteredSortedData());
         }
 
-        function showMainSection(id) {
+        function showMainSection(id, updateHash = true) {
             document.querySelectorAll('.main-section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            event.target.classList.add('active');
+            const section = document.getElementById(id);
+            if (section) {
+                section.classList.add('active');
+                // Find and activate the corresponding nav button
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    if (btn.getAttribute('data-tab') === id) {
+                        btn.classList.add('active');
+                    }
+                });
+                // Update URL hash
+                if (updateHash) {
+                    history.pushState(null, '', '#' + id);
+                }
+            }
         }
+
+        // Handle hash changes (back/forward navigation)
+        window.addEventListener('hashchange', function() {
+            const hash = window.location.hash.slice(1);
+            if (hash) showMainSection(hash, false);
+        });
+
+        // Load correct tab on page load based on URL hash
+        window.addEventListener('DOMContentLoaded', function() {
+            const hash = window.location.hash.slice(1);
+            if (hash) {
+                showMainSection(hash, false);
+            }
+        });
 
         function renderTimelineGraph() {
             const container = document.getElementById('timelineVisual');
