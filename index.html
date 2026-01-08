@@ -37,6 +37,8 @@
         /* Tables - Modern Style */
         .table-container { overflow-x: auto; margin-bottom: 30px; border-radius: 16px; border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); max-height: 70vh; overflow-y: auto; }
         table { width: 100%; border-collapse: separate; border-spacing: 0; background: white; min-width: 1200px; }
+        table.fixed-layout { table-layout: fixed; }
+        table.fixed-layout td { white-space: normal; word-wrap: break-word; overflow-wrap: break-word; vertical-align: top; }
         th { background: rgba(248, 250, 252, 0.95); backdrop-filter: blur(8px); position: sticky; top: 0; z-index: 10; color: #475569; padding: 14px 10px; text-align: left; font-weight: 600; font-size: 11px; cursor: pointer; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
         th:hover { background: rgba(241, 245, 249, 0.98); }
         th.sortable::after { content: ' \2195'; opacity: 0.5; }
@@ -502,15 +504,23 @@
                         <span style="font-size:16px;">&#127758;</span> Global vendor analysis - detailed product modules | Scroll horizontally for full view
                     </div>
                     <div class="table-container" style="max-height:none; overflow-y:visible;">
-                    <table style="min-width:1600px;">
+                    <table class="fixed-layout" style="min-width:1400px; width:1400px;">
+                        <colgroup>
+                            <col style="width:100px;">
+                            <col style="width:380px;">
+                            <col style="width:320px;">
+                            <col style="width:180px;">
+                            <col style="width:140px;">
+                            <col style="width:180px;">
+                        </colgroup>
                         <thead>
                             <tr>
-                                <th style="width:90px;">Vendor</th>
-                                <th style="width:400px;">Products & Features</th>
-                                <th style="width:200px;">AI Capabilities</th>
-                                <th style="width:150px;">Integrations</th>
-                                <th style="width:120px;">Scale</th>
-                                <th style="width:160px;">Differentiators</th>
+                                <th>Vendor</th>
+                                <th>Products & Features</th>
+                                <th>AI Capabilities</th>
+                                <th>Integrations</th>
+                                <th>Scale</th>
+                                <th>Differentiators</th>
                             </tr>
                         </thead>
                         <tbody>
