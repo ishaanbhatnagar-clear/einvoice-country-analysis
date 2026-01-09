@@ -866,7 +866,7 @@
                         <div class="dr-stat-label">Countries Analyzed</div>
                     </div>
                     <div class="dr-stat">
-                        <div class="dr-stat-num red">5</div>
+                        <div class="dr-stat-num red">4</div>
                         <div class="dr-stat-label">Local DC Required</div>
                     </div>
                     <div class="dr-stat">
@@ -874,7 +874,7 @@
                         <div class="dr-stat-label">Specific AWS Region</div>
                     </div>
                     <div class="dr-stat">
-                        <div class="dr-stat-num blue">20</div>
+                        <div class="dr-stat-num blue">21</div>
                         <div class="dr-stat-label">Any EU Region</div>
                     </div>
                     <div class="dr-stat">
@@ -1171,15 +1171,15 @@
                             </tr>
                             <tr data-country="poland">
                                 <td><div class="dr-country-cell"><span class="dr-flag">&#127477;&#127473;</span> Poland</div></td>
-                                <td><span class="dr-badge dr-badge-required">Centralized (KSeF)</span></td>
-                                <td><span class="dr-badge dr-dc-local">Govt System</span></td>
+                                <td><span class="dr-badge dr-badge-eu">Govt Centralized</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
                                 <td class="dr-hosting-cell">
-                                    <div class="dr-hosting-main">KSeF handles storage</div>
-                                    <div class="dr-hosting-note">All invoices on Polish govt servers. Keep backups in eu-central-1.</div>
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Your infra: eu-central-1 recommended. Invoices stored by govt KSeF system.</div>
                                 </td>
                                 <td>10 yrs</td>
                                 <td><a class="dr-link" href="https://www.podatki.gov.pl" target="_blank">podatki.gov.pl</a></td>
-                                <td class="dr-rationale">KSeF centralizes all invoices on govt servers. Automatic 10-year retention.</td>
+                                <td class="dr-rationale">KSeF (govt) stores all invoices centrally. Service providers only need API integration - no local DC required. Host your infrastructure in any EU region.</td>
                                 <td><span class="dr-badge dr-conf-high">High</span></td>
                             </tr>
                             <tr data-country="belgium">
@@ -1494,7 +1494,8 @@
                             <div class="dr-summary-icon">&#128308;</div>
                             <div class="dr-summary-content">
                                 <h4>Local Data Centers Required</h4>
-                                <p><strong>Saudi Arabia:</strong> STC Cloud, Mobily, Oracle KSA | <strong>Turkey:</strong> Turkcell, Vodafone | <strong>Poland:</strong> KSeF (backups in EU) | <strong>Luxembourg:</strong> LuxConnect, Ebrc | <strong>Tunisia:</strong> TTN or local + auth</p>
+                                <p><strong>Saudi Arabia:</strong> STC Cloud, Mobily, Oracle KSA | <strong>Turkey:</strong> Turkcell, Vodafone | <strong>Luxembourg:</strong> LuxConnect, Ebrc | <strong>Tunisia:</strong> TTN or local + auth</p>
+                                <p style="font-size: 0.7rem; margin-top: 6px;"><strong>Note:</strong> Poland (KSeF) - govt stores invoices centrally, your infra can be any EU region</p>
                             </div>
                         </div>
                         <div class="dr-summary-item">
@@ -2123,7 +2124,7 @@
             {country:"France",region:"Europe",residency:"EU Required",dcReq:"AWS eu-west-3 *",hosting:"AWS eu-west-3 (Paris) - needs SecNumCloud",archival:"10 years",confidence:"High"},
             {country:"Italy",region:"Europe",residency:"EU Preferred",dcReq:"Any EU Region",hosting:"AWS eu-south-1 (Milan)",archival:"10-15 years",confidence:"High"},
             {country:"Spain",region:"Europe",residency:"EU OK",dcReq:"Any EU Region",hosting:"AWS eu-south-2 (Spain)",archival:"4-6 years",confidence:"High"},
-            {country:"Poland",region:"Europe",residency:"Centralized (KSeF)",dcReq:"Govt System",hosting:"KSeF handles storage",archival:"10 years",confidence:"High"},
+            {country:"Poland",region:"Europe",residency:"Govt Centralized",dcReq:"Any EU Region",hosting:"Any EU region (govt KSeF stores invoices)",archival:"10 years",confidence:"High"},
             {country:"Belgium",region:"Europe",residency:"EU OK",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"10 years",confidence:"High"},
             {country:"United Kingdom",region:"Europe",residency:"Flexible",dcReq:"Any Region",hosting:"AWS eu-west-2 (London)",archival:"6 years",confidence:"High"},
             {country:"Romania",region:"Europe",residency:"EU OK",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"10-25 years",confidence:"High"},
