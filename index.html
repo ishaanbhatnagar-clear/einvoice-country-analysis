@@ -870,15 +870,15 @@
                         <div class="dr-stat-label">Local DC Required</div>
                     </div>
                     <div class="dr-stat">
-                        <div class="dr-stat-num orange">3</div>
+                        <div class="dr-stat-num orange">2</div>
                         <div class="dr-stat-label">Specific AWS Region</div>
                     </div>
                     <div class="dr-stat">
-                        <div class="dr-stat-num blue">21</div>
+                        <div class="dr-stat-num blue">22</div>
                         <div class="dr-stat-label">Any EU Region</div>
                     </div>
                     <div class="dr-stat">
-                        <div class="dr-stat-num green">13</div>
+                        <div class="dr-stat-num green">14</div>
                         <div class="dr-stat-label">Any Region OK</div>
                     </div>
                 </div>
@@ -1132,28 +1132,28 @@
                             <tr data-country="france">
                                 <td><div class="dr-country-cell"><span class="dr-flag">&#127467;&#127479;</span> France</div></td>
                                 <td><span class="dr-badge dr-badge-eu">EU Required</span></td>
-                                <td><span class="dr-badge dr-dc-specific">AWS eu-west-3 *</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region *</span></td>
                                 <td class="dr-hosting-cell">
-                                    <div class="dr-hosting-main">AWS eu-west-3 (Paris)</div>
-                                    <div class="dr-hosting-warning">* PDP needs SecNumCloud cert</div>
-                                    <div class="dr-hosting-note">Alternative: OVHcloud, 3DS Outscale</div>
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Your infra: eu-west-3 (Paris) recommended.</div>
+                                    <div class="dr-hosting-warning">* Only PDPs need SecNumCloud (OVHcloud, 3DS Outscale)</div>
                                 </td>
                                 <td>10 yrs</td>
                                 <td><a class="dr-link" href="https://www.impots.gouv.fr" target="_blank">impots.gouv.fr</a></td>
-                                <td class="dr-rationale">Decree 2024-266 requires EU hosting + SecNumCloud certification.</td>
+                                <td class="dr-rationale">Service providers: any EU region OK. SecNumCloud certification only required if you're a PDP (Plateforme de Dématérialisation Partenaire) - AWS not certified, use OVHcloud/Outscale for PDP role.</td>
                                 <td><span class="dr-badge dr-conf-high">High</span></td>
                             </tr>
                             <tr data-country="italy">
                                 <td><div class="dr-country-cell"><span class="dr-flag">&#127470;&#127481;</span> Italy</div></td>
-                                <td><span class="dr-badge dr-badge-eu">EU Preferred</span></td>
+                                <td><span class="dr-badge dr-badge-eu">Govt Clearance</span></td>
                                 <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
                                 <td class="dr-hosting-cell">
-                                    <div class="dr-hosting-main">AWS eu-south-1 (Milan)</div>
-                                    <div class="dr-hosting-note">In-country option. Any EU works. Free SOGEI conservation.</div>
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Your infra: eu-south-1 (Milan) recommended. SdI handles clearance. Free SOGEI archival available.</div>
                                 </td>
                                 <td>10-15 yrs</td>
                                 <td><a class="dr-link" href="https://www.agenziaentrate.gov.it" target="_blank">agenziaentrate.gov.it</a></td>
-                                <td class="dr-rationale">EU Regulation 2018/1807 applies. Milan region provides in-country option.</td>
+                                <td class="dr-rationale">SdI (govt) clears all invoices centrally. Service providers only need API integration - no local DC required. Host your infrastructure in any EU region.</td>
                                 <td><span class="dr-badge dr-conf-high">High</span></td>
                             </tr>
                             <tr data-country="spain">
@@ -1210,28 +1210,29 @@
                             </tr>
                             <tr data-country="romania">
                                 <td><div class="dr-country-cell"><span class="dr-flag">&#127479;&#127476;</span> Romania</div></td>
-                                <td><span class="dr-badge dr-badge-eu">EU OK</span></td>
+                                <td><span class="dr-badge dr-badge-eu">Govt Clearance</span></td>
                                 <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
                                 <td class="dr-hosting-cell">
                                     <div class="dr-hosting-main">Any EU AWS region</div>
-                                    <div class="dr-hosting-note">Recommend: eu-central-1. ANAF only stores 60 days.</div>
+                                    <div class="dr-hosting-warning">ANAF e-Factura only stores 60 days - you must archive!</div>
+                                    <div class="dr-hosting-note">Your infra: eu-central-1 recommended. Archive XML with digital seal.</div>
                                 </td>
                                 <td>10-25 yrs</td>
                                 <td><a class="dr-link" href="https://www.anaf.ro" target="_blank">anaf.ro</a></td>
-                                <td class="dr-rationale">EU storage permitted. Must archive XML with digital seal independently.</td>
+                                <td class="dr-rationale">RO e-Factura (govt) clears invoices but only stores 60 days. Service providers must archive independently in any EU region.</td>
                                 <td><span class="dr-badge dr-conf-high">High</span></td>
                             </tr>
                             <tr data-country="hungary">
                                 <td><div class="dr-country-cell"><span class="dr-flag">&#127469;&#127482;</span> Hungary</div></td>
-                                <td><span class="dr-badge dr-badge-eu">EU OK</span></td>
+                                <td><span class="dr-badge dr-badge-eu">Real-time Reporting</span></td>
                                 <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
                                 <td class="dr-hosting-cell">
                                     <div class="dr-hosting-main">Any EU AWS region</div>
-                                    <div class="dr-hosting-note">Recommend: eu-central-1 (Frankfurt)</div>
+                                    <div class="dr-hosting-note">Your infra: eu-central-1 recommended. NAV Online receives real-time reports.</div>
                                 </td>
                                 <td>5-8 yrs</td>
                                 <td><a class="dr-link" href="https://nav.gov.hu" target="_blank">nav.gov.hu</a></td>
-                                <td class="dr-rationale">EU VAT Directive applies. NAV requires immediate access.</td>
+                                <td class="dr-rationale">NAV Online Invoicing receives real-time reports. Service providers need API integration - no local DC required. Host in any EU region.</td>
                                 <td><span class="dr-badge dr-conf-high">High</span></td>
                             </tr>
                             <tr data-country="netherlands">
@@ -1302,14 +1303,14 @@
                             <tr data-country="switzerland">
                                 <td><div class="dr-country-cell"><span class="dr-flag">&#127464;&#127469;</span> Switzerland</div></td>
                                 <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
-                                <td><span class="dr-badge dr-dc-specific">AWS eu-central-2</span></td>
+                                <td><span class="dr-badge dr-dc-any">Any Region</span></td>
                                 <td class="dr-hosting-cell">
-                                    <div class="dr-hosting-main">AWS eu-central-2 (Zurich)</div>
-                                    <div class="dr-hosting-note">In-country. Cloud requires e-signatures per GeBuV.</div>
+                                    <div class="dr-hosting-main">Any AWS region</div>
+                                    <div class="dr-hosting-note">Your infra: eu-central-2 (Zurich) recommended for latency. Cloud requires e-signatures per GeBuV.</div>
                                 </td>
                                 <td>10 yrs</td>
                                 <td><a class="dr-link" href="https://www.estv.admin.ch" target="_blank">estv.admin.ch</a></td>
-                                <td class="dr-rationale">No explicit domestic requirement. Zurich region optimal.</td>
+                                <td class="dr-rationale">No explicit domestic requirement. Switzerland not in EU - any region works. Zurich optimal for latency but not mandatory.</td>
                                 <td><span class="dr-badge dr-conf-high">High</span></td>
                             </tr>
                             <tr data-country="finland">
@@ -1502,7 +1503,8 @@
                             <div class="dr-summary-icon">&#128992;</div>
                             <div class="dr-summary-content">
                                 <h4>Specific AWS Regions Required</h4>
-                                <p><strong>UAE:</strong> me-central-1 | <strong>Israel:</strong> il-central-1 | <strong>France:</strong> eu-west-3 (verify SecNumCloud) | <strong>Germany:</strong> eu-central-1 (safest)</p>
+                                <p><strong>UAE:</strong> me-central-1 (mandatory) | <strong>Israel:</strong> il-central-1 (recommended)</p>
+                                <p style="font-size: 0.7rem; margin-top: 6px;"><strong>Note:</strong> France only needs SecNumCloud if you're a PDP - otherwise any EU region works</p>
                             </div>
                         </div>
                         <div class="dr-summary-item">
@@ -1516,7 +1518,7 @@
                             <div class="dr-summary-icon">&#128994;</div>
                             <div class="dr-summary-content">
                                 <h4>Fully Flexible (Any Region)</h4>
-                                <p>UK, Estonia, Egypt, Oman, Jordan, Qatar, Bahrain, Kuwait, Iraq. Use me-south-1 for ME, eu-central-1 for Europe.</p>
+                                <p>UK, Switzerland, Estonia, Egypt, Oman, Jordan, Qatar, Bahrain, Kuwait, Iraq. Use me-south-1 for ME, eu-central-1/eu-central-2 for Europe.</p>
                             </div>
                         </div>
                     </div>
@@ -2121,20 +2123,20 @@
             {country:"Tunisia",region:"MENA",residency:"Conditional",dcReq:"Local DC Preferred",hosting:"Local or TTN centralized",archival:"10 years",confidence:"Medium"},
             {country:"Iraq",region:"MENA",residency:"N/A",dcReq:"Any Region",hosting:"Any AWS (recommend me-south-1)",archival:"N/A",confidence:"Low"},
             {country:"Germany",region:"Europe",residency:"Conditional",dcReq:"EU + Approval",hosting:"AWS eu-central-1 (Frankfurt)",archival:"8-10 years",confidence:"High"},
-            {country:"France",region:"Europe",residency:"EU Required",dcReq:"AWS eu-west-3 *",hosting:"AWS eu-west-3 (Paris) - needs SecNumCloud",archival:"10 years",confidence:"High"},
-            {country:"Italy",region:"Europe",residency:"EU Preferred",dcReq:"Any EU Region",hosting:"AWS eu-south-1 (Milan)",archival:"10-15 years",confidence:"High"},
+            {country:"France",region:"Europe",residency:"EU Required",dcReq:"Any EU Region",hosting:"Any EU region (SecNumCloud only for PDP role)",archival:"10 years",confidence:"High"},
+            {country:"Italy",region:"Europe",residency:"Govt Clearance",dcReq:"Any EU Region",hosting:"Any EU region (SdI handles clearance)",archival:"10-15 years",confidence:"High"},
             {country:"Spain",region:"Europe",residency:"EU OK",dcReq:"Any EU Region",hosting:"AWS eu-south-2 (Spain)",archival:"4-6 years",confidence:"High"},
             {country:"Poland",region:"Europe",residency:"Govt Centralized",dcReq:"Any EU Region",hosting:"Any EU region (govt KSeF stores invoices)",archival:"10 years",confidence:"High"},
             {country:"Belgium",region:"Europe",residency:"EU OK",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"10 years",confidence:"High"},
             {country:"United Kingdom",region:"Europe",residency:"Flexible",dcReq:"Any Region",hosting:"AWS eu-west-2 (London)",archival:"6 years",confidence:"High"},
-            {country:"Romania",region:"Europe",residency:"EU OK",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"10-25 years",confidence:"High"},
-            {country:"Hungary",region:"Europe",residency:"EU OK",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"5-8 years",confidence:"High"},
+            {country:"Romania",region:"Europe",residency:"Govt Clearance",dcReq:"Any EU Region",hosting:"Any EU region (ANAF stores 60 days only - you must archive)",archival:"10-25 years",confidence:"High"},
+            {country:"Hungary",region:"Europe",residency:"Real-time Reporting",dcReq:"Any EU Region",hosting:"Any EU region (NAV receives real-time reports)",archival:"5-8 years",confidence:"High"},
             {country:"Netherlands",region:"Europe",residency:"EU OK",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"7-10 years",confidence:"High"},
             {country:"Sweden",region:"Europe",residency:"Conditional",dcReq:"EU + Notify",hosting:"AWS eu-north-1 (Stockholm)",archival:"7 years",confidence:"High"},
             {country:"Norway",region:"Europe",residency:"Conditional",dcReq:"Nordic/EEA + Notify",hosting:"AWS eu-north-1 (Stockholm)",archival:"Up to 35 years",confidence:"High"},
             {country:"Ireland",region:"Europe",residency:"EU OK",dcReq:"AWS eu-west-1",hosting:"AWS eu-west-1 (Ireland)",archival:"6 years",confidence:"High"},
             {country:"Austria",region:"Europe",residency:"Flexible",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"7-22 years",confidence:"High"},
-            {country:"Switzerland",region:"Europe",residency:"Flexible",dcReq:"AWS eu-central-2",hosting:"AWS eu-central-2 (Zurich)",archival:"10 years",confidence:"High"},
+            {country:"Switzerland",region:"Europe",residency:"Flexible",dcReq:"Any Region",hosting:"Any region (Zurich recommended for latency)",archival:"10 years",confidence:"High"},
             {country:"Finland",region:"Europe",residency:"EU/EEA Preferred",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"6-10 years",confidence:"Medium"},
             {country:"Denmark",region:"Europe",residency:"Flexible",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"5 years",confidence:"High"},
             {country:"Portugal",region:"Europe",residency:"Conditional",dcReq:"EU Region",hosting:"Any EU AWS region",archival:"10 years",confidence:"High"},
