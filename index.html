@@ -181,6 +181,7 @@
             <button class="nav-btn" data-tab="timeline" onclick="showMainSection('timeline')"><span class="icon">&#128197;</span> Timeline</button>
             <button class="nav-btn" data-tab="legend" onclick="showMainSection('legend')"><span class="icon">&#128218;</span> Legend & Methodology</button>
             <button class="nav-btn" data-tab="market" onclick="showMainSection('market')"><span class="icon">&#127970;</span> Market Players</button>
+            <button class="nav-btn" data-tab="data-residency" onclick="showMainSection('data-residency')"><span class="icon">&#127961;</span> Data Residency</button>
         </div>
 
         <!-- Section: Overview -->
@@ -782,6 +783,748 @@
             </div>
         </div>
 
+        <!-- Section: Data Residency -->
+        <div id="data-residency" class="main-section">
+            <style>
+                .dr-section { font-size: 14px; }
+                .dr-disclaimer { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; font-size: 0.85em; color: #92400e; }
+                .dr-disclaimer strong { color: #78350f; }
+                .dr-stats { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+                .dr-stat { background: white; padding: 16px 20px; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; flex: 1; min-width: 120px; text-align: center; }
+                .dr-stat-num { font-size: 1.75rem; font-weight: 700; }
+                .dr-stat-num.red { color: #dc2626; }
+                .dr-stat-num.orange { color: #ea580c; }
+                .dr-stat-num.blue { color: #2563eb; }
+                .dr-stat-num.green { color: #16a34a; }
+                .dr-stat-label { color: #64748b; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+                .dr-aws-ref { background: linear-gradient(135deg, #ff9900 0%, #ffb84d 100%); padding: 16px 20px; border-radius: 10px; margin-bottom: 24px; }
+                .dr-aws-ref h3 { color: #1e293b; font-size: 0.875rem; margin-bottom: 10px; font-weight: 600; }
+                .dr-aws-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+                .dr-aws-chip { background: rgba(255,255,255,0.9); padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; }
+                .dr-aws-chip strong { color: #1e293b; }
+                .dr-region-header { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; padding: 14px 20px; border-radius: 10px 10px 0 0; margin-top: 30px; display: flex; align-items: center; gap: 12px; }
+                .dr-region-header h2 { font-size: 1rem; font-weight: 600; margin: 0; }
+                .dr-region-count { background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; }
+                .dr-table-container { overflow-x: auto; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 10px 10px; margin-bottom: 10px; max-height: 100vh; }
+                .dr-table { width: 100%; border-collapse: collapse; background: white; font-size: 0.8rem; table-layout: auto; }
+                .dr-table th { background: #f1f5f9; padding: 12px 14px; text-align: left; font-weight: 600; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.03em; color: #475569; border-bottom: 2px solid #e2e8f0; position: sticky; top: 0; z-index: 10; white-space: nowrap; min-width: 100px; }
+                .dr-table td { padding: 14px; border-bottom: 1px solid #f1f5f9; vertical-align: top; line-height: 1.5; }
+                .dr-table tr:hover { background: #f8fafc; }
+                .dr-country-cell { display: flex; align-items: center; gap: 10px; font-weight: 600; white-space: nowrap; font-size: 0.85rem; }
+                .dr-flag { font-size: 1.25rem; }
+                .dr-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 500; white-space: nowrap; }
+                .dr-badge-required { background: #fef2f2; color: #dc2626; }
+                .dr-badge-conditional { background: #fffbeb; color: #b45309; }
+                .dr-badge-flexible { background: #f0fdf4; color: #16a34a; }
+                .dr-badge-eu { background: #eff6ff; color: #2563eb; }
+                .dr-badge-na { background: #f1f5f9; color: #64748b; }
+                .dr-dc-local { background: #fef2f2; color: #dc2626; font-weight: 600; }
+                .dr-dc-specific { background: #fff7ed; color: #c2410c; }
+                .dr-dc-eu { background: #eff6ff; color: #2563eb; }
+                .dr-dc-any { background: #f0fdf4; color: #16a34a; }
+                .dr-conf-high { background: #dcfce7; color: #166534; }
+                .dr-conf-medium { background: #fef9c3; color: #854d0e; }
+                .dr-conf-low { background: #fee2e2; color: #991b1b; }
+                .dr-hosting-cell { max-width: 220px; }
+                .dr-hosting-main { font-weight: 600; color: #1e293b; margin-bottom: 4px; }
+                .dr-hosting-warning { color: #dc2626; font-weight: 500; font-size: 0.75rem; }
+                .dr-hosting-note { color: #64748b; font-size: 0.75rem; font-style: italic; }
+                .dr-rationale { font-size: 0.8rem; color: #475569; max-width: 280px; line-height: 1.5; }
+                .dr-link { color: #3b82f6; text-decoration: none; font-size: 0.8rem; }
+                .dr-link:hover { text-decoration: underline; }
+                .dr-summary { background: white; border-radius: 10px; padding: 20px 24px; margin: 30px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+                .dr-summary h2 { font-size: 1rem; margin-bottom: 16px; color: #1e293b; }
+                .dr-summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+                .dr-summary-item { display: flex; gap: 12px; padding: 14px; background: #f8fafc; border-radius: 8px; }
+                .dr-summary-icon { font-size: 1.25rem; flex-shrink: 0; }
+                .dr-summary-content h4 { font-size: 0.85rem; color: #1e293b; margin-bottom: 4px; }
+                .dr-summary-content p { font-size: 0.75rem; color: #64748b; line-height: 1.5; margin: 0; }
+                .dr-toolbar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+                .dr-search { flex: 1; min-width: 250px; max-width: 400px; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.875rem; background: #f8fafc; }
+                .dr-search:focus { outline: none; border-color: #3b82f6; background: white; }
+                .dr-btn { padding: 10px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 500; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; }
+                .dr-btn-primary { background: #3b82f6; color: white; }
+                .dr-btn-primary:hover { background: #2563eb; }
+            </style>
+
+            <div class="dr-section">
+                <div class="dr-disclaimer">
+                    <strong>Disclaimer:</strong> Research based on official government sources as of January 9, 2026. Regulations change frequently. Always verify with official tax authorities and legal counsel before making compliance decisions.
+                </div>
+
+                <div class="dr-toolbar">
+                    <input type="text" class="dr-search" id="drSearchInput" placeholder="Search countries...">
+                    <button class="dr-btn dr-btn-primary" onclick="downloadDRCSV()">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        Download CSV
+                    </button>
+                </div>
+
+                <div class="dr-stats">
+                    <div class="dr-stat">
+                        <div class="dr-stat-num">41</div>
+                        <div class="dr-stat-label">Countries Analyzed</div>
+                    </div>
+                    <div class="dr-stat">
+                        <div class="dr-stat-num red">5</div>
+                        <div class="dr-stat-label">Local DC Required</div>
+                    </div>
+                    <div class="dr-stat">
+                        <div class="dr-stat-num orange">3</div>
+                        <div class="dr-stat-label">Specific AWS Region</div>
+                    </div>
+                    <div class="dr-stat">
+                        <div class="dr-stat-num blue">20</div>
+                        <div class="dr-stat-label">Any EU Region</div>
+                    </div>
+                    <div class="dr-stat">
+                        <div class="dr-stat-num green">13</div>
+                        <div class="dr-stat-label">Any Region OK</div>
+                    </div>
+                </div>
+
+                <div class="dr-aws-ref">
+                    <h3>AWS Regions Reference</h3>
+                    <div class="dr-aws-chips">
+                        <div class="dr-aws-chip"><strong>me-south-1</strong> Bahrain</div>
+                        <div class="dr-aws-chip"><strong>me-central-1</strong> UAE</div>
+                        <div class="dr-aws-chip"><strong>il-central-1</strong> Israel</div>
+                        <div class="dr-aws-chip"><strong>eu-central-1</strong> Frankfurt</div>
+                        <div class="dr-aws-chip"><strong>eu-west-1</strong> Ireland</div>
+                        <div class="dr-aws-chip"><strong>eu-west-2</strong> London</div>
+                        <div class="dr-aws-chip"><strong>eu-west-3</strong> Paris</div>
+                        <div class="dr-aws-chip"><strong>eu-south-1</strong> Milan</div>
+                        <div class="dr-aws-chip"><strong>eu-south-2</strong> Spain</div>
+                        <div class="dr-aws-chip"><strong>eu-north-1</strong> Stockholm</div>
+                        <div class="dr-aws-chip"><strong>eu-central-2</strong> Zurich</div>
+                    </div>
+                </div>
+
+                <!-- MENA Section -->
+                <div class="dr-region-header">
+                    <h2>Middle East & North Africa (MENA)</h2>
+                    <span class="dr-region-count" id="dr-mena-count">13 countries</span>
+                </div>
+                <div class="dr-table-container">
+                    <table class="dr-table" id="dr-mena-table">
+                        <thead>
+                            <tr>
+                                <th>Country</th>
+                                <th>Data Residency</th>
+                                <th>DC Requirement</th>
+                                <th>Recommended Hosting</th>
+                                <th>Archival</th>
+                                <th>Govt Portal</th>
+                                <th>Rationale</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-country="saudi arabia">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127480;&#127462;</span> Saudi Arabia</div></td>
+                                <td><span class="dr-badge dr-badge-required">Mandatory Domestic</span></td>
+                                <td><span class="dr-badge dr-dc-local">Local DC Required</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Local Saudi DC only</div>
+                                    <div class="dr-hosting-warning">AWS me-south-1 (Bahrain) NOT compliant</div>
+                                    <div class="dr-hosting-note">Use: STC Cloud, Mobily, Oracle KSA</div>
+                                </td>
+                                <td>6-11 yrs</td>
+                                <td><a class="dr-link" href="https://zatca.gov.sa" target="_blank">zatca.gov.sa</a></td>
+                                <td class="dr-rationale">E-Invoicing Resolution requires servers "within the country." NCA Cloud Controls mandate data inside Saudi borders.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="uae">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127462;&#127466;</span> UAE</div></td>
+                                <td><span class="dr-badge dr-badge-required">Mandatory Domestic</span></td>
+                                <td><span class="dr-badge dr-dc-specific">AWS me-central-1</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">AWS me-central-1 (UAE)</div>
+                                    <div class="dr-hosting-note">UAE has local AWS region - compliant for eInvoicing</div>
+                                </td>
+                                <td>5-15 yrs</td>
+                                <td><a class="dr-link" href="https://tax.gov.ae" target="_blank">tax.gov.ae</a></td>
+                                <td class="dr-rationale">Ministerial Decision 243/244 of 2025 requires storage within UAE. AWS me-central-1 satisfies this.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="turkey">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127481;&#127479;</span> Turkey</div></td>
+                                <td><span class="dr-badge dr-badge-required">Mandatory Domestic</span></td>
+                                <td><span class="dr-badge dr-dc-local">Local DC Required</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Local Turkish DC only</div>
+                                    <div class="dr-hosting-warning">No AWS region in Turkey</div>
+                                    <div class="dr-hosting-note">Use: Turkcell, Vodafone Turkey</div>
+                                </td>
+                                <td>5-10 yrs</td>
+                                <td><a class="dr-link" href="https://www.gib.gov.tr" target="_blank">gib.gov.tr</a></td>
+                                <td class="dr-rationale">VUK Communique 447 states IT infrastructure must be "within borders of Republic of Turkey."</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="egypt">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127466;&#127468;</span> Egypt</div></td>
+                                <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
+                                <td><span class="dr-badge dr-dc-any">Any Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: me-south-1 (Bahrain) for latency</div>
+                                </td>
+                                <td>5-7 yrs</td>
+                                <td><a class="dr-link" href="https://www.eta.gov.eg" target="_blank">eta.gov.eg</a></td>
+                                <td class="dr-rationale">No explicit data residency in ETA docs. All invoices submitted to central ETA system.</td>
+                                <td><span class="dr-badge dr-conf-medium">Medium</span></td>
+                            </tr>
+                            <tr data-country="israel">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127470;&#127473;</span> Israel</div></td>
+                                <td><span class="dr-badge dr-badge-conditional">Conditional</span></td>
+                                <td><span class="dr-badge dr-dc-specific">AWS il-central-1</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">AWS il-central-1 (Tel Aviv)</div>
+                                    <div class="dr-hosting-note">Safest option. Abroad storage needs prior ITA authorization.</div>
+                                </td>
+                                <td>7 yrs</td>
+                                <td><a class="dr-link" href="https://taxes.gov.il" target="_blank">taxes.gov.il</a></td>
+                                <td class="dr-rationale">No data localization law, but storage abroad requires ITA authorization. Using il-central-1 avoids this.</td>
+                                <td><span class="dr-badge dr-conf-medium">Medium</span></td>
+                            </tr>
+                            <tr data-country="oman">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127476;&#127474;</span> Oman</div></td>
+                                <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
+                                <td><span class="dr-badge dr-dc-any">Any Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: me-south-1 (Bahrain). Must disclose location to OTA.</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://taxoman.gov.om/portal/" target="_blank">taxoman.gov.om</a></td>
+                                <td class="dr-rationale">No geographic restriction mandated. Focus on ISO 27001 and security standards.</td>
+                                <td><span class="dr-badge dr-conf-medium">Medium</span></td>
+                            </tr>
+                            <tr data-country="jordan">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127471;&#127476;</span> Jordan</div></td>
+                                <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
+                                <td><span class="dr-badge dr-dc-any">Any Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: me-south-1 (Bahrain) for latency</div>
+                                </td>
+                                <td>4-10 yrs</td>
+                                <td><a class="dr-link" href="https://istd.gov.jo" target="_blank">istd.gov.jo</a></td>
+                                <td class="dr-rationale">No explicit data localization. Data centralized via JoFotara.</td>
+                                <td><span class="dr-badge dr-conf-medium">Medium</span></td>
+                            </tr>
+                            <tr data-country="qatar">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127478;&#127462;</span> Qatar</div></td>
+                                <td><span class="dr-badge dr-badge-conditional">Conditional</span></td>
+                                <td><span class="dr-badge dr-dc-any">Any Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: me-south-1. Tax records in Qatar preferred.</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://gta.gov.qa" target="_blank">gta.gov.qa</a></td>
+                                <td class="dr-rationale">No eInvoicing mandate yet. Cloud Policy Framework (2022) removed general data localization.</td>
+                                <td><span class="dr-badge dr-conf-medium">Medium</span></td>
+                            </tr>
+                            <tr data-country="bahrain">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127463;&#127469;</span> Bahrain</div></td>
+                                <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
+                                <td><span class="dr-badge dr-dc-specific">AWS me-south-1</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">AWS me-south-1 (Bahrain)</div>
+                                    <div class="dr-hosting-note">Local region available, no mandatory eInvoicing yet</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://www.nbr.gov.bh" target="_blank">nbr.gov.bh</a></td>
+                                <td class="dr-rationale">PDPL has no general localization. Private sector flexible. AWS Bahrain provides optimal latency.</td>
+                                <td><span class="dr-badge dr-conf-medium">Medium</span></td>
+                            </tr>
+                            <tr data-country="kuwait">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127472;&#127484;</span> Kuwait</div></td>
+                                <td><span class="dr-badge dr-badge-na">N/A</span></td>
+                                <td><span class="dr-badge dr-dc-any">Any Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any AWS region</div>
+                                    <div class="dr-hosting-note">No eInvoicing. Recommend: me-south-1 for latency.</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://www.mof.gov.kw" target="_blank">mof.gov.kw</a></td>
+                                <td class="dr-rationale">No VAT or eInvoicing mandate. No general data localization law.</td>
+                                <td><span class="dr-badge dr-conf-low">Low</span></td>
+                            </tr>
+                            <tr data-country="morocco">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127474;&#127462;</span> Morocco</div></td>
+                                <td><span class="dr-badge dr-badge-conditional">Conditional</span></td>
+                                <td><span class="dr-badge dr-dc-eu">EU Region + Auth</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">EU region with CNDP authorization</div>
+                                    <div class="dr-hosting-note">Recommend: eu-south-1 (Milan) or eu-west-3 (Paris)</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://tax.gov.ma" target="_blank">tax.gov.ma</a></td>
+                                <td class="dr-rationale">eInvoicing 2026. Law 09-08 requires CNDP authorization for international transfers.</td>
+                                <td><span class="dr-badge dr-conf-low">Low</span></td>
+                            </tr>
+                            <tr data-country="tunisia">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127481;&#127475;</span> Tunisia</div></td>
+                                <td><span class="dr-badge dr-badge-conditional">Conditional</span></td>
+                                <td><span class="dr-badge dr-dc-local">Local DC Preferred</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Local or TTN centralized</div>
+                                    <div class="dr-hosting-warning">Cross-border needs INPDP auth</div>
+                                    <div class="dr-hosting-note">TTN archives centrally. Consider eu-south-1 with auth.</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://www.finances.gov.tn" target="_blank">finances.gov.tn</a></td>
+                                <td class="dr-rationale">Centralized via TTN. Cross-border transfers require INPDP authorization.</td>
+                                <td><span class="dr-badge dr-conf-medium">Medium</span></td>
+                            </tr>
+                            <tr data-country="iraq">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127470;&#127478;</span> Iraq</div></td>
+                                <td><span class="dr-badge dr-badge-na">N/A</span></td>
+                                <td><span class="dr-badge dr-dc-any">Any Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any AWS region</div>
+                                    <div class="dr-hosting-note">No eInvoicing mandate. Recommend: me-south-1 for latency.</div>
+                                </td>
+                                <td>N/A</td>
+                                <td><a class="dr-link" href="https://mof.gov.iq" target="_blank">mof.gov.iq</a></td>
+                                <td class="dr-rationale">No eInvoicing mandate. No PDPL. No forced data localization.</td>
+                                <td><span class="dr-badge dr-conf-low">Low</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Europe Section -->
+                <div class="dr-region-header">
+                    <h2>Europe</h2>
+                    <span class="dr-region-count" id="dr-europe-count">28 countries</span>
+                </div>
+                <div class="dr-table-container">
+                    <table class="dr-table" id="dr-europe-table">
+                        <thead>
+                            <tr>
+                                <th>Country</th>
+                                <th>Data Residency</th>
+                                <th>DC Requirement</th>
+                                <th>Recommended Hosting</th>
+                                <th>Archival</th>
+                                <th>Govt Portal</th>
+                                <th>Rationale</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-country="germany">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127465;&#127466;</span> Germany</div></td>
+                                <td><span class="dr-badge dr-badge-conditional">Conditional</span></td>
+                                <td><span class="dr-badge dr-dc-eu">EU + Approval</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">AWS eu-central-1 (Frankfurt)</div>
+                                    <div class="dr-hosting-note">Domestic preferred. EU needs prior tax authority approval.</div>
+                                </td>
+                                <td>8-10 yrs</td>
+                                <td><a class="dr-link" href="https://www.bzst.de" target="_blank">bzst.de</a></td>
+                                <td class="dr-rationale">Section 146(2a) AO allows EU with prior written approval. Penalty EUR 250K/yr for unauthorized.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="france">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127467;&#127479;</span> France</div></td>
+                                <td><span class="dr-badge dr-badge-eu">EU Required</span></td>
+                                <td><span class="dr-badge dr-dc-specific">AWS eu-west-3 *</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">AWS eu-west-3 (Paris)</div>
+                                    <div class="dr-hosting-warning">* PDP needs SecNumCloud cert</div>
+                                    <div class="dr-hosting-note">Alternative: OVHcloud, 3DS Outscale</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://www.impots.gouv.fr" target="_blank">impots.gouv.fr</a></td>
+                                <td class="dr-rationale">Decree 2024-266 requires EU hosting + SecNumCloud certification.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="italy">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127470;&#127481;</span> Italy</div></td>
+                                <td><span class="dr-badge dr-badge-eu">EU Preferred</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">AWS eu-south-1 (Milan)</div>
+                                    <div class="dr-hosting-note">In-country option. Any EU works. Free SOGEI conservation.</div>
+                                </td>
+                                <td>10-15 yrs</td>
+                                <td><a class="dr-link" href="https://www.agenziaentrate.gov.it" target="_blank">agenziaentrate.gov.it</a></td>
+                                <td class="dr-rationale">EU Regulation 2018/1807 applies. Milan region provides in-country option.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="spain">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127466;&#127480;</span> Spain</div></td>
+                                <td><span class="dr-badge dr-badge-eu">EU OK</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">AWS eu-south-2 (Spain)</div>
+                                    <div class="dr-hosting-note">In-country option. Any EU works with AEAT notification.</div>
+                                </td>
+                                <td>4-6 yrs</td>
+                                <td><a class="dr-link" href="https://www.agenciatributaria.es" target="_blank">agenciatributaria.es</a></td>
+                                <td class="dr-rationale">EU VAT Directive permits any EU. Notify AEAT when moving to another country.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="poland">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127477;&#127473;</span> Poland</div></td>
+                                <td><span class="dr-badge dr-badge-required">Centralized (KSeF)</span></td>
+                                <td><span class="dr-badge dr-dc-local">Govt System</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">KSeF handles storage</div>
+                                    <div class="dr-hosting-note">All invoices on Polish govt servers. Keep backups in eu-central-1.</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://www.podatki.gov.pl" target="_blank">podatki.gov.pl</a></td>
+                                <td class="dr-rationale">KSeF centralizes all invoices on govt servers. Automatic 10-year retention.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="belgium">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127463;&#127466;</span> Belgium</div></td>
+                                <td><span class="dr-badge dr-badge-eu">EU OK</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: eu-west-1 (Ireland) or eu-central-1 (Frankfurt)</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://finances.belgium.be" target="_blank">finances.belgium.be</a></td>
+                                <td class="dr-rationale">No strict domestic requirement. Cloud permitted. Peppol certified providers.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="united kingdom uk">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127468;&#127463;</span> United Kingdom</div></td>
+                                <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
+                                <td><span class="dr-badge dr-dc-any">Any Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">AWS eu-west-2 (London)</div>
+                                    <div class="dr-hosting-note">In-country option. Any region works.</div>
+                                </td>
+                                <td>6 yrs</td>
+                                <td><a class="dr-link" href="https://www.gov.uk/government/organisations/hm-revenue-customs" target="_blank">gov.uk/hmrc</a></td>
+                                <td class="dr-rationale">No geographic restrictions. MTD focuses on functional requirements.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="romania">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127479;&#127476;</span> Romania</div></td>
+                                <td><span class="dr-badge dr-badge-eu">EU OK</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: eu-central-1. ANAF only stores 60 days.</div>
+                                </td>
+                                <td>10-25 yrs</td>
+                                <td><a class="dr-link" href="https://www.anaf.ro" target="_blank">anaf.ro</a></td>
+                                <td class="dr-rationale">EU storage permitted. Must archive XML with digital seal independently.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="hungary">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127469;&#127482;</span> Hungary</div></td>
+                                <td><span class="dr-badge dr-badge-eu">EU OK</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: eu-central-1 (Frankfurt)</div>
+                                </td>
+                                <td>5-8 yrs</td>
+                                <td><a class="dr-link" href="https://nav.gov.hu" target="_blank">nav.gov.hu</a></td>
+                                <td class="dr-rationale">EU VAT Directive applies. NAV requires immediate access.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="netherlands">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127475;&#127473;</span> Netherlands</div></td>
+                                <td><span class="dr-badge dr-badge-eu">EU OK</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">ISO 27001 required for Peppol. AWS is certified.</div>
+                                </td>
+                                <td>7-10 yrs</td>
+                                <td><a class="dr-link" href="https://www.belastingdienst.nl" target="_blank">belastingdienst.nl</a></td>
+                                <td class="dr-rationale">EU or GDPR-adequate countries. First to mandate ISO 27001 for Peppol.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="sweden">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127480;&#127466;</span> Sweden</div></td>
+                                <td><span class="dr-badge dr-badge-conditional">Conditional</span></td>
+                                <td><span class="dr-badge dr-dc-eu">EU + Notify</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">AWS eu-north-1 (Stockholm)</div>
+                                    <div class="dr-hosting-note">Safest. Other EU requires Skatteverket notification.</div>
+                                </td>
+                                <td>7 yrs</td>
+                                <td><a class="dr-link" href="https://www.skatteverket.se" target="_blank">skatteverket.se</a></td>
+                                <td class="dr-rationale">Default: Sweden. EU/EEA requires notification to Skatteverket.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="norway">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127475;&#127476;</span> Norway</div></td>
+                                <td><span class="dr-badge dr-badge-conditional">Conditional</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Nordic/EEA + Notify</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">AWS eu-north-1 (Stockholm)</div>
+                                    <div class="dr-hosting-note">Nordic exempt. EEA needs written notice.</div>
+                                </td>
+                                <td>Up to 35 yrs</td>
+                                <td><a class="dr-link" href="https://www.skatteetaten.no" target="_blank">skatteetaten.no</a></td>
+                                <td class="dr-rationale">Default: Norway. Nordic (DK, FI, IS, SE) exempt without application.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="ireland">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127470;&#127466;</span> Ireland</div></td>
+                                <td><span class="dr-badge dr-badge-eu">EU OK</span></td>
+                                <td><span class="dr-badge dr-dc-eu">AWS eu-west-1</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">AWS eu-west-1 (Ireland)</div>
+                                    <div class="dr-hosting-note">In-country region with excellent connectivity.</div>
+                                </td>
+                                <td>6 yrs</td>
+                                <td><a class="dr-link" href="https://www.revenue.ie" target="_blank">revenue.ie</a></td>
+                                <td class="dr-rationale">EU storage permitted. Paper in Ireland. Ireland region provides local option.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="austria">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127462;&#127481;</span> Austria</div></td>
+                                <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: eu-central-1 (Frankfurt) for proximity.</div>
+                                </td>
+                                <td>7-22 yrs</td>
+                                <td><a class="dr-link" href="https://www.bmf.gv.at" target="_blank">bmf.gv.at</a></td>
+                                <td class="dr-rationale">No mandatory domestic requirement. Functional accessibility over location.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="switzerland">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127464;&#127469;</span> Switzerland</div></td>
+                                <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
+                                <td><span class="dr-badge dr-dc-specific">AWS eu-central-2</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">AWS eu-central-2 (Zurich)</div>
+                                    <div class="dr-hosting-note">In-country. Cloud requires e-signatures per GeBuV.</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://www.estv.admin.ch" target="_blank">estv.admin.ch</a></td>
+                                <td class="dr-rationale">No explicit domestic requirement. Zurich region optimal.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="finland">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127467;&#127470;</span> Finland</div></td>
+                                <td><span class="dr-badge dr-badge-eu">EU/EEA Preferred</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: eu-north-1 (Stockholm) for proximity.</div>
+                                </td>
+                                <td>6-10 yrs</td>
+                                <td><a class="dr-link" href="https://www.vero.fi" target="_blank">vero.fi</a></td>
+                                <td class="dr-rationale">No explicit domestic requirement. EU/EEA preferred. Peppol pioneer since 2009.</td>
+                                <td><span class="dr-badge dr-conf-medium">Medium</span></td>
+                            </tr>
+                            <tr data-country="denmark">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127465;&#127472;</span> Denmark</div></td>
+                                <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: eu-north-1 (Stockholm). Shortest retention (5 yrs).</div>
+                                </td>
+                                <td>5 yrs</td>
+                                <td><a class="dr-link" href="https://skat.dk" target="_blank">skat.dk</a></td>
+                                <td class="dr-rationale">No geographic mandate. Focus on certified cloud-ready systems.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="portugal">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127477;&#127481;</span> Portugal</div></td>
+                                <td><span class="dr-badge dr-badge-conditional">Conditional</span></td>
+                                <td><span class="dr-badge dr-dc-eu">EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: eu-south-2 (Spain) for proximity. Paper must be in Portugal.</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://portaldasfinancas.gov.pt" target="_blank">portaldasfinancas.gov.pt</a></td>
+                                <td class="dr-rationale">Electronic: EU permitted. Paper: Portugal. AT-certified billing required.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="greece">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127468;&#127479;</span> Greece</div></td>
+                                <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: eu-south-1 (Milan) for proximity.</div>
+                                </td>
+                                <td>5-10 yrs</td>
+                                <td><a class="dr-link" href="https://www.aade.gr" target="_blank">aade.gr</a></td>
+                                <td class="dr-rationale">No explicit data residency. myDATA real-time focus. Certified providers required.</td>
+                                <td><span class="dr-badge dr-conf-medium">Medium</span></td>
+                            </tr>
+                            <tr data-country="czech republic czechia">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127464;&#127487;</span> Czech Republic</div></td>
+                                <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: eu-central-1 (Frankfurt). Notify tax authority of location.</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://www.mfcr.cz" target="_blank">mfcr.cz</a></td>
+                                <td class="dr-rationale">VAT Act allows abroad. Key: immediate free electronic access.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="slovakia">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127480;&#127472;</span> Slovakia</div></td>
+                                <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: eu-central-1 (Frankfurt). UBL 2.1 from Jan 2027.</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://www.financnasprava.sk" target="_blank">financnasprava.sk</a></td>
+                                <td class="dr-rationale">No domestic mandate. Storage flexible. IS EFA for B2G.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="slovenia">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127480;&#127470;</span> Slovenia</div></td>
+                                <td><span class="dr-badge dr-badge-eu">EU OK</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: eu-south-1 (Milan) or eu-central-1.</div>
+                                </td>
+                                <td>10-20 yrs</td>
+                                <td><a class="dr-link" href="https://www.fu.gov.si" target="_blank">fu.gov.si</a></td>
+                                <td class="dr-rationale">EU VAT Directive applies. EU storage permitted. 20 years for real estate.</td>
+                                <td><span class="dr-badge dr-conf-medium">Medium</span></td>
+                            </tr>
+                            <tr data-country="croatia">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127469;&#127479;</span> Croatia</div></td>
+                                <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: eu-south-1 (Milan). ISO 27001 + GDPR required.</div>
+                                </td>
+                                <td>11 yrs</td>
+                                <td><a class="dr-link" href="https://www.porezna-uprava.hr" target="_blank">porezna-uprava.hr</a></td>
+                                <td class="dr-rationale">Fiscalization focuses on real-time reporting not location. 11-year retention.</td>
+                                <td><span class="dr-badge dr-conf-medium">Medium</span></td>
+                            </tr>
+                            <tr data-country="bulgaria">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127463;&#127468;</span> Bulgaria</div></td>
+                                <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: eu-central-1 (Frankfurt). SAF-T from Jan 2026.</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://portal.nra.bg" target="_blank">nra.bg</a></td>
+                                <td class="dr-rationale">EU Directive framework. No explicit domestic requirement.</td>
+                                <td><span class="dr-badge dr-conf-medium">Medium</span></td>
+                            </tr>
+                            <tr data-country="latvia">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127473;&#127483;</span> Latvia</div></td>
+                                <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: eu-north-1 (Stockholm). B2B mandatory Jan 2028.</div>
+                                </td>
+                                <td>5-10 yrs</td>
+                                <td><a class="dr-link" href="https://www.vid.gov.lv" target="_blank">vid.gov.lv</a></td>
+                                <td class="dr-rationale">Abroad allowed with online access. Electronic invoices flexible.</td>
+                                <td><span class="dr-badge dr-conf-medium">Medium</span></td>
+                            </tr>
+                            <tr data-country="lithuania">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127473;&#127481;</span> Lithuania</div></td>
+                                <td><span class="dr-badge dr-badge-eu">EU OK</span></td>
+                                <td><span class="dr-badge dr-dc-eu">Any EU Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any EU AWS region</div>
+                                    <div class="dr-hosting-note">Recommend: eu-north-1 (Stockholm). B2B mandatory Jan 2028.</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://www.vmi.lt" target="_blank">vmi.lt</a></td>
+                                <td class="dr-rationale">No explicit national residency. EU permitted. Focus on audit accessibility.</td>
+                                <td><span class="dr-badge dr-conf-medium">Medium</span></td>
+                            </tr>
+                            <tr data-country="estonia">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127466;&#127466;</span> Estonia</div></td>
+                                <td><span class="dr-badge dr-badge-flexible">Flexible</span></td>
+                                <td><span class="dr-badge dr-dc-any">Any Region</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Any AWS region</div>
+                                    <div class="dr-hosting-note">Most flexible in EU. EMTA: "may choose the place."</div>
+                                </td>
+                                <td>7 yrs</td>
+                                <td><a class="dr-link" href="https://www.emta.ee" target="_blank">emta.ee</a></td>
+                                <td class="dr-rationale">EMTA explicitly allows taxpayer choice of location. Most flexible.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                            <tr data-country="luxembourg">
+                                <td><div class="dr-country-cell"><span class="dr-flag">&#127473;&#127482;</span> Luxembourg</div></td>
+                                <td><span class="dr-badge dr-badge-required">Mandatory Domestic</span></td>
+                                <td><span class="dr-badge dr-dc-local">Local DC Required</span></td>
+                                <td class="dr-hosting-cell">
+                                    <div class="dr-hosting-main">Local Luxembourg DC only</div>
+                                    <div class="dr-hosting-warning">No AWS region in Luxembourg</div>
+                                    <div class="dr-hosting-note">Use: LuxConnect, Ebrc, POST Luxembourg. Strictest EU.</div>
+                                </td>
+                                <td>10 yrs</td>
+                                <td><a class="dr-link" href="https://acd.gouvernement.lu" target="_blank">acd.gouvernement.lu</a></td>
+                                <td class="dr-rationale">Guichet.lu: "Place of preservation must be Luxembourg." Strictest in EU.</td>
+                                <td><span class="dr-badge dr-conf-high">High</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Summary Section -->
+                <div class="dr-summary">
+                    <h2>Data Center Strategy Summary</h2>
+                    <div class="dr-summary-grid">
+                        <div class="dr-summary-item">
+                            <div class="dr-summary-icon">&#128308;</div>
+                            <div class="dr-summary-content">
+                                <h4>Local Data Centers Required</h4>
+                                <p><strong>Saudi Arabia:</strong> STC Cloud, Mobily, Oracle KSA | <strong>Turkey:</strong> Turkcell, Vodafone | <strong>Poland:</strong> KSeF (backups in EU) | <strong>Luxembourg:</strong> LuxConnect, Ebrc | <strong>Tunisia:</strong> TTN or local + auth</p>
+                            </div>
+                        </div>
+                        <div class="dr-summary-item">
+                            <div class="dr-summary-icon">&#128992;</div>
+                            <div class="dr-summary-content">
+                                <h4>Specific AWS Regions Required</h4>
+                                <p><strong>UAE:</strong> me-central-1 | <strong>Israel:</strong> il-central-1 | <strong>France:</strong> eu-west-3 (verify SecNumCloud) | <strong>Germany:</strong> eu-central-1 (safest)</p>
+                            </div>
+                        </div>
+                        <div class="dr-summary-item">
+                            <div class="dr-summary-icon">&#128309;</div>
+                            <div class="dr-summary-content">
+                                <h4>Central EU Hub Strategy</h4>
+                                <p><strong>Primary:</strong> eu-central-1 (Frankfurt) or eu-west-1 (Ireland) | <strong>Southern:</strong> eu-south-1 (Milan) | <strong>Nordic:</strong> eu-north-1 (Stockholm)</p>
+                            </div>
+                        </div>
+                        <div class="dr-summary-item">
+                            <div class="dr-summary-icon">&#128994;</div>
+                            <div class="dr-summary-content">
+                                <h4>Fully Flexible (Any Region)</h4>
+                                <p>UK, Estonia, Egypt, Oman, Jordan, Qatar, Bahrain, Kuwait, Iraq. Use me-south-1 for ME, eu-central-1 for Europe.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="color:#64748b; font-size:13px; text-align:center; margin-top:20px;"><strong>Sources:</strong> Official government tax authority websites, EU Digital Building Blocks, national VAT/tax legislation | <strong>Research:</strong> January 2026</p>
+            </div>
+        </div>
+
         <div class="footer">
             <p><strong>Sources:</strong> IMF, VATupdate, KPMG, Basware, Storecove, EDICOM, Fonoa, World Bank, Tax Authority websites</p>
             <p><strong>Knowledge Base Created:</strong> 6 January 2025</p>
@@ -1360,6 +2103,105 @@
         // Initialize with default sort by mandate date
         renderTable(getFilteredSortedData());
         renderTimelineGraph();
+
+        // Data Residency Section Functions
+        const drCountryData = [
+            {country:"Saudi Arabia",region:"MENA",residency:"Mandatory Domestic",dcReq:"Local DC Required",hosting:"Local Saudi DC only",archival:"6-11 years",confidence:"High"},
+            {country:"UAE",region:"MENA",residency:"Mandatory Domestic",dcReq:"AWS me-central-1",hosting:"AWS me-central-1 (UAE)",archival:"5-15 years",confidence:"High"},
+            {country:"Turkey",region:"MENA",residency:"Mandatory Domestic",dcReq:"Local DC Required",hosting:"Local Turkish DC",archival:"5-10 years",confidence:"High"},
+            {country:"Egypt",region:"MENA",residency:"Flexible",dcReq:"Any Region",hosting:"Any AWS (recommend me-south-1)",archival:"5-7 years",confidence:"Medium"},
+            {country:"Israel",region:"MENA",residency:"Conditional",dcReq:"AWS il-central-1",hosting:"AWS il-central-1 (Tel Aviv)",archival:"7 years",confidence:"Medium"},
+            {country:"Oman",region:"MENA",residency:"Flexible",dcReq:"Any Region",hosting:"Any AWS (recommend me-south-1)",archival:"10 years",confidence:"Medium"},
+            {country:"Jordan",region:"MENA",residency:"Flexible",dcReq:"Any Region",hosting:"Any AWS (recommend me-south-1)",archival:"4-10 years",confidence:"Medium"},
+            {country:"Qatar",region:"MENA",residency:"Conditional",dcReq:"Any Region",hosting:"Any AWS (recommend me-south-1)",archival:"10 years",confidence:"Medium"},
+            {country:"Bahrain",region:"MENA",residency:"Flexible",dcReq:"AWS me-south-1",hosting:"AWS me-south-1 (Bahrain)",archival:"10 years",confidence:"Medium"},
+            {country:"Kuwait",region:"MENA",residency:"N/A",dcReq:"Any Region",hosting:"Any AWS (recommend me-south-1)",archival:"10 years",confidence:"Low"},
+            {country:"Morocco",region:"MENA",residency:"Conditional",dcReq:"EU Region + Auth",hosting:"EU region with CNDP authorization",archival:"10 years",confidence:"Low"},
+            {country:"Tunisia",region:"MENA",residency:"Conditional",dcReq:"Local DC Preferred",hosting:"Local or TTN centralized",archival:"10 years",confidence:"Medium"},
+            {country:"Iraq",region:"MENA",residency:"N/A",dcReq:"Any Region",hosting:"Any AWS (recommend me-south-1)",archival:"N/A",confidence:"Low"},
+            {country:"Germany",region:"Europe",residency:"Conditional",dcReq:"EU + Approval",hosting:"AWS eu-central-1 (Frankfurt)",archival:"8-10 years",confidence:"High"},
+            {country:"France",region:"Europe",residency:"EU Required",dcReq:"AWS eu-west-3 *",hosting:"AWS eu-west-3 (Paris) - needs SecNumCloud",archival:"10 years",confidence:"High"},
+            {country:"Italy",region:"Europe",residency:"EU Preferred",dcReq:"Any EU Region",hosting:"AWS eu-south-1 (Milan)",archival:"10-15 years",confidence:"High"},
+            {country:"Spain",region:"Europe",residency:"EU OK",dcReq:"Any EU Region",hosting:"AWS eu-south-2 (Spain)",archival:"4-6 years",confidence:"High"},
+            {country:"Poland",region:"Europe",residency:"Centralized (KSeF)",dcReq:"Govt System",hosting:"KSeF handles storage",archival:"10 years",confidence:"High"},
+            {country:"Belgium",region:"Europe",residency:"EU OK",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"10 years",confidence:"High"},
+            {country:"United Kingdom",region:"Europe",residency:"Flexible",dcReq:"Any Region",hosting:"AWS eu-west-2 (London)",archival:"6 years",confidence:"High"},
+            {country:"Romania",region:"Europe",residency:"EU OK",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"10-25 years",confidence:"High"},
+            {country:"Hungary",region:"Europe",residency:"EU OK",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"5-8 years",confidence:"High"},
+            {country:"Netherlands",region:"Europe",residency:"EU OK",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"7-10 years",confidence:"High"},
+            {country:"Sweden",region:"Europe",residency:"Conditional",dcReq:"EU + Notify",hosting:"AWS eu-north-1 (Stockholm)",archival:"7 years",confidence:"High"},
+            {country:"Norway",region:"Europe",residency:"Conditional",dcReq:"Nordic/EEA + Notify",hosting:"AWS eu-north-1 (Stockholm)",archival:"Up to 35 years",confidence:"High"},
+            {country:"Ireland",region:"Europe",residency:"EU OK",dcReq:"AWS eu-west-1",hosting:"AWS eu-west-1 (Ireland)",archival:"6 years",confidence:"High"},
+            {country:"Austria",region:"Europe",residency:"Flexible",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"7-22 years",confidence:"High"},
+            {country:"Switzerland",region:"Europe",residency:"Flexible",dcReq:"AWS eu-central-2",hosting:"AWS eu-central-2 (Zurich)",archival:"10 years",confidence:"High"},
+            {country:"Finland",region:"Europe",residency:"EU/EEA Preferred",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"6-10 years",confidence:"Medium"},
+            {country:"Denmark",region:"Europe",residency:"Flexible",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"5 years",confidence:"High"},
+            {country:"Portugal",region:"Europe",residency:"Conditional",dcReq:"EU Region",hosting:"Any EU AWS region",archival:"10 years",confidence:"High"},
+            {country:"Greece",region:"Europe",residency:"Flexible",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"5-10 years",confidence:"Medium"},
+            {country:"Czech Republic",region:"Europe",residency:"Flexible",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"10 years",confidence:"High"},
+            {country:"Slovakia",region:"Europe",residency:"Flexible",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"10 years",confidence:"High"},
+            {country:"Slovenia",region:"Europe",residency:"EU OK",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"10-20 years",confidence:"Medium"},
+            {country:"Croatia",region:"Europe",residency:"Flexible",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"11 years",confidence:"Medium"},
+            {country:"Bulgaria",region:"Europe",residency:"Flexible",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"10 years",confidence:"Medium"},
+            {country:"Latvia",region:"Europe",residency:"Flexible",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"5-10 years",confidence:"Medium"},
+            {country:"Lithuania",region:"Europe",residency:"EU OK",dcReq:"Any EU Region",hosting:"Any EU AWS region",archival:"10 years",confidence:"Medium"},
+            {country:"Estonia",region:"Europe",residency:"Flexible",dcReq:"Any Region",hosting:"Any AWS region",archival:"7 years",confidence:"High"},
+            {country:"Luxembourg",region:"Europe",residency:"Mandatory Domestic",dcReq:"Local DC Required",hosting:"Local Luxembourg DC",archival:"10 years",confidence:"High"}
+        ];
+
+        // Data Residency Search
+        const drSearchInput = document.getElementById('drSearchInput');
+        if (drSearchInput) {
+            drSearchInput.addEventListener('input', filterDRCountries);
+        }
+
+        function filterDRCountries() {
+            const searchTerm = drSearchInput.value.toLowerCase();
+            const menaRows = document.querySelectorAll('#dr-mena-table tbody tr');
+            const europeRows = document.querySelectorAll('#dr-europe-table tbody tr');
+            let menaVisible = 0, europeVisible = 0;
+
+            menaRows.forEach(row => {
+                const country = row.dataset.country || '';
+                if (country.includes(searchTerm)) {
+                    row.style.display = '';
+                    menaVisible++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            europeRows.forEach(row => {
+                const country = row.dataset.country || '';
+                if (country.includes(searchTerm)) {
+                    row.style.display = '';
+                    europeVisible++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            document.getElementById('dr-mena-count').textContent = menaVisible + ' countries';
+            document.getElementById('dr-europe-count').textContent = europeVisible + ' countries';
+        }
+
+        function downloadDRCSV() {
+            const headers = ['Country', 'Region', 'Data Residency', 'DC Requirement', 'Recommended Hosting', 'Archival Period', 'Confidence'];
+            const rows = drCountryData.map(c => [c.country, c.region, c.residency, c.dcReq, c.hosting, c.archival, c.confidence]);
+
+            let csv = headers.join(',') + '\n';
+            rows.forEach(row => {
+                csv += row.map(cell => `"${cell}"`).join(',') + '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'einvoice-data-residency-report.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
     </script>
 </body>
 </html>
