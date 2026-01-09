@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>eInvoicing Data Residency Requirements - ME & EU Countries</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 11pt; line-height: 1.5; margin: 40px; }
+        h1 { color: #1a365d; font-size: 24pt; border-bottom: 2px solid #1a365d; padding-bottom: 10px; }
+        h2 { color: #2c5282; font-size: 16pt; margin-top: 30px; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        h3 { color: #2d3748; font-size: 13pt; margin-top: 20px; }
+        table { border-collapse: collapse; width: 100%; margin: 15px 0; font-size: 10pt; }
+        th { background: #2c5282; color: white; padding: 10px 8px; text-align: left; font-weight: bold; }
+        td { padding: 8px; border: 1px solid #e2e8f0; vertical-align: top; }
+        tr:nth-child(even) { background: #f7fafc; }
+        .disclaimer { background: #fffbeb; border: 1px solid #fcd34d; padding: 12px; margin: 20px 0; border-radius: 4px; }
+        .summary-box { background: #f0f4f8; padding: 15px; margin: 15px 0; border-left: 4px solid #2c5282; }
+        .badge-red { color: #c53030; font-weight: bold; }
+        .badge-orange { color: #c05621; font-weight: bold; }
+        .badge-blue { color: #2b6cb0; font-weight: bold; }
+        .badge-green { color: #276749; font-weight: bold; }
+        .badge-gray { color: #718096; }
+        .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ccc; font-size: 9pt; color: #718096; }
+        ul { margin: 10px 0; }
+        li { margin: 5px 0; }
+    </style>
+</head>
+<body>
+
+<h1>eInvoicing Data Residency Requirements</h1>
+<p><strong>Data center hosting compliance for ME & EU countries with AWS recommendations</strong></p>
+<p><em>Report Date: January 9, 2026</em></p>
+
+<div class="disclaimer">
+    <strong>Disclaimer:</strong> Research based on official government sources as of January 9, 2026. Regulations change frequently. Always verify with official tax authorities and legal counsel before making compliance decisions.
+</div>
+
+<h2>Executive Summary</h2>
+
+<div class="summary-box">
+<p><strong>41 Countries Analyzed</strong></p>
+<ul>
+    <li><span class="badge-red">5 Countries</span> - Local Data Center Required (Saudi Arabia, Turkey, Poland, Luxembourg, Tunisia)</li>
+    <li><span class="badge-orange">3 Countries</span> - Specific AWS Region Required (UAE, Israel, France)</li>
+    <li><span class="badge-blue">20 Countries</span> - Any EU Region Acceptable</li>
+    <li><span class="badge-green">13 Countries</span> - Any Region Acceptable</li>
+</ul>
+</div>
+
+<h3>AWS Regions Reference</h3>
+<table>
+    <tr>
+        <th>Region Code</th>
+        <th>Location</th>
+        <th>Region Code</th>
+        <th>Location</th>
+    </tr>
+    <tr>
+        <td>me-south-1</td>
+        <td>Bahrain</td>
+        <td>eu-central-1</td>
+        <td>Frankfurt</td>
+    </tr>
+    <tr>
+        <td>me-central-1</td>
+        <td>UAE</td>
+        <td>eu-west-1</td>
+        <td>Ireland</td>
+    </tr>
+    <tr>
+        <td>il-central-1</td>
+        <td>Israel</td>
+        <td>eu-west-2</td>
+        <td>London</td>
+    </tr>
+    <tr>
+        <td>eu-south-1</td>
+        <td>Milan</td>
+        <td>eu-west-3</td>
+        <td>Paris</td>
+    </tr>
+    <tr>
+        <td>eu-south-2</td>
+        <td>Spain</td>
+        <td>eu-north-1</td>
+        <td>Stockholm</td>
+    </tr>
+    <tr>
+        <td>eu-central-2</td>
+        <td>Zurich</td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+<h2>Middle East & North Africa (MENA) - 13 Countries</h2>
+
+<table>
+    <tr>
+        <th>Country</th>
+        <th>Data Residency</th>
+        <th>DC Requirement</th>
+        <th>Recommended Hosting</th>
+        <th>Archival</th>
+        <th>Confidence</th>
+    </tr>
+    <tr>
+        <td><strong>Saudi Arabia</strong></td>
+        <td class="badge-red">Mandatory Domestic</td>
+        <td class="badge-red">Local DC Required</td>
+        <td>Local Saudi DC only (STC Cloud, Mobily, Oracle KSA). AWS me-south-1 (Bahrain) NOT compliant.</td>
+        <td>6-11 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>UAE</strong></td>
+        <td class="badge-red">Mandatory Domestic</td>
+        <td class="badge-orange">AWS me-central-1</td>
+        <td>AWS me-central-1 (UAE) - UAE has local AWS region, compliant for eInvoicing.</td>
+        <td>5-15 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Turkey</strong></td>
+        <td class="badge-red">Mandatory Domestic</td>
+        <td class="badge-red">Local DC Required</td>
+        <td>Local Turkish DC only (Turkcell, Vodafone Turkey). No AWS region in Turkey.</td>
+        <td>5-10 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Egypt</strong></td>
+        <td class="badge-green">Flexible</td>
+        <td class="badge-green">Any Region</td>
+        <td>Any AWS region. Recommend me-south-1 (Bahrain) for latency.</td>
+        <td>5-7 yrs</td>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <td><strong>Israel</strong></td>
+        <td class="badge-orange">Conditional</td>
+        <td class="badge-orange">AWS il-central-1</td>
+        <td>AWS il-central-1 (Tel Aviv). Abroad storage needs prior ITA authorization.</td>
+        <td>7 yrs</td>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <td><strong>Oman</strong></td>
+        <td class="badge-green">Flexible</td>
+        <td class="badge-green">Any Region</td>
+        <td>Any AWS region. Recommend me-south-1 (Bahrain). Must disclose location to OTA.</td>
+        <td>10 yrs</td>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <td><strong>Jordan</strong></td>
+        <td class="badge-green">Flexible</td>
+        <td class="badge-green">Any Region</td>
+        <td>Any AWS region. Recommend me-south-1 (Bahrain) for latency.</td>
+        <td>4-10 yrs</td>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <td><strong>Qatar</strong></td>
+        <td class="badge-orange">Conditional</td>
+        <td class="badge-green">Any Region</td>
+        <td>Any AWS region. Recommend me-south-1. Tax records in Qatar preferred.</td>
+        <td>10 yrs</td>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <td><strong>Bahrain</strong></td>
+        <td class="badge-green">Flexible</td>
+        <td class="badge-orange">AWS me-south-1</td>
+        <td>AWS me-south-1 (Bahrain). Local region available, no mandatory eInvoicing yet.</td>
+        <td>10 yrs</td>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <td><strong>Kuwait</strong></td>
+        <td class="badge-gray">N/A</td>
+        <td class="badge-green">Any Region</td>
+        <td>Any AWS region. No eInvoicing mandate. Recommend me-south-1 for latency.</td>
+        <td>10 yrs</td>
+        <td>Low</td>
+    </tr>
+    <tr>
+        <td><strong>Morocco</strong></td>
+        <td class="badge-orange">Conditional</td>
+        <td class="badge-blue">EU Region + Auth</td>
+        <td>EU region with CNDP authorization. Recommend eu-south-1 (Milan) or eu-west-3 (Paris).</td>
+        <td>10 yrs</td>
+        <td>Low</td>
+    </tr>
+    <tr>
+        <td><strong>Tunisia</strong></td>
+        <td class="badge-orange">Conditional</td>
+        <td class="badge-red">Local DC Preferred</td>
+        <td>Local or TTN centralized. Cross-border needs INPDP auth. Consider eu-south-1 with auth.</td>
+        <td>10 yrs</td>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <td><strong>Iraq</strong></td>
+        <td class="badge-gray">N/A</td>
+        <td class="badge-green">Any Region</td>
+        <td>Any AWS region. No eInvoicing mandate. Recommend me-south-1 for latency.</td>
+        <td>N/A</td>
+        <td>Low</td>
+    </tr>
+</table>
+
+<h2>Europe - 28 Countries</h2>
+
+<table>
+    <tr>
+        <th>Country</th>
+        <th>Data Residency</th>
+        <th>DC Requirement</th>
+        <th>Recommended Hosting</th>
+        <th>Archival</th>
+        <th>Confidence</th>
+    </tr>
+    <tr>
+        <td><strong>Germany</strong></td>
+        <td class="badge-orange">Conditional</td>
+        <td class="badge-blue">EU + Approval</td>
+        <td>AWS eu-central-1 (Frankfurt). Domestic preferred. EU needs prior tax authority approval.</td>
+        <td>8-10 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>France</strong></td>
+        <td class="badge-blue">EU Required</td>
+        <td class="badge-orange">AWS eu-west-3 *</td>
+        <td>AWS eu-west-3 (Paris). *PDP needs SecNumCloud cert. Alternative: OVHcloud, 3DS Outscale.</td>
+        <td>10 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Italy</strong></td>
+        <td class="badge-blue">EU Preferred</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>AWS eu-south-1 (Milan). In-country option. Any EU works. Free SOGEI conservation.</td>
+        <td>10-15 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Spain</strong></td>
+        <td class="badge-blue">EU OK</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>AWS eu-south-2 (Spain). In-country option. Any EU works with AEAT notification.</td>
+        <td>4-6 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Poland</strong></td>
+        <td class="badge-red">Centralized (KSeF)</td>
+        <td class="badge-red">Govt System</td>
+        <td>KSeF handles storage. All invoices on Polish govt servers. Keep backups in eu-central-1.</td>
+        <td>10 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Belgium</strong></td>
+        <td class="badge-blue">EU OK</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>Any EU AWS region. Recommend eu-west-1 (Ireland) or eu-central-1 (Frankfurt).</td>
+        <td>10 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>United Kingdom</strong></td>
+        <td class="badge-green">Flexible</td>
+        <td class="badge-green">Any Region</td>
+        <td>AWS eu-west-2 (London). In-country option. Any region works.</td>
+        <td>6 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Romania</strong></td>
+        <td class="badge-blue">EU OK</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>Any EU AWS region. Recommend eu-central-1. ANAF only stores 60 days.</td>
+        <td>10-25 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Hungary</strong></td>
+        <td class="badge-blue">EU OK</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>Any EU AWS region. Recommend eu-central-1 (Frankfurt).</td>
+        <td>5-8 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Netherlands</strong></td>
+        <td class="badge-blue">EU OK</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>Any EU AWS region. ISO 27001 required for Peppol. AWS is certified.</td>
+        <td>7-10 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Sweden</strong></td>
+        <td class="badge-orange">Conditional</td>
+        <td class="badge-blue">EU + Notify</td>
+        <td>AWS eu-north-1 (Stockholm). Safest. Other EU requires Skatteverket notification.</td>
+        <td>7 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Norway</strong></td>
+        <td class="badge-orange">Conditional</td>
+        <td class="badge-blue">Nordic/EEA + Notify</td>
+        <td>AWS eu-north-1 (Stockholm). Nordic exempt. EEA needs written notice.</td>
+        <td>Up to 35 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Ireland</strong></td>
+        <td class="badge-blue">EU OK</td>
+        <td class="badge-blue">AWS eu-west-1</td>
+        <td>AWS eu-west-1 (Ireland). In-country region with excellent connectivity.</td>
+        <td>6 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Austria</strong></td>
+        <td class="badge-green">Flexible</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>Any EU AWS region. Recommend eu-central-1 (Frankfurt) for proximity.</td>
+        <td>7-22 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Switzerland</strong></td>
+        <td class="badge-green">Flexible</td>
+        <td class="badge-orange">AWS eu-central-2</td>
+        <td>AWS eu-central-2 (Zurich). In-country. Cloud requires e-signatures per GeBuV.</td>
+        <td>10 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Finland</strong></td>
+        <td class="badge-blue">EU/EEA Preferred</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>Any EU AWS region. Recommend eu-north-1 (Stockholm) for proximity.</td>
+        <td>6-10 yrs</td>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <td><strong>Denmark</strong></td>
+        <td class="badge-green">Flexible</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>Any EU AWS region. Recommend eu-north-1 (Stockholm). Shortest retention (5 yrs).</td>
+        <td>5 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Portugal</strong></td>
+        <td class="badge-orange">Conditional</td>
+        <td class="badge-blue">EU Region</td>
+        <td>Any EU AWS region. Recommend eu-south-2 (Spain) for proximity. Paper must be in Portugal.</td>
+        <td>10 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Greece</strong></td>
+        <td class="badge-green">Flexible</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>Any EU AWS region. Recommend eu-south-1 (Milan) for proximity.</td>
+        <td>5-10 yrs</td>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <td><strong>Czech Republic</strong></td>
+        <td class="badge-green">Flexible</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>Any EU AWS region. Recommend eu-central-1 (Frankfurt). Notify tax authority of location.</td>
+        <td>10 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Slovakia</strong></td>
+        <td class="badge-green">Flexible</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>Any EU AWS region. Recommend eu-central-1 (Frankfurt). UBL 2.1 from Jan 2027.</td>
+        <td>10 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Slovenia</strong></td>
+        <td class="badge-blue">EU OK</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>Any EU AWS region. Recommend eu-south-1 (Milan) or eu-central-1.</td>
+        <td>10-20 yrs</td>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <td><strong>Croatia</strong></td>
+        <td class="badge-green">Flexible</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>Any EU AWS region. Recommend eu-south-1 (Milan). ISO 27001 + GDPR required.</td>
+        <td>11 yrs</td>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <td><strong>Bulgaria</strong></td>
+        <td class="badge-green">Flexible</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>Any EU AWS region. Recommend eu-central-1 (Frankfurt). SAF-T from Jan 2026.</td>
+        <td>10 yrs</td>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <td><strong>Latvia</strong></td>
+        <td class="badge-green">Flexible</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>Any EU AWS region. Recommend eu-north-1 (Stockholm). B2B mandatory Jan 2028.</td>
+        <td>5-10 yrs</td>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <td><strong>Lithuania</strong></td>
+        <td class="badge-blue">EU OK</td>
+        <td class="badge-blue">Any EU Region</td>
+        <td>Any EU AWS region. Recommend eu-north-1 (Stockholm). B2B mandatory Jan 2028.</td>
+        <td>10 yrs</td>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <td><strong>Estonia</strong></td>
+        <td class="badge-green">Flexible</td>
+        <td class="badge-green">Any Region</td>
+        <td>Any AWS region. Most flexible in EU. EMTA: "may choose the place."</td>
+        <td>7 yrs</td>
+        <td>High</td>
+    </tr>
+    <tr>
+        <td><strong>Luxembourg</strong></td>
+        <td class="badge-red">Mandatory Domestic</td>
+        <td class="badge-red">Local DC Required</td>
+        <td>Local Luxembourg DC only (LuxConnect, Ebrc, POST Luxembourg). No AWS region. Strictest EU.</td>
+        <td>10 yrs</td>
+        <td>High</td>
+    </tr>
+</table>
+
+<h2>Data Center Strategy Summary</h2>
+
+<h3>Local Data Centers Required (5 countries)</h3>
+<div class="summary-box">
+<ul>
+    <li><strong>Saudi Arabia:</strong> STC Cloud, Mobily, Oracle KSA</li>
+    <li><strong>Turkey:</strong> Turkcell, Vodafone Turkey</li>
+    <li><strong>Poland:</strong> KSeF (govt system) - keep backups in EU</li>
+    <li><strong>Luxembourg:</strong> LuxConnect, Ebrc, POST Luxembourg</li>
+    <li><strong>Tunisia:</strong> TTN or local with authorization</li>
+</ul>
+</div>
+
+<h3>Specific AWS Regions Required (3 countries)</h3>
+<div class="summary-box">
+<ul>
+    <li><strong>UAE:</strong> me-central-1</li>
+    <li><strong>Israel:</strong> il-central-1</li>
+    <li><strong>France:</strong> eu-west-3 (verify SecNumCloud certification)</li>
+</ul>
+</div>
+
+<h3>Central EU Hub Strategy</h3>
+<div class="summary-box">
+<ul>
+    <li><strong>Primary Hub:</strong> eu-central-1 (Frankfurt) or eu-west-1 (Ireland)</li>
+    <li><strong>Southern Europe:</strong> eu-south-1 (Milan)</li>
+    <li><strong>Nordic Countries:</strong> eu-north-1 (Stockholm)</li>
+    <li><strong>Iberian Peninsula:</strong> eu-south-2 (Spain)</li>
+</ul>
+</div>
+
+<h3>Fully Flexible - Any Region (13 countries)</h3>
+<div class="summary-box">
+<p>UK, Estonia, Egypt, Oman, Jordan, Qatar, Bahrain, Kuwait, Iraq, Austria, Denmark, Greece, Czech Republic, Slovakia, Croatia, Bulgaria, Latvia</p>
+<p><em>Recommendation: Use me-south-1 for Middle East, eu-central-1 for Europe</em></p>
+</div>
+
+<h2>Country Rationale Details</h2>
+
+<h3>MENA Countries</h3>
+<table>
+    <tr>
+        <th>Country</th>
+        <th>Rationale</th>
+        <th>Portal Links</th>
+    </tr>
+    <tr>
+        <td><strong>Saudi Arabia</strong></td>
+        <td>E-Invoicing Resolution requires servers "within the country." NCA Cloud Controls mandate data inside Saudi borders.</td>
+        <td>zatca.gov.sa</td>
+    </tr>
+    <tr>
+        <td><strong>UAE</strong></td>
+        <td>Ministerial Decision 243/244 of 2025 requires storage within UAE. AWS me-central-1 satisfies this.</td>
+        <td>tax.gov.ae</td>
+    </tr>
+    <tr>
+        <td><strong>Turkey</strong></td>
+        <td>VUK Communique 447 states IT infrastructure must be "within borders of Republic of Turkey."</td>
+        <td>gib.gov.tr</td>
+    </tr>
+    <tr>
+        <td><strong>Egypt</strong></td>
+        <td>No explicit data residency in ETA docs. All invoices submitted to central ETA system.</td>
+        <td>eta.gov.eg</td>
+    </tr>
+    <tr>
+        <td><strong>Israel</strong></td>
+        <td>No data localization law, but storage abroad requires ITA authorization. Using il-central-1 avoids this.</td>
+        <td>taxes.gov.il</td>
+    </tr>
+    <tr>
+        <td><strong>Oman</strong></td>
+        <td>No geographic restriction mandated. Focus on ISO 27001 and security standards.</td>
+        <td>taxoman.gov.om</td>
+    </tr>
+    <tr>
+        <td><strong>Jordan</strong></td>
+        <td>No explicit data localization. Data centralized via JoFotara.</td>
+        <td>istd.gov.jo</td>
+    </tr>
+    <tr>
+        <td><strong>Qatar</strong></td>
+        <td>No eInvoicing mandate yet. Cloud Policy Framework (2022) removed general data localization.</td>
+        <td>gta.gov.qa</td>
+    </tr>
+    <tr>
+        <td><strong>Bahrain</strong></td>
+        <td>PDPL has no general localization. Private sector flexible. AWS Bahrain provides optimal latency.</td>
+        <td>nbr.gov.bh</td>
+    </tr>
+    <tr>
+        <td><strong>Kuwait</strong></td>
+        <td>No VAT or eInvoicing mandate. No general data localization law.</td>
+        <td>mof.gov.kw</td>
+    </tr>
+    <tr>
+        <td><strong>Morocco</strong></td>
+        <td>eInvoicing 2026. Law 09-08 requires CNDP authorization for international transfers.</td>
+        <td>tax.gov.ma</td>
+    </tr>
+    <tr>
+        <td><strong>Tunisia</strong></td>
+        <td>Centralized via TTN. Cross-border transfers require INPDP authorization.</td>
+        <td>finances.gov.tn</td>
+    </tr>
+    <tr>
+        <td><strong>Iraq</strong></td>
+        <td>No eInvoicing mandate. No PDPL. No forced data localization.</td>
+        <td>mof.gov.iq</td>
+    </tr>
+</table>
+
+<h3>European Countries</h3>
+<table>
+    <tr>
+        <th>Country</th>
+        <th>Rationale</th>
+        <th>Portal Links</th>
+    </tr>
+    <tr>
+        <td><strong>Germany</strong></td>
+        <td>Section 146(2a) AO allows EU with prior written approval. Penalty EUR 250K/yr for unauthorized.</td>
+        <td>bzst.de</td>
+    </tr>
+    <tr>
+        <td><strong>France</strong></td>
+        <td>Decree 2024-266 requires EU hosting + SecNumCloud certification.</td>
+        <td>impots.gouv.fr</td>
+    </tr>
+    <tr>
+        <td><strong>Italy</strong></td>
+        <td>EU Regulation 2018/1807 applies. Milan region provides in-country option.</td>
+        <td>agenziaentrate.gov.it</td>
+    </tr>
+    <tr>
+        <td><strong>Spain</strong></td>
+        <td>EU VAT Directive permits any EU. Notify AEAT when moving to another country.</td>
+        <td>agenciatributaria.es</td>
+    </tr>
+    <tr>
+        <td><strong>Poland</strong></td>
+        <td>KSeF centralizes all invoices on govt servers. Automatic 10-year retention.</td>
+        <td>podatki.gov.pl</td>
+    </tr>
+    <tr>
+        <td><strong>Belgium</strong></td>
+        <td>No strict domestic requirement. Cloud permitted. Peppol certified providers.</td>
+        <td>finances.belgium.be</td>
+    </tr>
+    <tr>
+        <td><strong>United Kingdom</strong></td>
+        <td>No geographic restrictions. MTD focuses on functional requirements.</td>
+        <td>gov.uk/hmrc</td>
+    </tr>
+    <tr>
+        <td><strong>Romania</strong></td>
+        <td>EU storage permitted. Must archive XML with digital seal independently.</td>
+        <td>anaf.ro</td>
+    </tr>
+    <tr>
+        <td><strong>Hungary</strong></td>
+        <td>EU VAT Directive applies. NAV requires immediate access.</td>
+        <td>nav.gov.hu</td>
+    </tr>
+    <tr>
+        <td><strong>Netherlands</strong></td>
+        <td>EU or GDPR-adequate countries. First to mandate ISO 27001 for Peppol.</td>
+        <td>belastingdienst.nl</td>
+    </tr>
+    <tr>
+        <td><strong>Sweden</strong></td>
+        <td>Default: Sweden. EU/EEA requires notification to Skatteverket.</td>
+        <td>skatteverket.se</td>
+    </tr>
+    <tr>
+        <td><strong>Norway</strong></td>
+        <td>Default: Norway. Nordic (DK, FI, IS, SE) exempt without application.</td>
+        <td>skatteetaten.no</td>
+    </tr>
+    <tr>
+        <td><strong>Ireland</strong></td>
+        <td>EU storage permitted. Paper in Ireland. Ireland region provides local option.</td>
+        <td>revenue.ie</td>
+    </tr>
+    <tr>
+        <td><strong>Austria</strong></td>
+        <td>No mandatory domestic requirement. Functional accessibility over location.</td>
+        <td>bmf.gv.at</td>
+    </tr>
+    <tr>
+        <td><strong>Switzerland</strong></td>
+        <td>No explicit domestic requirement. Zurich region optimal.</td>
+        <td>estv.admin.ch</td>
+    </tr>
+    <tr>
+        <td><strong>Finland</strong></td>
+        <td>No explicit domestic requirement. EU/EEA preferred. Peppol pioneer since 2009.</td>
+        <td>vero.fi</td>
+    </tr>
+    <tr>
+        <td><strong>Denmark</strong></td>
+        <td>No geographic mandate. Focus on certified cloud-ready systems.</td>
+        <td>skat.dk</td>
+    </tr>
+    <tr>
+        <td><strong>Portugal</strong></td>
+        <td>Electronic: EU permitted. Paper: Portugal. AT-certified billing required.</td>
+        <td>portaldasfinancas.gov.pt</td>
+    </tr>
+    <tr>
+        <td><strong>Greece</strong></td>
+        <td>No explicit data residency. myDATA real-time focus. Certified providers required.</td>
+        <td>aade.gr</td>
+    </tr>
+    <tr>
+        <td><strong>Czech Republic</strong></td>
+        <td>VAT Act allows abroad. Key: immediate free electronic access.</td>
+        <td>mfcr.cz</td>
+    </tr>
+    <tr>
+        <td><strong>Slovakia</strong></td>
+        <td>No domestic mandate. Storage flexible. IS EFA for B2G.</td>
+        <td>financnasprava.sk</td>
+    </tr>
+    <tr>
+        <td><strong>Slovenia</strong></td>
+        <td>EU VAT Directive applies. EU storage permitted. 20 years for real estate.</td>
+        <td>fu.gov.si</td>
+    </tr>
+    <tr>
+        <td><strong>Croatia</strong></td>
+        <td>Fiscalization focuses on real-time reporting not location. 11-year retention.</td>
+        <td>porezna-uprava.hr</td>
+    </tr>
+    <tr>
+        <td><strong>Bulgaria</strong></td>
+        <td>EU Directive framework. No explicit domestic requirement.</td>
+        <td>nra.bg</td>
+    </tr>
+    <tr>
+        <td><strong>Latvia</strong></td>
+        <td>Abroad allowed with online access. Electronic invoices flexible.</td>
+        <td>vid.gov.lv</td>
+    </tr>
+    <tr>
+        <td><strong>Lithuania</strong></td>
+        <td>No explicit national residency. EU permitted. Focus on audit accessibility.</td>
+        <td>vmi.lt</td>
+    </tr>
+    <tr>
+        <td><strong>Estonia</strong></td>
+        <td>EMTA explicitly allows taxpayer choice of location. Most flexible.</td>
+        <td>emta.ee</td>
+    </tr>
+    <tr>
+        <td><strong>Luxembourg</strong></td>
+        <td>Guichet.lu: "Place of preservation must be Luxembourg." Strictest in EU.</td>
+        <td>acd.gouvernement.lu</td>
+    </tr>
+</table>
+
+<div class="footer">
+    <p><strong>Report generated:</strong> January 9, 2026</p>
+    <p><strong>Data sources:</strong> Official government tax authority websites, EU Digital Building Blocks, national VAT/tax legislation</p>
+    <p><strong>Note:</strong> AWS region recommendations are guidance only. Confirm with legal counsel and AWS compliance teams before production deployment.</p>
+</div>
+
+</body>
+</html>
