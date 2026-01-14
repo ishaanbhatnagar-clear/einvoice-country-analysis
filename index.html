@@ -752,11 +752,38 @@
             </div>
             <div class="compare-quick-picks">
                 <div class="compare-quick-picks-title">Quick Comparisons</div>
-                <button class="compare-quick-btn" onclick="quickCompare('Saudi Arabia','UAE')">Saudi vs UAE</button>
-                <button class="compare-quick-btn" onclick="quickCompare('Germany','France')">Germany vs France</button>
-                <button class="compare-quick-btn" onclick="quickCompare('India','Malaysia')">India vs Malaysia</button>
-                <button class="compare-quick-btn" onclick="quickCompare('Italy','Poland')">Italy vs Poland</button>
-                <button class="compare-quick-btn" onclick="quickCompare('Brazil','Mexico')">Brazil vs Mexico</button>
+                <div style="margin-bottom:0.75rem;">
+                    <span style="font-size:0.7rem;color:var(--gray-400);margin-right:0.5rem;">MENA:</span>
+                    <button class="compare-quick-btn" onclick="quickCompare('Saudi Arabia','UAE')">Saudi vs UAE</button>
+                    <button class="compare-quick-btn" onclick="quickCompare('Saudi Arabia','Egypt')">Saudi vs Egypt</button>
+                    <button class="compare-quick-btn" onclick="quickCompare('UAE','Oman')">UAE vs Oman</button>
+                </div>
+                <div style="margin-bottom:0.75rem;">
+                    <span style="font-size:0.7rem;color:var(--gray-400);margin-right:0.5rem;">Europe:</span>
+                    <button class="compare-quick-btn" onclick="quickCompare('Germany','France')">Germany vs France</button>
+                    <button class="compare-quick-btn" onclick="quickCompare('Italy','Poland')">Italy vs Poland</button>
+                    <button class="compare-quick-btn" onclick="quickCompare('Spain','Belgium')">Spain vs Belgium</button>
+                    <button class="compare-quick-btn" onclick="quickCompare('Romania','Greece')">Romania vs Greece</button>
+                </div>
+                <div style="margin-bottom:0.75rem;">
+                    <span style="font-size:0.7rem;color:var(--gray-400);margin-right:0.5rem;">APAC:</span>
+                    <button class="compare-quick-btn" onclick="quickCompare('India','Malaysia')">India vs Malaysia</button>
+                    <button class="compare-quick-btn" onclick="quickCompare('Singapore','Australia')">Singapore vs Australia</button>
+                    <button class="compare-quick-btn" onclick="quickCompare('Indonesia','Vietnam')">Indonesia vs Vietnam</button>
+                    <button class="compare-quick-btn" onclick="quickCompare('South Korea','Japan')">S. Korea vs Japan</button>
+                </div>
+                <div style="margin-bottom:0.75rem;">
+                    <span style="font-size:0.7rem;color:var(--gray-400);margin-right:0.5rem;">LATAM:</span>
+                    <button class="compare-quick-btn" onclick="quickCompare('Brazil','Mexico')">Brazil vs Mexico</button>
+                    <button class="compare-quick-btn" onclick="quickCompare('Chile','Colombia')">Chile vs Colombia</button>
+                    <button class="compare-quick-btn" onclick="quickCompare('Argentina','Peru')">Argentina vs Peru</button>
+                </div>
+                <div>
+                    <span style="font-size:0.7rem;color:var(--gray-400);margin-right:0.5rem;">Cross-Region:</span>
+                    <button class="compare-quick-btn" onclick="quickCompare('India','Saudi Arabia')">India vs Saudi</button>
+                    <button class="compare-quick-btn" onclick="quickCompare('Germany','Brazil')">Germany vs Brazil</button>
+                    <button class="compare-quick-btn" onclick="quickCompare('Nigeria','Kenya')">Nigeria vs Kenya</button>
+                </div>
             </div>
             <div class="compare-grid" id="compare-grid">
                 <div class="compare-card compare-card-empty">
