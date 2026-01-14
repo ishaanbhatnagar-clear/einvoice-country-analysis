@@ -2075,8 +2075,8 @@
                 flag: "🇦🇪",
                 region: "MENA",
                 gdp: 509,
-                b2b: { status: "Planned", date: "Jan 2027", detail: ">AED 50M from Jan 2027, others Jul 2027" },
-                b2g: { status: "Planned", date: "Jan 2027", detail: "Same timeline as B2B" },
+                b2b: { status: "Planned", date: "Jul 2026", detail: "Pilot Jul 2026; >AED 50M from Jan 2027, all others Jul 2027" },
+                b2g: { status: "Planned", date: "Jul 2026", detail: "Same timeline as B2B" },
                 b2c: { status: "N/A", date: "-", detail: "Out of scope until future decision" },
                 model: ["Peppol", "CTC"],
                 keyDates: ["Pilot: Jul 2026", "Mandatory >AED 50M: Jan 2027", "All others: Jul 2027"],
@@ -2679,6 +2679,66 @@
                 taxAuthority: "ACD",
                 portal: "impotsdirects.public.lu"
             },
+            {
+                country: "Moldova",
+                flag: "🇲🇩",
+                region: "Europe",
+                gdp: 16,
+                b2b: { status: "Planned", date: "2025", detail: "E-invoicing pilot under development" },
+                b2g: { status: "Planned", date: "2025", detail: "Government procurement focus" },
+                b2c: { status: "Voluntary", date: "-", detail: "No mandate announced" },
+                model: ["CTC"],
+                keyDates: ["2025: Pilot expected", "Full mandate TBD"],
+                strategic: { tam: 5, competitors: "Limited", potential: 2, barriers: "Low", partnership: "Recommended", urgency: "Low" },
+                compliance: { accreditation: "TBD", penalties: "TBD", threshold: "TBD", realtime: "TBD", residency: "TBD", complexity: "Low" },
+                taxAuthority: "State Tax Service",
+                portal: "sfs.md"
+            },
+            {
+                country: "Bosnia & Herzegovina",
+                flag: "🇧🇦",
+                region: "Europe",
+                gdp: 25,
+                b2b: { status: "Voluntary", date: "-", detail: "No e-invoicing mandate" },
+                b2g: { status: "Voluntary", date: "-", detail: "No e-invoicing mandate" },
+                b2c: { status: "Voluntary", date: "-", detail: "Fiscal receipts required" },
+                model: ["N/A"],
+                keyDates: ["No announced timeline"],
+                strategic: { tam: 8, competitors: "Limited", potential: 2, barriers: "Medium", partnership: "Recommended", urgency: "Low" },
+                compliance: { accreditation: "N/A", penalties: "N/A", threshold: "N/A", realtime: "N/A", residency: "N/A", complexity: "Low" },
+                taxAuthority: "ITA BiH",
+                portal: "uino.gov.ba"
+            },
+            {
+                country: "Armenia",
+                flag: "🇦🇲",
+                region: "Europe",
+                gdp: 24,
+                b2b: { status: "Voluntary", date: "-", detail: "E-invoicing optional via tax portal" },
+                b2g: { status: "Voluntary", date: "-", detail: "Available but not mandatory" },
+                b2c: { status: "Voluntary", date: "-", detail: "Fiscal receipts required" },
+                model: ["CTC"],
+                keyDates: ["Voluntary e-invoicing available"],
+                strategic: { tam: 8, competitors: "Limited", potential: 2, barriers: "Low", partnership: "Recommended", urgency: "Low" },
+                compliance: { accreditation: "No", penalties: "N/A", threshold: "N/A", realtime: "No", residency: "No", complexity: "Low" },
+                taxAuthority: "State Revenue Committee",
+                portal: "petekamutner.am"
+            },
+            {
+                country: "Azerbaijan",
+                flag: "🇦🇿",
+                region: "Europe",
+                gdp: 79,
+                b2b: { status: "Mandatory", date: "2019", detail: "E-invoice mandatory via tax portal" },
+                b2g: { status: "Mandatory", date: "2019", detail: "Required for all government suppliers" },
+                b2c: { status: "Voluntary", date: "-", detail: "Fiscal receipts for retail" },
+                model: ["CTC"],
+                keyDates: ["2019: Mandatory for most businesses"],
+                strategic: { tam: 25, competitors: "Limited", potential: 3, barriers: "Medium", partnership: "Recommended", urgency: "Low" },
+                compliance: { accreditation: "No", penalties: "AZN fines", threshold: "Most VAT-registered", realtime: "Yes", residency: "Yes", complexity: "Medium" },
+                taxAuthority: "State Tax Service",
+                portal: "taxes.gov.az"
+            },
 
             // APAC Region (17 countries)
             {
@@ -2937,6 +2997,21 @@
                 taxAuthority: "GDT",
                 portal: "tax.gov.kh"
             },
+            {
+                country: "Kazakhstan",
+                flag: "🇰🇿",
+                region: "APAC",
+                gdp: 245,
+                b2b: { status: "Mandatory", date: "2020", detail: "E-invoicing mandatory for VAT payers" },
+                b2g: { status: "Mandatory", date: "2020", detail: "Same as B2B" },
+                b2c: { status: "Voluntary", date: "-", detail: "Fiscal receipts for retail" },
+                model: ["CTC"],
+                keyDates: ["2020: Mandatory for VAT payers", "Ongoing expansion"],
+                strategic: { tam: 80, competitors: "Local providers", potential: 3, barriers: "Medium", partnership: "Recommended", urgency: "Low" },
+                compliance: { accreditation: "Yes", penalties: "KZT fines", threshold: "All VAT-registered", realtime: "Yes", residency: "Yes", complexity: "Medium" },
+                taxAuthority: "State Revenue Committee",
+                portal: "kgd.gov.kz"
+            },
 
             // LATAM Region (9 countries)
             {
@@ -3076,6 +3151,51 @@
                 taxAuthority: "Ministerio de Hacienda",
                 portal: "hacienda.go.cr"
             },
+            {
+                country: "Paraguay",
+                flag: "🇵🇾",
+                region: "LATAM",
+                gdp: 44,
+                b2b: { status: "Mandatory", date: "2017", detail: "Factura electrónica (SIFEN system)" },
+                b2g: { status: "Mandatory", date: "2017", detail: "Same as B2B" },
+                b2c: { status: "Mandatory", date: "2019", detail: "Gradual expansion completed" },
+                model: ["Clearance"],
+                keyDates: ["2017: Large taxpayers", "2019: Full mandate"],
+                strategic: { tam: 15, competitors: "Local providers", potential: 2, barriers: "Low", partnership: "Recommended", urgency: "Low" },
+                compliance: { accreditation: "Yes", penalties: "PYG fines", threshold: "All taxpayers", realtime: "Yes", residency: "Yes", complexity: "Medium" },
+                taxAuthority: "SET",
+                portal: "set.gov.py"
+            },
+            {
+                country: "Nicaragua",
+                flag: "🇳🇮",
+                region: "LATAM",
+                gdp: 17,
+                b2b: { status: "Voluntary", date: "-", detail: "E-invoicing framework under development" },
+                b2g: { status: "Voluntary", date: "-", detail: "No mandate announced" },
+                b2c: { status: "Voluntary", date: "-", detail: "No mandate announced" },
+                model: ["N/A"],
+                keyDates: ["No announced timeline"],
+                strategic: { tam: 5, competitors: "Limited", potential: 2, barriers: "Medium", partnership: "Recommended", urgency: "Low" },
+                compliance: { accreditation: "N/A", penalties: "N/A", threshold: "N/A", realtime: "N/A", residency: "N/A", complexity: "Low" },
+                taxAuthority: "DGI Nicaragua",
+                portal: "dgi.gob.ni"
+            },
+            {
+                country: "Venezuela",
+                flag: "🇻🇪",
+                region: "LATAM",
+                gdp: 100,
+                b2b: { status: "Mandatory", date: "2018", detail: "Factura electrónica mandatory for special taxpayers" },
+                b2g: { status: "Mandatory", date: "2018", detail: "Same as B2B" },
+                b2c: { status: "Voluntary", date: "-", detail: "Not fully mandated" },
+                model: ["CTC"],
+                keyDates: ["2018: Special taxpayers", "Gradual expansion"],
+                strategic: { tam: 30, competitors: "Limited", potential: 2, barriers: "High", partnership: "Required", urgency: "Low" },
+                compliance: { accreditation: "Yes", penalties: "VES fines", threshold: "Special taxpayers", realtime: "Yes", residency: "Yes", complexity: "High" },
+                taxAuthority: "SENIAT",
+                portal: "seniat.gob.ve"
+            },
 
             // Africa Region (8 countries)
             {
@@ -3198,6 +3318,36 @@
                 taxAuthority: "SARS",
                 portal: "sars.gov.za"
             },
+            {
+                country: "Namibia",
+                flag: "🇳🇦",
+                region: "Africa",
+                gdp: 13,
+                b2b: { status: "Voluntary", date: "-", detail: "No e-invoicing mandate announced" },
+                b2g: { status: "Voluntary", date: "-", detail: "No e-invoicing mandate announced" },
+                b2c: { status: "Voluntary", date: "-", detail: "No e-invoicing mandate announced" },
+                model: ["N/A"],
+                keyDates: ["No announced timeline"],
+                strategic: { tam: 5, competitors: "Limited", potential: 2, barriers: "Low", partnership: "Recommended", urgency: "Low" },
+                compliance: { accreditation: "N/A", penalties: "N/A", threshold: "N/A", realtime: "N/A", residency: "N/A", complexity: "Low" },
+                taxAuthority: "NamRA",
+                portal: "namra.org.na"
+            },
+            {
+                country: "Republic of Congo",
+                flag: "🇨🇬",
+                region: "Africa",
+                gdp: 16,
+                b2b: { status: "Voluntary", date: "-", detail: "E-invoicing being explored" },
+                b2g: { status: "Voluntary", date: "-", detail: "No mandate announced" },
+                b2c: { status: "Voluntary", date: "-", detail: "No mandate announced" },
+                model: ["N/A"],
+                keyDates: ["No announced timeline"],
+                strategic: { tam: 5, competitors: "Limited", potential: 2, barriers: "Medium", partnership: "Required", urgency: "Low" },
+                compliance: { accreditation: "N/A", penalties: "N/A", threshold: "N/A", realtime: "N/A", residency: "N/A", complexity: "Medium" },
+                taxAuthority: "Direction des Impôts",
+                portal: "impots.gouv.cg"
+            },
 
             // North America Region (2 countries)
             {
@@ -3229,6 +3379,21 @@
                 compliance: { accreditation: "N/A", penalties: "N/A", threshold: "N/A", realtime: "N/A", residency: "N/A", complexity: "Low" },
                 taxAuthority: "CRA",
                 portal: "canada.ca/en/revenue-agency"
+            },
+            {
+                country: "The Bahamas",
+                flag: "🇧🇸",
+                region: "North America",
+                gdp: 14,
+                b2b: { status: "N/A", date: "-", detail: "No e-invoicing mandate" },
+                b2g: { status: "N/A", date: "-", detail: "No e-invoicing mandate" },
+                b2c: { status: "N/A", date: "-", detail: "No e-invoicing mandate" },
+                model: ["N/A"],
+                keyDates: ["No announced timeline"],
+                strategic: { tam: 5, competitors: "Limited", potential: 1, barriers: "Low", partnership: "No", urgency: "Low" },
+                compliance: { accreditation: "N/A", penalties: "N/A", threshold: "N/A", realtime: "N/A", residency: "N/A", complexity: "N/A" },
+                taxAuthority: "Inland Revenue Department",
+                portal: "inlandrevenue.finance.gov.bs"
             }
         ];
 
