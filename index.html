@@ -963,7 +963,7 @@
                 </div>
 
                 <!-- Table 1: Top Players by Country -->
-                <div class="ms-card">
+                <div class="ms-card" id="players-by-country">
                     <h3 class="ms-title">Top Players by Country</h3>
                     <div class="legend">
                         <div class="legend-item"><span class="legend-dot" style="background:#2563eb"></span> Confirmed</div>
@@ -987,7 +987,7 @@
                 </div>
 
                 <!-- Table 2: Player Features & Revenue Breakdown -->
-                <div class="ms-card">
+                <div class="ms-card" id="player-features">
                     <h3 class="ms-title">Player Features & Revenue Breakdown</h3>
                     <p style="color:#64748b; font-size:13px; margin-bottom:15px;">Detailed view of players. Revenue = estimated e-invoicing/compliance revenue in that country only.</p>
                     <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px; padding:8px 12px; background:rgba(59,130,246,0.08); border-radius:8px; font-size:13px; color:#2563eb;">
@@ -1054,7 +1054,7 @@
                 </div>
 
                 <!-- Table 3: Global Players - Detailed Product Offerings -->
-                <div class="ms-card">
+                <div class="ms-card" id="global-players">
                     <h3 class="ms-title">Top 5 Global E-Invoicing Players - Detailed Product Offerings</h3>
                     <p style="color:#64748b; font-size:14px; margin-bottom:15px;">Comprehensive breakdown of products, modules, AI features, and capabilities for the leading global e-invoicing vendors</p>
                     <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px; padding:8px 12px; background:rgba(34,197,94,0.08); border-radius:8px; font-size:13px; color:#16a34a;">
@@ -3769,15 +3769,39 @@
 
         // Handle browser back/forward navigation
         window.addEventListener('hashchange', function() {
-            const hash = window.location.hash.slice(1) || 'master';
-            showSection(hash, false);
+            handleHash();
         });
+
+        function handleHash() {
+            const hash = window.location.hash.slice(1) || 'master';
+            const sections = ['master', 'compare', 'timeline', 'market', 'residency', 'legend'];
+
+            // Check if it's a main section
+            if (sections.includes(hash)) {
+                showSection(hash, false);
+            } else {
+                // Check if it's a sub-section (e.g., #global-players)
+                const element = document.getElementById(hash);
+                if (element) {
+                    // Find parent section
+                    const parentSection = element.closest('.section');
+                    if (parentSection) {
+                        const sectionId = parentSection.id.replace('section-', '');
+                        showSection(sectionId, false);
+                        // Scroll to element after a brief delay
+                        setTimeout(() => {
+                            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 100);
+                    }
+                }
+            }
+        }
 
         // Initialize from URL hash on page load
         (function() {
             const hash = window.location.hash.slice(1);
-            if (hash && ['master', 'compare', 'timeline', 'market', 'residency', 'legend'].includes(hash)) {
-                showSection(hash, false);
+            if (hash) {
+                handleHash();
             }
         })();
 
